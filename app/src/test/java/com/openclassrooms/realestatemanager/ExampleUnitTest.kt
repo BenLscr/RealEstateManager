@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -19,5 +21,12 @@ class ExampleUnitTest {
     @Test
     fun convert_euroToDollar_isCorrect() {
         assertEquals(100, Utils.convertEuroToDollar(81))
+    }
+
+    @Test
+    fun todayDate_isInACorrectFormat() {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val todayDate = dateFormat.format(Date())
+        assertEquals(todayDate, Utils.todayDate)
     }
 }
