@@ -44,4 +44,11 @@ object Utils {
         val wifi = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifi.isWifiEnabled
     }
+
+    /**
+     * Convert a price of a property (Euros to Dollars)
+     */
+    fun convertEuroToDollar(euros: Int): Int {
+        return Math.round(euros * 1.232).toInt()
+    }
 }
