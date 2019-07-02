@@ -15,4 +15,9 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, (2 + 2).toLong())
     }
+
+    @Test
+    fun convert_euroToDollar_isCorrect() {
+        assertEquals(100, Utils.convertEuroToDollar(81))
+    }
 }
