@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,8 +40,9 @@ object Utils {
      * @return
      */
     fun isInternetAvailable(context: Context): Boolean {
-        val wifi = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        return wifi.isWifiEnabled
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return  networkInfo != null && networkInfo.isConnected
     }
 
     /**

@@ -10,7 +10,7 @@ import java.util.*
  *
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-class ExampleUnitTest {
+class UtilsUnitTest {
     @Test
     @Throws(Exception::class)
     fun addition_isCorrect() {
