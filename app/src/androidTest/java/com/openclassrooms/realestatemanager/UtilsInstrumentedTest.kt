@@ -16,7 +16,7 @@ class UtilsInstrumentedTest {
 
     @Test
     fun checkIf_InternetIsAvailable() {
-        assertEquals(true, Utils.isInternetAvailable(ApplicationProvider.getApplicationContext<MainActivity>()))
+        assertEquals(true, Utils.isInternetAvailable(ApplicationProvider.getApplicationContext<HomeActivity>()))
     }
 
 }
