@@ -6,11 +6,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.openclassrooms.realestatemanager.PropertyList.PropertyListFragment
+import com.openclassrooms.realestatemanager.PropertyList.dummy.DummyContent
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity() {
-
+class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInteractionListener  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +22,8 @@ class HomeActivity : AppCompatActivity() {
 
         this.configureDrawerLayout()
         this.configureNavigationView()
+
+        this.initFragment()
     }
 
     private fun configureToolbar() = setSupportActionBar(toolbar)
@@ -58,5 +63,15 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    //---FRAGMENT---\\
+    private fun initFragment() {
+        val propertyListFragment: PropertyListFragment = PropertyListFragment.newInstance()
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.activity_home_container, propertyListFragment).commit() //TODO MODIFIER LA MANIERE D APPELER L ID
+    }
 
+
+    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+    }
 }
