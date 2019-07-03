@@ -3,8 +3,11 @@ package com.openclassrooms.realestatemanager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -13,6 +16,9 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         this.configureToolbar()
+
+        this.configureDrawerLayout()
+        this.configureNavigationView()
     }
 
     private fun configureToolbar() = setSupportActionBar(toolbar)
@@ -33,4 +39,24 @@ class HomeActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    private fun configureDrawerLayout() {
+        val toggle = ActionBarDrawerToggle(this, activity_home_drawer_layout,
+                toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        activity_home_drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
+    private fun configureNavigationView() {
+        activity_home_nav_view.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.activity_home_drawer_temp -> { println("do something"); true }
+                else -> false
+            }
+            this.activity_home_drawer_layout.closeDrawer(GravityCompat.START)
+            true
+        }
+    }
+
+
 }
