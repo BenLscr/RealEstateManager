@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.PropertyList.dummy
+package com.openclassrooms.realestatemanager.propertyList.dummy
 
 import java.util.ArrayList
 import java.util.HashMap

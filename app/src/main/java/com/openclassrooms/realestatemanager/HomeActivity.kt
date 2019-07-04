@@ -1,17 +1,20 @@
 package com.openclassrooms.realestatemanager
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.openclassrooms.realestatemanager.PropertyList.PropertyListFragment
-import com.openclassrooms.realestatemanager.PropertyList.dummy.DummyContent
-import kotlinx.android.synthetic.main.toolbar.*
+import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
+import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
+import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment
+import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.toolbar.*
 
 class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInteractionListener  {
 
@@ -23,10 +26,10 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
         this.configureDrawerLayout()
         this.configureNavigationView()
 
-        this.initFragment()
+        this.initAndAddFragment()
     }
 
-    private fun configureToolbar() = setSupportActionBar(toolbar)
+    private fun configureToolbar() { setSupportActionBar(toolbar) }
 
     /**
      * Inflate the menu and add it to the Toolbar.
@@ -64,14 +67,33 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
     }
 
     //---FRAGMENT---\\
-    private fun initFragment() {
-        val propertyListFragment: PropertyListFragment = PropertyListFragment.newInstance()
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.activity_home_container, propertyListFragment).commit() //TODO MODIFIER LA MANIERE D APPELER L ID
+    private val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+    private lateinit var fragmentPropertyList: PropertyListFragment
+    private var fragmentPropertyDetail: PropertyDetailFragment? = null
+    private var containerPropertyDetail: Fragment? = null
+
+    private fun initAndAddFragment() {
+        fragmentPropertyList = PropertyListFragment.newInstance()
+        fragmentTransaction.add(R.id.activity_property_list_container, fragmentPropertyList).commit()
+        containerPropertyDetail = supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
+        if (containerPropertyDetail == null && activity_property_detail_container != null) {
+            this.addFragment()
+        }
     }
 
+    private fun addFragment() {
+        fragmentPropertyDetail = PropertyDetailFragment.newInstance()
+        fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail as PropertyDetailFragment)
+    }
 
     override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+        if (fragmentPropertyDetail == null) {
+            val intent = Intent(this, PropertyDetailActivity::class.java)
+            this.startActivity(intent)
+        } else {
+            supportFragmentManager.beginTransaction().remove(fragmentPropertyDetail as PropertyDetailFragment).commit()
+            this.addFragment()
+        }
     }
+
 }

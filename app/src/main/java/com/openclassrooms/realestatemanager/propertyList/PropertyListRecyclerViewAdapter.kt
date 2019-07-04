@@ -1,22 +1,22 @@
-package com.openclassrooms.realestatemanager.PropertyList
+package com.openclassrooms.realestatemanager.propertyList
 
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.openclassrooms.realestatemanager.PropertyList.PropertyListFragment.OnListFragmentInteractionListener
-import com.openclassrooms.realestatemanager.PropertyList.dummy.DummyContent.DummyItem
+import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment.OnListFragmentInteractionListener
+import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent.DummyItem
 import com.openclassrooms.realestatemanager.R
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  */
-class PropertyRecyclerViewAdapter(
+class PropertyListRecyclerViewAdapter(
         private val mValues: List<DummyItem>,
         private val mListener: OnListFragmentInteractionListener?)
-    : RecyclerView.Adapter<PropertyRecyclerViewAdapter.ViewHolder>() {
+    : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 

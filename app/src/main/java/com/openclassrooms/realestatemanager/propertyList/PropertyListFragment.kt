@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.PropertyList
+package com.openclassrooms.realestatemanager.propertyList
 
 import android.content.Context
 import android.os.Bundle
@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.openclassrooms.realestatemanager.R
 
-import com.openclassrooms.realestatemanager.PropertyList.dummy.DummyContent
-import com.openclassrooms.realestatemanager.PropertyList.dummy.DummyContent.DummyItem
+import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent
+import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent.DummyItem
 
 /**
  * A fragment representing a list of Items.
@@ -40,7 +40,7 @@ class PropertyListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = PropertyRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                adapter = PropertyListRecyclerViewAdapter(DummyContent.ITEMS, listener)
             }
         }
         return view
