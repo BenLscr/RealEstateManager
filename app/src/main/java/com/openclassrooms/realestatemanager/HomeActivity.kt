@@ -67,23 +67,24 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
     }
 
     //---FRAGMENT---\\
-    private val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+    private var fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
     private lateinit var fragmentPropertyList: PropertyListFragment
     private var fragmentPropertyDetail: PropertyDetailFragment? = null
     private var containerPropertyDetail: Fragment? = null
 
     private fun initAndAddFragment() {
         fragmentPropertyList = PropertyListFragment.newInstance()
-        fragmentTransaction.add(R.id.activity_property_list_container, fragmentPropertyList).commit()
+        fragmentTransaction.add(R.id.activity_property_list_container, fragmentPropertyList)
         containerPropertyDetail = supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
         if (containerPropertyDetail == null && activity_property_detail_container != null) {
             this.addFragment()
         }
+        fragmentTransaction.commit()
     }
 
     private fun addFragment() {
         fragmentPropertyDetail = PropertyDetailFragment.newInstance()
-        fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail as PropertyDetailFragment)
+        fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail!!)
     }
 
     override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
@@ -91,8 +92,10 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
             val intent = Intent(this, PropertyDetailActivity::class.java)
             this.startActivity(intent)
         } else {
-            supportFragmentManager.beginTransaction().remove(fragmentPropertyDetail as PropertyDetailFragment).commit()
+            fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.remove(fragmentPropertyDetail!!)
             this.addFragment()
+            fragmentTransaction.commit()
         }
     }
 

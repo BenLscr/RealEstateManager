@@ -11,11 +11,6 @@ import java.util.*
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
 class UtilsUnitTest {
-    @Test
-    @Throws(Exception::class)
-    fun addition_isCorrect() {
-        assertEquals(4, (2 + 2).toLong())
-    }
 
     @Test
     fun convert_euroToDollar_isCorrect() {
@@ -25,7 +20,7 @@ class UtilsUnitTest {
     @Test
     fun todayDate_isInACorrectFormat() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val todayDate = dateFormat.format(Date())
+        val todayDate = dateFormat.format(Date()) // MOCK -> DATE
         assertEquals(todayDate, Utils.todayDate)
     }
 }
