@@ -12,7 +12,23 @@
 
     //PROPERTY LIST
     <string name="type">type</string>
-    <string name="localisation">localisation</string>
+    <string name="place">place</string>
     <string name="price">price</string>
+
+    //PROPERTY DETAIL
+    <string name="media">Media</string>
+    <string name="description">Description</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus tincidunt, diam non luctus auctor, eros ex tempus velit, a pharetra lacus ipsum nec ex. Aenean justo ipsum, lacinia vel tellus imperdiet, mollis fringilla quam. Ut malesuada sit amet odio sit amet egestas. Morbi vitae felis odio. Proin sit amet tincidunt libero. Donec semper urna mauris, eu dignissim purus bibendum id. Vestibulum sapien dolor, pretium tristique risus vel, laoreet molestie eros. Quisque et felis scelerisque, porta mi et, commodo elit. Vestibulum commodo purus ante, a rhoncus justo rutrum in. Sed volutpat nec augue id laoreet. Nullam tincidunt nibh a finibus sagittis. Aenean nec suscipit sapien.</string>
+    <string name="surface">Surface</string>
+    <string name="squar_meters_example">500m²</string>
+    <string name="number_of_rooms">Number of rooms</string>
+    <string name="_8">8</string>
+    <string name="number_of_bathrooms">Number of bathrooms</string>
+    <string name="_2">2</string>
+    <string name="number_of_bedrooms">Number of bedrooms</string>
+    <string name="_4">4</string>
+    <string name="location">location</string>
+    <string name="location_example">740 Park Avenue\napt 6/7A\nNew York\nNY 10021\nUnited States</string>
+
 
 </resources>

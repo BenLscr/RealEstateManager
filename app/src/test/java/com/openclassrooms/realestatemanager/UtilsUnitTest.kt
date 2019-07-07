@@ -2,6 +2,9 @@ package com.openclassrooms.realestatemanager
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
 import java.text.SimpleDateFormat
 import java.util.*
 
