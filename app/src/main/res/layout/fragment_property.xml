@@ -5,6 +5,7 @@
     android:orientation="horizontal">
 
     <ImageView
+        android:id="@+id/property_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher_background"/>
@@ -25,7 +26,7 @@
             android:textAppearance="?attr/textAppearanceListItem" />
 
         <TextView
-            android:id="@+id/property_localisation"
+            android:id="@+id/property_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"

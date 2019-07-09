@@ -22,6 +22,7 @@ import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent.Dumm
 class PropertyListFragment : Fragment() {
 
     private var columnCount = 1
+    /**private var propertys: List<Property>*/
 
     private var listener: OnListFragmentInteractionListener? = null
 
@@ -40,7 +41,7 @@ class PropertyListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = PropertyListRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                adapter = PropertyListRecyclerViewAdapter(/**propertys,*/ DummyContent.ITEMS, listener)
             }
         }
         return view

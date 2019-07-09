@@ -15,7 +15,7 @@ class Property(
         val rooms: Int,
         val description: String,
         val images: List<Bitmap>,
-        val locationId: String,
+        val locationId: Int,
         val locationsOfinterest: List<String>,
         val status: Status,
         val availableSince: String,

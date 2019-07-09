@@ -4,23 +4,31 @@ package com.openclassrooms.realestatemanager.propertyList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment.OnListFragmentInteractionListener
 import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent.DummyItem
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.Location
+import com.openclassrooms.realestatemanager.models.Property
+import kotlinx.android.synthetic.main.fragment_property.view.*
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  */
 class PropertyListRecyclerViewAdapter(
+        /**private val propertys: List<Property>,*/
         private val mValues: List<DummyItem>,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
+    /**private var propertys: List<Property>*/
 
     init {
+        /**this.propertys = propertys*/
         mOnClickListener = View.OnClickListener { v ->
             val item = v.tag as DummyItem
             // Notify the active callbacks interface (the activity, if the fragment is attached to
@@ -37,6 +45,16 @@ class PropertyListRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
+        holder.img.setImageResource(R.drawable.ic_launcher_background)
+        holder.type.text = "type"
+        holder.location.text = "location"
+        holder.price.text = "price"
+
+        /**val property: Property = propertys[position]
+        holder.img.setImageBitmap(property.images[0])
+        holder.type.text = property.type.name
+        holder.location.text =
+        holder.price.text = property.price.toString()*/
 
         with(holder.mView) {
             tag = item
@@ -44,9 +62,14 @@ class PropertyListRecyclerViewAdapter(
         }
     }
 
-    override fun getItemCount(): Int = mValues.size
+    override fun getItemCount(): Int = mValues.size  /**propertys.size*/
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+
+        val img: ImageView = mView.property_img
+        val type: TextView = mView.property_type
+        val location: TextView = mView.property_location
+        val price: TextView = mView.property_price
 
         override fun toString(): String {
             return super.toString() + " '" + "mContentView.text" + "'"
