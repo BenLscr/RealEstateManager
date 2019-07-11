@@ -88,7 +88,7 @@ abstract class AppDatabase : RoomDatabase() {
             //contentValuesProperty.put("images", )
             contentValuesProperty.put("addressId", 1)
             //contentValuesProperty.put("locationsOfinterest", ) //School, park
-            //contentValuesProperty.put("status", Status.AVAILABLE)
+            contentValuesProperty.put("status", StatusConverter.fromStatus(Status.AVAILABLE))
             //contentValuesProperty.put("availableSince", )
             contentValuesProperty.putNull("saleDate")
             //contentValuesProperty.put("agent", Agent.CAROL_DENVERS)
