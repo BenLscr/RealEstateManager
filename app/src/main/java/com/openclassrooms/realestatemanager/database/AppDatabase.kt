@@ -7,10 +7,18 @@ import android.content.ContentValues
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.models.*
+import java.util.*
 
 
 @Database(entities = [Property::class, Address::class] , version = 1, exportSchema = false)
-@TypeConverters(DistrictConverter::class)
+@TypeConverters(AgentConverter::class,
+        CityConverter::class,
+        CountryConverter::class,
+        DateConverter::class,
+        DistrictConverter::class,
+        LocationsOfInterestConverter::class,
+        StatusConverter::class,
+        TypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun propertyDao(): PropertyDao
@@ -89,7 +97,7 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesProperty.put("addressId", 1)
             contentValuesProperty.put("locationsOfinterest", LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.PARK)))
             contentValuesProperty.put("status", StatusConverter.fromStatus(Status.AVAILABLE))
-            //contentValuesProperty.put("availableSince", )
+            contentValuesProperty.put("availableSince", DateConverter.fromDate(Date(1549574288)))
             contentValuesProperty.putNull("saleDate")
             contentValuesProperty.put("agent", AgentConverter.fromAgent(Agent.CAROL_DENVERS))
 

@@ -21,7 +21,7 @@ class Property(
         val addressId: Int,
         val locationsOfinterest: MutableList<LocationOfInterest>,
         val status: Status,
-        val availableSince: String,
+        val availableSince: Long,
         val saleDate: String?,
         val agent: Agent
 )
