@@ -77,7 +77,7 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesAddress.put("postalCode", "NY 10306")
             contentValuesAddress.put("country", CountryConverter.fromCountry(Country.UNITED_STATES))
 
-            //contentValuesProperty.put("type", Type.HOUSE)
+            contentValuesProperty.put("type", TypeConverter.fromType(Type.HOUSE))
             contentValuesProperty.put("price", "$895,000")
             contentValuesProperty.put("surface", 2000)
             contentValuesProperty.put("rooms", 8)

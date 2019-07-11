@@ -8,12 +8,12 @@ import org.junit.Test
 class CountryConverterTest {
 
     @Test
-    fun fromDistrict_DistrictToInt() {
+    fun fromCountry_CountryToInt() {
         assertEquals(0 , CountryConverter.fromCountry(Country.UNITED_STATES))
     }
 
     @Test
-    fun toDistrict_IntToDistrict() {
+    fun toCountry_IntToCountry() {
         assertEquals(Country.UNITED_STATES, CountryConverter.toCountry(0))
     }
 
