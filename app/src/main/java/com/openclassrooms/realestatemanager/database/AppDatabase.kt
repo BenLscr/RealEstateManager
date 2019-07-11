@@ -75,7 +75,7 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesAddress.put("district", DistrictConverter.fromDistrict(District.STATEN_ISLAND))
             contentValuesAddress.put("city", CityConverter.fromCity(City.NEW_YORK))
             contentValuesAddress.put("postalCode", "NY 10306")
-            //contentValuesAddress.put("country", Country.UNITED_STATES)
+            contentValuesAddress.put("country", CountryConverter.fromCountry(Country.UNITED_STATES))
 
             //contentValuesProperty.put("type", Type.HOUSE)
             contentValuesProperty.put("price", "$895,000")
@@ -87,7 +87,7 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesProperty.put("description", "One of a kind Chateau style colonial nestled in prestigious Lighthouse Hill. This 4 bedroom, 2 bath has balconies off of 3 of the bedrooms and sitting patio off of the living room. Creating charm and warmth throughout with oak floors and fireplace as focal point in the living room. New kitchen and baths, all exterior updated including pavers in yard leaving the home maintenance free. Views of harbor, walk to the Light House and golf course.")
             //contentValuesProperty.put("images", )
             contentValuesProperty.put("addressId", 1)
-           //contentValuesProperty.put("locationsOfinterest", ) //School, park
+            //contentValuesProperty.put("locationsOfinterest", ) //School, park
             //contentValuesProperty.put("status", Status.AVAILABLE)
             //contentValuesProperty.put("availableSince", )
             contentValuesProperty.putNull("saleDate")
