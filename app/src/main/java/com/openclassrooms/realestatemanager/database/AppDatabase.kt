@@ -91,7 +91,7 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesProperty.put("status", StatusConverter.fromStatus(Status.AVAILABLE))
             //contentValuesProperty.put("availableSince", )
             contentValuesProperty.putNull("saleDate")
-            //contentValuesProperty.put("agent", Agent.CAROL_DENVERS)
+            contentValuesProperty.put("agent", AgentConverter.fromAgent(Agent.CAROL_DENVERS))
 
             insert(db)
         }
