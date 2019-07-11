@@ -73,7 +73,7 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesAddress.put("path", "311 Edinboro Rd")
             contentValuesAddress.putNull("complement")
             contentValuesAddress.put("district", DistrictConverter.fromDistrict(District.STATEN_ISLAND))
-           //contentValuesAddress.put("city", City.NEW_YORK)
+            contentValuesAddress.put("city", CityConverter.fromCity(City.NEW_YORK))
             contentValuesAddress.put("postalCode", "NY 10306")
             //contentValuesAddress.put("country", Country.UNITED_STATES)
 
