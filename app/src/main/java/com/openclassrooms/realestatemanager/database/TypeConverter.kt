@@ -11,6 +11,8 @@ class TypeConverter {
             return type.ordinal
         }
 
+        @TypeConverter
+        @JvmStatic
         fun toType(int: Int): Type {
             return Type.values()[int]
         }

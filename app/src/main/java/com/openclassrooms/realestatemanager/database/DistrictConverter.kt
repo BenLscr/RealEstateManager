@@ -11,6 +11,8 @@ class DistrictConverter {
             return district.ordinal
         }
 
+        @TypeConverter
+        @JvmStatic
         fun toDistrict(int: Int): District {
             return District.values()[int]
         }

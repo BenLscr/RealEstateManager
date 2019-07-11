@@ -11,6 +11,8 @@ class CityConverter {
             return city.ordinal
         }
 
+        @TypeConverter
+        @JvmStatic
         fun toCity(int: Int): City {
             return City.values()[int]
         }

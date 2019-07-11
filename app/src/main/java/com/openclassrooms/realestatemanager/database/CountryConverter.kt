@@ -11,6 +11,8 @@ class CountryConverter {
             return country.ordinal
         }
 
+        @TypeConverter
+        @JvmStatic
         fun toCountry(int: Int): Country {
             return Country.values()[int]
         }

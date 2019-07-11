@@ -11,6 +11,8 @@ class StatusConverter {
             return status.ordinal
         }
 
+        @TypeConverter
+        @JvmStatic
         fun toStatus(int: Int): Status {
             return Status.values()[int]
         }

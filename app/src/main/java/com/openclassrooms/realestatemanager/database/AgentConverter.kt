@@ -11,6 +11,8 @@ class AgentConverter {
             return agent.ordinal
         }
 
+        @TypeConverter
+        @JvmStatic
         fun toAgent(int: Int): Agent {
             return Agent.values()[int]
         }
