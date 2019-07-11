@@ -34,7 +34,7 @@ class UtilsInstrumentedTest {
         assertEquals(true, Utils.isInternetAvailable(getApplicationContext<HomeActivity>()))
     }
 
-    @Test
+    /*@Test
     fun checkIf_InternetIsAvailable_WifiDisableDataEnable() {
         if (wifiManager!!.isWifiEnabled) {
             wifiManager?.isWifiEnabled = false
@@ -65,6 +65,6 @@ class UtilsInstrumentedTest {
             telephonyManager?.isDataEnabled = false
         }
         assertEquals(false, Utils.isInternetAvailable(getApplicationContext<HomeActivity>()))
-    }
+    }*/
 
 }
