@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment.OnListFragmentInteractionListener
 import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent.DummyItem
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.Location
+import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.models.Property
 import kotlinx.android.synthetic.main.fragment_property.view.*
 

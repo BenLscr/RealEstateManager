@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.models
 
-enum class Type {
+enum class Type() {
     FLAT,
     PENTHOUSE,
     MANSION,

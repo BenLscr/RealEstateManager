@@ -6,18 +6,22 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity
-(foreignKeys = [ForeignKey(entity = Location::class, parentColumns = ["id"], childColumns = ["locationId"])])
+(foreignKeys = [ForeignKey(entity = Address::class, parentColumns = ["id"], childColumns = ["addressId"])])
 class Property(
         @PrimaryKey(autoGenerate = true) val id: Int,
         val type: Type,
-        val price: Double,
+        val price: String,
         val surface: Int,
         val rooms: Int,
+        val bedrooms: Int,
+        val bathrooms: Int,
+        val garage: Boolean,
         val description: String,
-        val images: List<Bitmap>,
-        val locationId: Int,
-        val locationsOfinterest: List<String>,
+        val images: MutableList<Bitmap>,
+        val addressId: Int,
+        val locationsOfinterest: MutableList<LocationOfInterest>,
         val status: Status,
         val availableSince: String,
         val saleDate: String?,
-        val agent: Agent)
+        val agent: Agent
+)
