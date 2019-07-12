@@ -8,7 +8,7 @@ import com.openclassrooms.realestatemanager.models.Property
 interface PropertyDao {
 
     @Query("SELECT * FROM Property")
-    fun getPropertys(): LiveData<List<Property>>
+    fun getProperties(): LiveData<List<Property>>
 
     @Query("SELECT * FROM Property WHERE id == id")
     fun getProperty(id: Int): LiveData<Property>

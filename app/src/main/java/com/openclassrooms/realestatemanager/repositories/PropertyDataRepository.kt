@@ -6,7 +6,7 @@ import com.openclassrooms.realestatemanager.models.Property
 
 class PropertyDataRepository(private val propertyDao: PropertyDao) {
 
-    fun getPropertys(): LiveData<List<Property>> { return propertyDao.getPropertys() }
+    fun getProperties(): LiveData<List<Property>> { return propertyDao.getProperties() }
 
     fun getProperty(propertyId: Int): LiveData<Property> { return propertyDao.getProperty(propertyId) }
 

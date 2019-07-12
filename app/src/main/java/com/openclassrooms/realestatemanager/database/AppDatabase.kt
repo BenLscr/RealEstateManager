@@ -77,6 +77,7 @@ abstract class AppDatabase : RoomDatabase() {
             db.insert("Address", OnConflictStrategy.IGNORE, contentValuesAddress)
             db.insert("Property", OnConflictStrategy.IGNORE, contentValuesProperty)
         }
+
         private fun firstProperty(db: SupportSQLiteDatabase) {
             contentValuesAddress.put("path", "311 Edinboro Rd")
             contentValuesAddress.putNull("complement")
