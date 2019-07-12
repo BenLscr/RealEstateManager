@@ -8,7 +8,7 @@ import com.openclassrooms.realestatemanager.models.Address
 interface AddressDao {
 
     @Query("SELECT * FROM Address")
-    fun getAdresses(id: Int): LiveData<List<Address>>
+    fun getAdresses(): LiveData<List<Address>>
 
     @Query("SELECT * FROM Address WHERE id == id")
     fun getAddress(id: Int): LiveData<Address>
