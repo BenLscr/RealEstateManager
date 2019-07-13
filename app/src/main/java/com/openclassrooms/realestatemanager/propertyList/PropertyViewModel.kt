@@ -13,18 +13,18 @@ class PropertyViewModel (
         private val addressDataSource: AddressDataRepository,
         private val executor: Executor) : ViewModel() {
 
-    private var currentProperty: LiveData<Property>? = null
-    private var currentAddress: LiveData<Address>? = null
+    private var currentProperties: LiveData<List<Property>>? = null
+    private var currentAddresses: LiveData<List<Address>>? = null
 
     /**
      * Weird implementation (lesson)
      */
-    fun init(propertyId: Int, addressId: Int) {
-        if (this.currentProperty != null && this.currentAddress != null) {
+    fun init() {
+        if (this.currentProperties != null && this.currentAddresses != null) {
             return
         }
-        currentProperty = propertyDataSource.getProperty(propertyId)
-        currentAddress = addressDataSource.getAddress(addressId)
+        currentProperties = propertyDataSource.getProperties()
+        currentAddresses = addressDataSource.getAddresses()
     }
 
     //---ADDRESS--\\

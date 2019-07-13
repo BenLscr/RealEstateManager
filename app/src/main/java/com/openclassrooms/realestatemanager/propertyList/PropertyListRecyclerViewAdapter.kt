@@ -19,16 +19,15 @@ import kotlinx.android.synthetic.main.fragment_property.view.*
  * specified [OnListFragmentInteractionListener].
  */
 class PropertyListRecyclerViewAdapter(
-        /**private val propertys: List<Property>,*/
+        private val properties: MutableList<Property>?,
+        private val adresses: MutableList<Address>?,
         private val mValues: List<DummyItem>,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
-    /**private var propertys: List<Property>*/
 
     init {
-        /**this.propertys = propertys*/
         mOnClickListener = View.OnClickListener { v ->
             val item = v.tag as DummyItem
             // Notify the active callbacks interface (the activity, if the fragment is attached to
@@ -50,7 +49,7 @@ class PropertyListRecyclerViewAdapter(
         holder.location.text = "location"
         holder.price.text = "price"
 
-        /**val property: Property = propertys[position]
+        /**val property: Property = properties[position]
         holder.img.setImageBitmap(property.images[0])
         holder.type.text = property.type.name
         holder.location.text =
@@ -62,7 +61,7 @@ class PropertyListRecyclerViewAdapter(
         }
     }
 
-    override fun getItemCount(): Int = mValues.size  /**propertys.size*/
+    override fun getItemCount(): Int = mValues.size  /**properties.size*/
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
 

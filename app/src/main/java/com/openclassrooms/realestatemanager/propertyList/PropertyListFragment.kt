@@ -6,12 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.Address
+import com.openclassrooms.realestatemanager.models.Property
 import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent
 import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent.DummyItem
+import com.openclassrooms.realestatemanager.propertyList.injections.Injection
 
 /**
  * A fragment representing a list of Items.
@@ -21,9 +26,13 @@ import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent.Dumm
 class PropertyListFragment : Fragment() {
 
     private var columnCount = 1
-    /**private var propertys: List<Property>*/
 
     private var listener: OnListFragmentInteractionListener? = null
+
+    private var propertyViewModel : PropertyViewModel? = null
+    private var properties: MutableList<Property>? = null
+    private var addresses: MutableList<Address>? = null
+    private lateinit var adapter: PropertyListRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +49,45 @@ class PropertyListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = PropertyListRecyclerViewAdapter(/**propertys,*/ DummyContent.ITEMS, listener)
+                this.adapter = PropertyListRecyclerViewAdapter(properties, addresses, DummyContent.ITEMS, listener)
             }
         }
+        this.configureViewModel()
+        this.getCurrentProperty()
+        this.getCurrentAddress()
         return view
+    }
+
+    private fun configureViewModel() {
+        val mViewModelFactory = Injection.provideViewModelFactory(requireContext())
+        this.propertyViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PropertyViewModel::class.java)
+        this.propertyViewModel!!.init()
+    }
+
+    private fun getCurrentProperty() {
+        this.propertyViewModel!!.getProperties().observe(this, Observer {  updateDataProperties(it) })
+    }
+
+    private fun updateDataProperties(properties: List<Property>) {
+        this.properties!!.clear()
+        this.properties!!.addAll(properties)
+        this.notifyRecyclerView()
+    }
+
+    private fun getCurrentAddress() {
+        this.propertyViewModel!!.getAddresses().observe(this, Observer { updateDataAddresses(it) })
+    }
+
+    private fun updateDataAddresses(addresses: List<Address>) {
+        this.addresses!!.clear()
+        this.addresses!!.addAll(addresses)
+        this.notifyRecyclerView()
+    }
+
+    private fun notifyRecyclerView() {
+        if (properties != null && addresses != null) {
+            this.adapter.notifyDataSetChanged()
+        }
     }
 
     override fun onAttach(context: Context) {
