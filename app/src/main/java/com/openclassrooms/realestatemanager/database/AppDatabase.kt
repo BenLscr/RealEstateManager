@@ -54,16 +54,37 @@ abstract class AppDatabase : RoomDatabase() {
         private val contentValuesAddress = ContentValues()
         private val contentValuesProperty = ContentValues()
 
-        fun getInstance(context: Context): AppDatabase {
+        private const val PATH = "path"
+        private const val COMPLEMENT = "complement"
+        private const val DISTRICT = "district"
+        private const val CITY = "city"
+        private const val POSTALCODE = "postalCode"
+        private const val COUNTRY = "country"
+
+        /**fun getInstance(context: Context): AppDatabase {
             INSTANCE ?: synchronized(Any()) {
                 INSTANCE ?: Room.databaseBuilder(context, AppDatabase::class.java, "Database.db")
-                        .addCallback(prepopulatedDatabase())
+                        .addCallback(prepopulateDatabase())
                         .build()
+            }
+            return INSTANCE!!
+        }*/
+
+        fun getInstance(context: Context): AppDatabase {
+            if (INSTANCE == null) {
+                synchronized(AppDatabase::class.java) {
+                    if (INSTANCE == null) {
+                        INSTANCE = Room.databaseBuilder(context.applicationContext,
+                                AppDatabase::class.java, "Database.db")
+                                .addCallback(prepopulateDatabase())
+                                .build()
+                    }
+                }
             }
             return INSTANCE!!
         }
 
-        private fun prepopulatedDatabase(): Callback {
+        private fun prepopulateDatabase(): Callback {
             return object : Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
@@ -73,19 +94,18 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        private fun insert(db: SupportSQLiteDatabase) {
+        private fun insertValue(db: SupportSQLiteDatabase) {
             db.insert("Address", OnConflictStrategy.IGNORE, contentValuesAddress)
             db.insert("Property", OnConflictStrategy.IGNORE, contentValuesProperty)
         }
 
         private fun firstProperty(db: SupportSQLiteDatabase) {
-            contentValuesAddress.put("path", "311 Edinboro Rd")
-            contentValuesAddress.putNull("complement")
-            contentValuesAddress.put("district", DistrictConverter.fromDistrict(District.STATEN_ISLAND))
-            contentValuesAddress.put("city", CityConverter.fromCity(City.NEW_YORK))
-            contentValuesAddress.put("postalCode", "NY 10306")
-            contentValuesAddress.put("country", CountryConverter.fromCountry(Country.UNITED_STATES))
+            buildFakeAddress(
+                    path = "311 Edinboro Rd",
+                    district = DistrictConverter.fromDistrict(District.STATEN_ISLAND),
+                    postalCode = "NY 10306")
 
+            //buildFakeProperty(db)
             contentValuesProperty.put("type", TypeConverter.fromType(Type.HOUSE))
             contentValuesProperty.put("price", "$895,000")
             contentValuesProperty.put("surface", 2000)
@@ -102,7 +122,21 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesProperty.putNull("saleDate")
             contentValuesProperty.put("agent", AgentConverter.fromAgent(Agent.CAROL_DENVERS))
 
-            insert(db)
+            insertValue(db)
+        }
+
+        private fun buildFakeAddress(path: String,
+                                     complement: String? = null,
+                                     district: Int,
+                                     city: Int = CityConverter.fromCity(City.NEW_YORK),
+                                     postalCode: String,
+                                     country: Int = CountryConverter.fromCountry(Country.UNITED_STATES)) {
+            contentValuesAddress.put(PATH, path)
+            contentValuesAddress.putNull(COMPLEMENT)
+            contentValuesAddress.put(DISTRICT, district)
+            contentValuesAddress.put(CITY, city)
+            contentValuesAddress.put(POSTALCODE, postalCode)
+            contentValuesAddress.put(COUNTRY, country)
         }
 
     }

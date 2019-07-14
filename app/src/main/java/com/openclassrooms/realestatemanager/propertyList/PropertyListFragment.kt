@@ -25,18 +25,14 @@ import com.openclassrooms.realestatemanager.propertyList.injections.Injection
  */
 class PropertyListFragment : Fragment() {
 
-    private var columnCount = 1
+    //private var columnCount = 1
 
     private var listener: OnListFragmentInteractionListener? = null
 
     private var propertyViewModel : PropertyViewModel? = null
-    private var properties: MutableList<Property>? = null
-    private var addresses: MutableList<Address>? = null
-    private lateinit var adapter: PropertyListRecyclerViewAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var properties: MutableList<Property> = mutableListOf()
+    private var addresses: MutableList<Address> = mutableListOf()
+    private var adapter: PropertyListRecyclerViewAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,13 +40,17 @@ class PropertyListFragment : Fragment() {
 
         // Set the adapter
         if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
+            view.layoutManager = LinearLayoutManager(context)
+            this.adapter = PropertyListRecyclerViewAdapter(properties, addresses, DummyContent.ITEMS, listener)
+            view.adapter = this.adapter
+            /*with(view) {
+                /*layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
-                }
+                }*/
+                layoutManager = LinearLayoutManager(context)
                 this.adapter = PropertyListRecyclerViewAdapter(properties, addresses, DummyContent.ITEMS, listener)
-            }
+            }*/
         }
         this.configureViewModel()
         this.getCurrentProperty()
@@ -69,8 +69,8 @@ class PropertyListFragment : Fragment() {
     }
 
     private fun updateDataProperties(properties: List<Property>) {
-        this.properties!!.clear()
-        this.properties!!.addAll(properties)
+        this.properties.clear()
+        this.properties.addAll(properties)
         this.notifyRecyclerView()
     }
 
@@ -79,14 +79,14 @@ class PropertyListFragment : Fragment() {
     }
 
     private fun updateDataAddresses(addresses: List<Address>) {
-        this.addresses!!.clear()
-        this.addresses!!.addAll(addresses)
+        this.addresses.clear()
+        this.addresses.addAll(addresses)
         this.notifyRecyclerView()
     }
 
     private fun notifyRecyclerView() {
-        if (properties != null && addresses != null) {
-            this.adapter.notifyDataSetChanged()
+        if (properties.isNotEmpty() && addresses.isNotEmpty()) {
+            this.adapter!!.notifyDataSetChanged()
         }
     }
 

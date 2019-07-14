@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToLong
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -30,7 +31,7 @@ object Utils {
      * @return
      */
     fun convertDollarToEuro(dollars: Int): Int {
-        return Math.round(dollars * 0.812).toInt()
+        return (dollars * 0.812).roundToLong().toInt()
     }
 
     /**
@@ -49,6 +50,6 @@ object Utils {
      * Convert a price of a property (Euros to Dollars)
      */
     fun convertEuroToDollar(euros: Int): Int {
-        return Math.round(euros * 1.232).toInt()
+        return (euros * 1.232).roundToLong().toInt()
     }
 }

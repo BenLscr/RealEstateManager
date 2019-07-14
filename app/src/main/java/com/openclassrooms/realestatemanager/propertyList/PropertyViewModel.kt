@@ -30,13 +30,13 @@ class PropertyViewModel (
     //---ADDRESS--\\
     fun getAddresses(): LiveData<List<Address>> { return addressDataSource.getAddresses()}
 
-    fun getAddresse(addressId: Int): LiveData<Address> { return addressDataSource.getAddress(addressId)}
+    fun getAddresses(addressId: Int): LiveData<Address> { return addressDataSource.getAddress(addressId)}
 
     fun insertAddress(address: Address) = executor.execute { addressDataSource.insertAddress(address) }
 
     fun updateAddress(address: Address) = executor.execute { addressDataSource.updateAddress(address) }
 
-    fun deleAddress(addressId: Int) = executor.execute { addressDataSource.deleteAddress(addressId) }
+    fun deleteAddresses(addressId: Int) = executor.execute { addressDataSource.deleteAddress(addressId) }
 
     //---PROPERTY---\\
     fun getProperties(): LiveData<List<Property>> { return propertyDataSource.getProperties() }

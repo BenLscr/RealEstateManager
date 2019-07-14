@@ -8,9 +8,9 @@ import com.openclassrooms.realestatemanager.models.Address
 interface AddressDao {
 
     @Query("SELECT * FROM Address")
-    fun getAdresses(): LiveData<List<Address>>
+    fun getAddresses(): LiveData<List<Address>>
 
-    @Query("SELECT * FROM Address WHERE id == id")
+    @Query("SELECT * FROM Address WHERE :id == id")
     fun getAddress(id: Int): LiveData<Address>
 
     @Insert
@@ -19,10 +19,10 @@ interface AddressDao {
     @Update
     fun updateAddress(address: Address)
 
-    @Query("DELETE FROM Address WHERE id == id")
+    @Query("DELETE FROM Address WHERE :id == id")
     fun deleteAddress(id: Int)
 
-    /**@Delete("DELETE * FROM Address WHERE id == id")
+    /**@Delete("DELETE * FROM Address WHERE :id == id")
     fun deleteAddress(id: Int)*/
 
 }

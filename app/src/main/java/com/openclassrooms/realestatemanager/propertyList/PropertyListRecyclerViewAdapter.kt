@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_property.view.*
  */
 class PropertyListRecyclerViewAdapter(
         private val properties: MutableList<Property>?,
-        private val adresses: MutableList<Address>?,
+        private val addresses: MutableList<Address>?,
         private val mValues: List<DummyItem>,
         private val mListener: OnListFragmentInteractionListener?)
     : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
