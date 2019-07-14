@@ -58,8 +58,23 @@ abstract class AppDatabase : RoomDatabase() {
         private const val COMPLEMENT = "complement"
         private const val DISTRICT = "district"
         private const val CITY = "city"
-        private const val POSTALCODE = "postalCode"
+        private const val POSTAL_CODE = "postalCode"
         private const val COUNTRY = "country"
+
+        private const val TYPE = "type"
+        private const val PRICE = "price"
+        private const val SURFACE = "surface"
+        private const val ROOMS = "rooms"
+        private const val BEDROOMS = "bedrooms"
+        private const val BATHROOMS = "bathrooms"
+        private const val GARAGE = "garage"
+        private const val DESCRIPTION = "description"
+        private const val ADDRESSID = "addressId"
+        private const val LOCATIONS_OF_INTEREST = "locationsOfInterest"
+        private const val STATUS = "status"
+        private const val AVAILABLE_SINCE = "availableSince"
+        private const val SALE_DATE = "saleDate"
+        private const val AGENT = "agent"
 
         /**fun getInstance(context: Context): AppDatabase {
             INSTANCE ?: synchronized(Any()) {
@@ -103,24 +118,24 @@ abstract class AppDatabase : RoomDatabase() {
             buildFakeAddress(
                     path = "311 Edinboro Rd",
                     district = DistrictConverter.fromDistrict(District.STATEN_ISLAND),
-                    postalCode = "NY 10306")
+                    postalCode = "NY 10306"
+            )
 
-            //buildFakeProperty(db)
-            contentValuesProperty.put("type", TypeConverter.fromType(Type.HOUSE))
-            contentValuesProperty.put("price", "$895,000")
-            contentValuesProperty.put("surface", 2000)
-            contentValuesProperty.put("rooms", 8)
-            contentValuesProperty.put("bedrooms", 4)
-            contentValuesProperty.put("bathrooms", 2)
-            contentValuesProperty.put("garage", true)
-            contentValuesProperty.put("description", "One of a kind Chateau style colonial nestled in prestigious Lighthouse Hill. This 4 bedroom, 2 bath has balconies off of 3 of the bedrooms and sitting patio off of the living room. Creating charm and warmth throughout with oak floors and fireplace as focal point in the living room. New kitchen and baths, all exterior updated including pavers in yard leaving the home maintenance free. Views of harbor, walk to the Light House and golf course.")
-            //contentValuesProperty.put("images", )
-            contentValuesProperty.put("addressId", 1)
-            contentValuesProperty.put("locationsOfinterest", LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.PARK)))
-            contentValuesProperty.put("status", StatusConverter.fromStatus(Status.AVAILABLE))
-            contentValuesProperty.put("availableSince", DateConverter.fromDate(Date(1549574288)))
-            contentValuesProperty.putNull("saleDate")
-            contentValuesProperty.put("agent", AgentConverter.fromAgent(Agent.CAROL_DENVERS))
+            buildFakeProperty(
+                    type = TypeConverter.fromType(Type.HOUSE),
+                    price = "$895,000",
+                    surface = 2000,
+                    rooms = 8,
+                    bedrooms = 4,
+                    bathrooms = 2,
+                    garage = true,
+                    description = "One of a kind Chateau style colonial nestled in prestigious Lighthouse Hill. This 4 bedroom, 2 bath has balconies off of 3 of the bedrooms and sitting patio off of the living room. Creating charm and warmth throughout with oak floors and fireplace as focal point in the living room. New kitchen and baths, all exterior updated including pavers in yard leaving the home maintenance free. Views of harbor, walk to the Light House and golf course.",
+                    addressId = 1,
+                    locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.PARK)),
+                    status = StatusConverter.fromStatus(Status.AVAILABLE),
+                    availableSince = DateConverter.fromDate(Date(1549574288)),
+                    agent = AgentConverter.fromAgent(Agent.CAROL_DENVERS)
+            )
 
             insertValue(db)
         }
@@ -135,8 +150,39 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesAddress.putNull(COMPLEMENT)
             contentValuesAddress.put(DISTRICT, district)
             contentValuesAddress.put(CITY, city)
-            contentValuesAddress.put(POSTALCODE, postalCode)
+            contentValuesAddress.put(POSTAL_CODE, postalCode)
             contentValuesAddress.put(COUNTRY, country)
+        }
+
+        private fun buildFakeProperty(type: Int,
+                                     price: String,
+                                     surface: Int,
+                                     rooms: Int,
+                                     bedrooms: Int,
+                                     bathrooms: Int,
+                                     garage: Boolean,
+                                     description: String,
+                                     addressId: Int,
+                                     locationsOfInterest: String,
+                                     status: Int,
+                                     availableSince: Long,
+                                     saleDate: String? = null,
+                                     agent: Int) {
+            contentValuesProperty.put(TYPE, type)
+            contentValuesProperty.put(PRICE, price)
+            contentValuesProperty.put(SURFACE, surface)
+            contentValuesProperty.put(ROOMS, rooms)
+            contentValuesProperty.put(BEDROOMS, bedrooms)
+            contentValuesProperty.put(BATHROOMS, bathrooms)
+            contentValuesProperty.put(GARAGE, garage)
+            contentValuesProperty.put(DESCRIPTION, description)
+            //contentValuesProperty.put("images", )
+            contentValuesProperty.put(ADDRESSID, addressId)
+            contentValuesProperty.put(LOCATIONS_OF_INTEREST, locationsOfInterest)
+            contentValuesProperty.put(STATUS, status)
+            contentValuesProperty.put(AVAILABLE_SINCE, availableSince)
+            contentValuesProperty.putNull(SALE_DATE)
+            contentValuesProperty.put(AGENT, agent)
         }
 
     }
