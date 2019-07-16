@@ -12,7 +12,7 @@
 
     //PROPERTY LIST
     <string name="type">type</string>
-    <string name="place">place</string>
+    <string name="district">district</string>
     <string name="price">price</string>
 
     //PROPERTY DETAIL

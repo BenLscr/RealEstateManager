@@ -5,5 +5,8 @@ enum class Type {
     PENTHOUSE,
     MANSION,
     DUPLEX,
-    HOUSE
+    HOUSE,
+    LOFT,
+    TOWNHOUSE,
+    CONDO
 }

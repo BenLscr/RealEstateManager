@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.Address
+import com.openclassrooms.realestatemanager.models.AddressHandled
 import com.openclassrooms.realestatemanager.models.Property
-import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent
-import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent.DummyItem
+import com.openclassrooms.realestatemanager.models.PropertyHandled
 import com.openclassrooms.realestatemanager.propertyList.injections.Injection
 
 /**
@@ -30,8 +29,8 @@ class PropertyListFragment : Fragment() {
     private var listener: OnListFragmentInteractionListener? = null
 
     private var propertyViewModel : PropertyViewModel? = null
-    private var properties: MutableList<Property> = mutableListOf()
-    private var addresses: MutableList<Address> = mutableListOf()
+    private var properties: MutableList<PropertyHandled> = mutableListOf()
+    private var addresses: MutableList<AddressHandled> = mutableListOf()
     private var adapter: PropertyListRecyclerViewAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +40,7 @@ class PropertyListFragment : Fragment() {
         // Set the adapter
         if (view is RecyclerView) {
             view.layoutManager = LinearLayoutManager(context)
-            this.adapter = PropertyListRecyclerViewAdapter(properties, addresses, DummyContent.ITEMS, listener)
+            this.adapter = PropertyListRecyclerViewAdapter(properties, addresses, listener)
             view.adapter = this.adapter
             /*with(view) {
                 /*layoutManager = when {
@@ -68,7 +67,7 @@ class PropertyListFragment : Fragment() {
         this.propertyViewModel!!.getProperties().observe(this, Observer {  updateDataProperties(it) })
     }
 
-    private fun updateDataProperties(properties: List<Property>) {
+    private fun updateDataProperties(properties: List<PropertyHandled>) {
         this.properties.clear()
         this.properties.addAll(properties)
         this.notifyRecyclerView()
@@ -78,7 +77,7 @@ class PropertyListFragment : Fragment() {
         this.propertyViewModel!!.getAddresses().observe(this, Observer { updateDataAddresses(it) })
     }
 
-    private fun updateDataAddresses(addresses: List<Address>) {
+    private fun updateDataAddresses(addresses: List<AddressHandled>) {
         this.addresses.clear()
         this.addresses.addAll(addresses)
         this.notifyRecyclerView()
@@ -116,7 +115,7 @@ class PropertyListFragment : Fragment() {
      * for more information.
      */
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(address: AddressHandled, property: PropertyHandled)
     }
 
     companion object {

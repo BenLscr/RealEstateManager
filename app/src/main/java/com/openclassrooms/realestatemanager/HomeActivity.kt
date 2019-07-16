@@ -9,10 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.openclassrooms.realestatemanager.models.Address
+import com.openclassrooms.realestatemanager.models.AddressHandled
+import com.openclassrooms.realestatemanager.models.Property
+import com.openclassrooms.realestatemanager.models.PropertyHandled
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment
-import com.openclassrooms.realestatemanager.propertyList.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -87,7 +90,7 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
         fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail!!)
     }
 
-    override fun onListFragmentInteraction(item: DummyContent.DummyItem?) {
+    override fun onListFragmentInteraction(address: AddressHandled, property: PropertyHandled) {
         if (fragmentPropertyDetail == null) {
             val intent = Intent(this, PropertyDetailActivity::class.java)
             this.startActivity(intent)
