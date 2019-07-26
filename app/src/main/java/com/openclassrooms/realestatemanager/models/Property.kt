@@ -1,12 +1,12 @@
 package com.openclassrooms.realestatemanager.models
 
-import android.graphics.Bitmap
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity
-(foreignKeys = [ForeignKey(entity = Address::class, parentColumns = ["id"], childColumns = ["addressId"])])
+(foreignKeys = [ForeignKey(entity = Address::class, parentColumns = ["address_id"], childColumns = ["addressId"])])
 class Property(
         @PrimaryKey(autoGenerate = true) val id: Int,
         val type: Type,
@@ -15,13 +15,13 @@ class Property(
         val rooms: Int,
         val bedrooms: Int,
         val bathrooms: Int,
-        val garage: Boolean,
         val description: String,
         //val images: MutableList<Bitmap>,
         val addressId: Int,
+        @Embedded val address: Address?,
         val locationsOfInterest: MutableList<LocationOfInterest>,
         val status: Status,
         val availableSince: Long,
-        val saleDate: String?,
+        val saleDate: Long?,
         val agent: Agent
 )

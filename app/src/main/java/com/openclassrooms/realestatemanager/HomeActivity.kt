@@ -9,27 +9,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.openclassrooms.realestatemanager.models.Address
-import com.openclassrooms.realestatemanager.models.AddressHandled
-import com.openclassrooms.realestatemanager.models.Property
-import com.openclassrooms.realestatemanager.models.PropertyHandled
+import com.openclassrooms.realestatemanager.models.AddressPropertyListViewHolder
+import com.openclassrooms.realestatemanager.models.PropertyPropertyListViewHolder
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.toolbar.*
 
+const val INTENT_ADDRESS_HANDLED = "INTENT_ADDRESS_HANDLED"
+const val INTENT_PROPERTY_HANDLED = "INTENT_PROPERTY_HANDLED"
+
 class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInteractionListener  {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        this.configureToolbar()
+        configureToolbar()
 
-        this.configureDrawerLayout()
-        this.configureNavigationView()
+        configureDrawerLayout()
+        configureNavigationView()
 
-        this.initAndAddFragment()
+        initAndAddFragment()
     }
 
     private fun configureToolbar() { setSupportActionBar(toolbar) }
@@ -80,24 +81,26 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
         fragmentTransaction.add(R.id.activity_property_list_container, fragmentPropertyList)
         containerPropertyDetail = supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
         if (containerPropertyDetail == null && activity_property_detail_container != null) {
-            this.addFragment()
+            addFragment()
         }
         fragmentTransaction.commit()
     }
 
-    private fun addFragment() {
-        fragmentPropertyDetail = PropertyDetailFragment.newInstance()
+    private fun addFragment(address: AddressPropertyListViewHolder? = null, property: PropertyPropertyListViewHolder? = null) {
+        fragmentPropertyDetail = PropertyDetailFragment.newInstance(address, property)
         fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail!!)
     }
 
-    override fun onListFragmentInteraction(address: AddressHandled, property: PropertyHandled) {
+    override fun onListFragmentInteraction(address: AddressPropertyListViewHolder, property: PropertyPropertyListViewHolder) {
         if (fragmentPropertyDetail == null) {
             val intent = Intent(this, PropertyDetailActivity::class.java)
-            this.startActivity(intent)
+            //intent.putExtra(INTENT_ADDRESS_HANDLED, address)
+            //intent.putExtra(INTENT_PROPERTY_HANDLED, property)
+            startActivity(intent)
         } else {
             fragmentTransaction = supportFragmentManager.beginTransaction()
             fragmentTransaction.remove(fragmentPropertyDetail!!)
-            this.addFragment()
+            addFragment(address, property)
             fragmentTransaction.commit()
         }
     }

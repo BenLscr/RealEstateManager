@@ -28,7 +28,11 @@
     <string name="number_of_bedrooms">Number of bedrooms</string>
     <string name="_4">4</string>
     <string name="location">location</string>
-    <string name="location_example">740 Park Avenue\napt 6/7A\nNew York\nNY 10021\nUnited States</string>
+    <string name="path">path</string>
+    <string name="complement">complement</string>
+    <string name="city">city</string>
+    <string name="postal_code">postal code</string>
+    <string name="country">country</string>
 
 
 </resources>

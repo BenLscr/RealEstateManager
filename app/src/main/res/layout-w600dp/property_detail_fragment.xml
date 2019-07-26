@@ -29,6 +29,7 @@
         android:layout_margin="10dp"/>
 
     <TextView
+        android:id="@+id/property_detail_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -72,6 +73,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/property_detail_surface"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/squar_meters_example"/>
@@ -105,6 +107,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/property_detail_rooms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_8"/>
@@ -138,6 +141,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/property_detail_bathrooms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_2"/>
@@ -171,6 +175,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/property_detail_bedrooms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/_4"/>
@@ -207,9 +212,34 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/property_detail_path"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/location_example"/>
+                    android:text="@string/path"/>
+
+                <TextView
+                    android:id="@+id/property_detail_complement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/complement"/>
+
+                <TextView
+                    android:id="@+id/property_detail_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/city"/>
+
+                <TextView
+                    android:id="@+id/property_detail_postal_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/postal_code"/>
+
+                <TextView
+                    android:id="@+id/property_detail_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/country"/>
 
             </LinearLayout>
 

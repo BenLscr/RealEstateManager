@@ -11,10 +11,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.Address
-import com.openclassrooms.realestatemanager.models.AddressHandled
-import com.openclassrooms.realestatemanager.models.Property
-import com.openclassrooms.realestatemanager.models.PropertyHandled
+import com.openclassrooms.realestatemanager.models.AddressPropertyListViewHolder
+import com.openclassrooms.realestatemanager.models.PropertyPropertyListViewHolder
 import com.openclassrooms.realestatemanager.propertyList.injections.Injection
 
 /**
@@ -24,69 +22,26 @@ import com.openclassrooms.realestatemanager.propertyList.injections.Injection
  */
 class PropertyListFragment : Fragment() {
 
-    //private var columnCount = 1
-
     private var listener: OnListFragmentInteractionListener? = null
-
-    private var propertyViewModel : PropertyViewModel? = null
-    private var properties: MutableList<PropertyHandled> = mutableListOf()
-    private var addresses: MutableList<AddressHandled> = mutableListOf()
-    private var adapter: PropertyListRecyclerViewAdapter? = null
+    private val propertyListViewModel : PropertyListViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(requireContext())).get(PropertyListViewModel::class.java) }
+    private val propertyListAdapter: PropertyListRecyclerViewAdapter = PropertyListRecyclerViewAdapter(listener)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_property_list, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            view.layoutManager = LinearLayoutManager(context)
-            this.adapter = PropertyListRecyclerViewAdapter(properties, addresses, listener)
-            view.adapter = this.adapter
-            /*with(view) {
-                /*layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }*/
-                layoutManager = LinearLayoutManager(context)
-                this.adapter = PropertyListRecyclerViewAdapter(properties, addresses, DummyContent.ITEMS, listener)
-            }*/
+        (view as RecyclerView).apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = propertyListAdapter
         }
-        this.configureViewModel()
-        this.getCurrentProperty()
-        this.getCurrentAddress()
+
+        getProperties()
         return view
     }
 
-    private fun configureViewModel() {
-        val mViewModelFactory = Injection.provideViewModelFactory(requireContext())
-        this.propertyViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PropertyViewModel::class.java)
-        this.propertyViewModel!!.init()
-    }
-
-    private fun getCurrentProperty() {
-        this.propertyViewModel!!.getProperties().observe(this, Observer {  updateDataProperties(it) })
-    }
-
-    private fun updateDataProperties(properties: List<PropertyHandled>) {
-        this.properties.clear()
-        this.properties.addAll(properties)
-        this.notifyRecyclerView()
-    }
-
-    private fun getCurrentAddress() {
-        this.propertyViewModel!!.getAddresses().observe(this, Observer { updateDataAddresses(it) })
-    }
-
-    private fun updateDataAddresses(addresses: List<AddressHandled>) {
-        this.addresses.clear()
-        this.addresses.addAll(addresses)
-        this.notifyRecyclerView()
-    }
-
-    private fun notifyRecyclerView() {
-        if (properties.isNotEmpty() && addresses.isNotEmpty()) {
-            this.adapter!!.notifyDataSetChanged()
-        }
+    private fun getProperties() {
+        propertyListViewModel.properties.observe(this, Observer { propertyListAdapter.receiveData(it) })
     }
 
     override fun onAttach(context: Context) {
@@ -115,7 +70,7 @@ class PropertyListFragment : Fragment() {
      * for more information.
      */
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(address: AddressHandled, property: PropertyHandled)
+        fun onListFragmentInteraction(address: AddressPropertyListViewHolder, property: PropertyPropertyListViewHolder)
     }
 
     companion object {

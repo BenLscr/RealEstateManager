@@ -7,7 +7,7 @@ import com.openclassrooms.realestatemanager.models.Property
 @Dao
 interface PropertyDao {
 
-    @Query("SELECT * FROM Property")
+    @Query("SELECT * FROM Property INNER JOIN Address ON Property.addressId = Address.address_id")
     fun getProperties(): LiveData<List<Property>>
 
     @Query("SELECT * FROM Property WHERE :id == id")
