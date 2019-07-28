@@ -9,16 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.openclassrooms.realestatemanager.models.AddressPropertyListViewHolder
-import com.openclassrooms.realestatemanager.models.PropertyPropertyListViewHolder
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-const val INTENT_ADDRESS_HANDLED = "INTENT_ADDRESS_HANDLED"
-const val INTENT_PROPERTY_HANDLED = "INTENT_PROPERTY_HANDLED"
+const val INTENT_PROPERTY_ID = "INTENT_PROPERTY_ID"
 
 class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInteractionListener  {
 
@@ -86,21 +83,20 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
         fragmentTransaction.commit()
     }
 
-    private fun addFragment(address: AddressPropertyListViewHolder? = null, property: PropertyPropertyListViewHolder? = null) {
-        fragmentPropertyDetail = PropertyDetailFragment.newInstance(address, property)
+    private fun addFragment(propertyId: Int? = null) {
+        fragmentPropertyDetail = PropertyDetailFragment.newInstance(propertyId)
         fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail!!)
     }
 
-    override fun onListFragmentInteraction(address: AddressPropertyListViewHolder, property: PropertyPropertyListViewHolder) {
+    override fun onListFragmentInteraction(propertyId: Int) {
         if (fragmentPropertyDetail == null) {
             val intent = Intent(this, PropertyDetailActivity::class.java)
-            //intent.putExtra(INTENT_ADDRESS_HANDLED, address)
-            //intent.putExtra(INTENT_PROPERTY_HANDLED, property)
+            intent.putExtra(INTENT_PROPERTY_ID, propertyId)
             startActivity(intent)
         } else {
             fragmentTransaction = supportFragmentManager.beginTransaction()
             fragmentTransaction.remove(fragmentPropertyDetail!!)
-            addFragment(address, property)
+            addFragment(propertyId)
             fragmentTransaction.commit()
         }
     }

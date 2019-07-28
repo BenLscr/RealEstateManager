@@ -11,8 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.AddressPropertyListViewHolder
-import com.openclassrooms.realestatemanager.models.PropertyPropertyListViewHolder
 import com.openclassrooms.realestatemanager.propertyList.injections.Injection
 
 /**
@@ -24,7 +22,7 @@ class PropertyListFragment : Fragment() {
 
     private var listener: OnListFragmentInteractionListener? = null
     private val propertyListViewModel : PropertyListViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(requireContext())).get(PropertyListViewModel::class.java) }
-    private val propertyListAdapter: PropertyListRecyclerViewAdapter = PropertyListRecyclerViewAdapter(listener)
+    private val propertyListAdapter: PropertyListRecyclerViewAdapter = PropertyListRecyclerViewAdapter(/*listener*/)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,7 +39,7 @@ class PropertyListFragment : Fragment() {
     }
 
     private fun getProperties() {
-        propertyListViewModel.properties.observe(this, Observer { propertyListAdapter.receiveData(it) })
+        propertyListViewModel.properties.observe(this, Observer { propertyListAdapter.receiveData(it, listener) })
     }
 
     override fun onAttach(context: Context) {
@@ -70,7 +68,7 @@ class PropertyListFragment : Fragment() {
      * for more information.
      */
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(address: AddressPropertyListViewHolder, property: PropertyPropertyListViewHolder)
+        fun onListFragmentInteraction(propertyId: Int)
     }
 
     companion object {

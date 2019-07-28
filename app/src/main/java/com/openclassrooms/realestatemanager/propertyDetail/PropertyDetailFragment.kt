@@ -8,35 +8,31 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.AddressPropertyListViewHolder
-import com.openclassrooms.realestatemanager.models.PropertyPropertyListViewHolder
 import kotlinx.android.synthetic.main.property_detail_fragment.*
 
 class PropertyDetailFragment : Fragment() {
 
     companion object {
-        private const val ARG_ADDRESS_HANDLED = "ARG_ADDRESS_HANDLED"
-        private const val ARG_PROPERTY_HANDLED = "ARG_PROPERTY_HANDLED"
+        private const val ARG_PROPERTY_ID = "ARG_PROPERTY_ID"
 
-        fun newInstance(address: AddressPropertyListViewHolder?, property: PropertyPropertyListViewHolder?): PropertyDetailFragment {
+        fun newInstance(propertyId: Int?): PropertyDetailFragment {
             val fragment = PropertyDetailFragment()
-            val args = Bundle()
-            /*args.putParcelable(ARG_ADDRESS_HANDLED, address)
-            args.putParcelable(ARG_PROPERTY_HANDLED, property)
-            fragment.arguments = args*/
+            propertyId?.let {
+                val args = Bundle()
+                args.putInt(ARG_PROPERTY_ID, propertyId)
+                fragment.arguments = args
+            }
             return fragment
         }
     }
 
-    private lateinit var property: PropertyPropertyListViewHolder
-    private lateinit var address: AddressPropertyListViewHolder
+    private var propertyId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*arguments?.let {
-            this.address = it.getParcelable(ARG_ADDRESS_HANDLED)
-            this.property = it.getParcelable(ARG_PROPERTY_HANDLED)
-        }*/
+        arguments?.let {
+            propertyId = it.getInt(ARG_PROPERTY_ID)
+        }
     }
 
     private lateinit var viewModel: PropertyDetailViewModel

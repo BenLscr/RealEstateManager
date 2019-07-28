@@ -14,10 +14,11 @@ import kotlinx.android.synthetic.main.fragment_property.view.*
 
 
 class PropertyListRecyclerViewAdapter(
-        private val mListener: OnListFragmentInteractionListener?)
+        /*private var mListener: OnListFragmentInteractionListener?*/)
     : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
 
     private val modelsProcessed = mutableListOf<ModelsProcessedPropertyList>()
+    private var mListener: OnListFragmentInteractionListener? = null //TODO : Why a listener in parameters
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -35,15 +36,16 @@ class PropertyListRecyclerViewAdapter(
             type.text = model.type
             district.text = model.district
             price.text = model.price
-            //mView.setOnClickListener { mListener?.onListFragmentInteraction(model.propertyId) }
+            mView.setOnClickListener { mListener?.onListFragmentInteraction(model.propertyId) }
         }
     }
 
     override fun getItemCount(): Int = modelsProcessed.size
 
-    fun receiveData(modelsProcessed: List<ModelsProcessedPropertyList>/*List<MergedDataPropertyListViewHolder>*/) {
+    fun receiveData(modelsProcessed: List<ModelsProcessedPropertyList>, listener: OnListFragmentInteractionListener?) {
         this.modelsProcessed.clear()
         this.modelsProcessed.addAll(modelsProcessed)
+        mListener = listener
         notifyDataSetChanged()
     }
 
