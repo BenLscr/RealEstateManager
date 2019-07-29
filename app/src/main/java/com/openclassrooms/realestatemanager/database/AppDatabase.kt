@@ -6,13 +6,13 @@ import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import android.content.ContentValues
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.openclassrooms.realestatemanager.database.dao.AgentDao
 import com.openclassrooms.realestatemanager.models.*
 import java.util.*
 
 
-@Database(entities = [Property::class, Address::class] , version = 1, exportSchema = false)
-@TypeConverters(AgentConverter::class,
-        CityConverter::class,
+@Database(entities = [Property::class, Address::class, Agent::class] , version = 1, exportSchema = false)
+@TypeConverters(CityConverter::class,
         CountryConverter::class,
         DateConverter::class,
         DistrictConverter::class,
@@ -23,11 +23,16 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun propertyDao(): PropertyDao
     abstract fun addressDao(): AddressDao
+    abstract fun agentDao(): AgentDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null
+        private val contentValuesAgent = ContentValues()
         private val contentValuesAddress = ContentValues()
         private val contentValuesProperty = ContentValues()
+
+        private const val NAME = "name"
+        private const val FIRSTNAME = "firstName"
 
         private const val PATH = "path"
         private const val COMPLEMENT = "complement"
@@ -48,7 +53,7 @@ abstract class AppDatabase : RoomDatabase() {
         private const val STATUS = "status"
         private const val AVAILABLE_SINCE = "availableSince"
         private const val SALE_DATE = "saleDate"
-        private const val AGENT = "agent"
+        private const val AGENTID = "agentId"
 
         /**fun getInstance(context: Context): AppDatabase {
             INSTANCE ?: synchronized(Any()) {
@@ -79,6 +84,8 @@ abstract class AppDatabase : RoomDatabase() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
 
+                    addAgentIntoDatabase(db)
+
                     firstProperty(db)
                     secondProperty(db)
                     thirdProperty(db)
@@ -91,6 +98,23 @@ abstract class AppDatabase : RoomDatabase() {
                     tenthProperty(db)
                 }
             }
+        }
+
+        private fun addAgentIntoDatabase(db: SupportSQLiteDatabase) {
+            buildAgentAndInsert("Stark", "Tony", db)
+            buildAgentAndInsert("Parker", "Peter", db)
+            buildAgentAndInsert("Rogers", "Steve", db)
+            buildAgentAndInsert("Romanoff", "Natasha", db)
+            buildAgentAndInsert("Banner", "Bruce", db)
+            buildAgentAndInsert("Barton", "Clinton", db)
+            buildAgentAndInsert("Denvers", "Carol", db)
+            buildAgentAndInsert("Maximoff", "Wanda", db)
+        }
+
+        private fun buildAgentAndInsert(name: String, firstName: String, db: SupportSQLiteDatabase) {
+            contentValuesAgent.put(NAME, name)
+            contentValuesAgent.put(FIRSTNAME, firstName)
+            db.insert("Agent", OnConflictStrategy.IGNORE, contentValuesAgent)
         }
 
         private fun buildFakeAddress(path: String,
@@ -123,7 +147,7 @@ abstract class AppDatabase : RoomDatabase() {
                                       status: Int,
                                       availableSince: Long,
                                       saleDate: Long? = null,
-                                      agent: Int) {
+                                      agentId: Int) {
             contentValuesProperty.put(TYPE, type)
             contentValuesProperty.put(PRICE, price)
             contentValuesProperty.put(SURFACE, surface)
@@ -140,7 +164,7 @@ abstract class AppDatabase : RoomDatabase() {
             } else {
                 contentValuesProperty.put(SALE_DATE, saleDate)
             }
-            contentValuesProperty.put(AGENT, agent)
+            contentValuesProperty.put(AGENTID, agentId)
         }
 
         private fun insertValue(db: SupportSQLiteDatabase) {
@@ -166,7 +190,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.PARK)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1549574288)),
-                    agent = AgentConverter.fromAgent(Agent.CAROL_DENVERS)
+                    agentId = 7
             )
             insertValue(db)
         }
@@ -190,7 +214,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1562752237)),
-                    agent = AgentConverter.fromAgent(Agent.CLINTON_BARTON)
+                    agentId = 6
             )
             insertValue(db)
         }
@@ -214,7 +238,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1562586286)),
-                    agent = AgentConverter.fromAgent(Agent.TONY_STARK)
+                    agentId = 1
             )
             insertValue(db)
         }
@@ -238,7 +262,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1548328108)),
-                    agent = AgentConverter.fromAgent(Agent.STEVE_ROGERS)
+                    agentId = 3
             )
             insertValue(db)
         }
@@ -261,7 +285,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK, LocationOfInterest.TRAIN)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1561979308)),
-                    agent = AgentConverter.fromAgent(Agent.NATASHA_ROMANOFF)
+                    agentId = 4
             )
             insertValue(db)
         }
@@ -284,7 +308,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1563359033)),
-                    agent = AgentConverter.fromAgent(Agent.BRUCE_BANNER)
+                    agentId = 5
             )
             insertValue(db)
         }
@@ -308,7 +332,7 @@ abstract class AppDatabase : RoomDatabase() {
                     status = StatusConverter.fromStatus(Status.SOLD),
                     availableSince = DateConverter.fromDate(Date(1558347833)),
                     saleDate = DateConverter.fromDate(Date(1560595695)),
-                    agent = AgentConverter.fromAgent(Agent.WANDA_MAXIMOFF)
+                    agentId = 8
             )
             insertValue(db)
         }
@@ -331,7 +355,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1560081674)),
-                    agent = AgentConverter.fromAgent(Agent.STEVE_ROGERS)
+                    agentId = 3
             )
             insertValue(db)
         }
@@ -354,7 +378,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1559915888)),
-                    agent = AgentConverter.fromAgent(Agent.TONY_STARK)
+                    agentId = 1
             )
             insertValue(db)
         }
@@ -377,7 +401,7 @@ abstract class AppDatabase : RoomDatabase() {
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
                     availableSince = DateConverter.fromDate(Date(1559075359)),
-                    agent = AgentConverter.fromAgent(Agent.NATASHA_ROMANOFF)
+                    agentId = 4
             )
             insertValue(db)
         }

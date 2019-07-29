@@ -1,12 +1,14 @@
 package com.openclassrooms.realestatemanager.models
 
-enum class Agent {
-    TONY_STARK,
-    PETER_PARKER,
-    STEVE_ROGERS,
-    NATASHA_ROMANOFF,
-    BRUCE_BANNER,
-    CLINTON_BARTON,
-    CAROL_DENVERS,
-    WANDA_MAXIMOFF
-}
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+class Agent(
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "agent_id")
+        val id: Int,
+        val name: String,
+        val firstName: String
+)
