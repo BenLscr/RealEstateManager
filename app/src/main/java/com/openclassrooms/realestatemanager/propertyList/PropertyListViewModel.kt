@@ -4,12 +4,14 @@ import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.propertyList.models.ModelsProcessedPropertyList
 import com.openclassrooms.realestatemanager.repositories.AddressDataRepository
+import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
 import java.util.concurrent.Executor
 
 class PropertyListViewModel (
         private val propertyDataSource: PropertyDataRepository,
         private val addressDataSource: AddressDataRepository,
+        private val agentDataSource: AgentDataRepository,
         private val executor: Executor) : ViewModel() {
 
     private var _properties: LiveData<List<ModelsProcessedPropertyList>> = Transformations.map(propertyDataSource.getProperties()) { it.map { property -> buildUiModel(property) } }

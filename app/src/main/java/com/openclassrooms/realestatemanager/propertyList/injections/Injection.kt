@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.propertyList.injections
 import android.content.Context
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.repositories.AddressDataRepository
+import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -21,6 +22,11 @@ class Injection {
             return AddressDataRepository(database.addressDao())
         }
 
+        private fun provideAgentDataSource(context: Context): AgentDataRepository {
+            val database = AppDatabase.getInstance(context)
+            return AgentDataRepository(database.agentDao())
+        }
+
         private fun provideExecutor(): Executor {
             return Executors.newSingleThreadExecutor()
         }
@@ -28,8 +34,9 @@ class Injection {
         fun provideViewModelFactory(context: Context): ViewModelFactory {
             val dataSourceProperty = providePropertyDataSource(context)
             val dataSourceAddress = provideAddressDataSource(context)
+            val dataSourceAgent = provideAgentDataSource(context)
             val executor = provideExecutor()
-            return ViewModelFactory(dataSourceProperty, dataSourceAddress, executor)
+            return ViewModelFactory(dataSourceProperty, dataSourceAddress, dataSourceAgent, executor)
         }
 
     }
