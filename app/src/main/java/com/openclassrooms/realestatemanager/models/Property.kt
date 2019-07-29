@@ -6,7 +6,8 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity
-(foreignKeys = [ForeignKey(entity = Address::class, parentColumns = ["address_id"], childColumns = ["addressId"]), ForeignKey(entity = Agent::class, parentColumns = ["agent_id"], childColumns = ["agentId"])])
+(foreignKeys = [ForeignKey(entity = Address::class, parentColumns = ["address_id"], childColumns = ["addressId"]),
+    ForeignKey(entity = Agent::class, parentColumns = ["agent_id"], childColumns = ["agentId"])])
 class Property(
         @PrimaryKey(autoGenerate = true) val id: Int,
         val type: Type,

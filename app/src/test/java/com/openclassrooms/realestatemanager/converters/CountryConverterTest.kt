@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.converters
 
-import com.openclassrooms.realestatemanager.database.CountryConverter
+import com.openclassrooms.realestatemanager.database.converter.CountryConverter
 import com.openclassrooms.realestatemanager.models.Country
 import org.junit.Assert.assertEquals
 import org.junit.Test

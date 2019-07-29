@@ -6,6 +6,8 @@ import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import android.content.ContentValues
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.openclassrooms.realestatemanager.database.converter.*
+import com.openclassrooms.realestatemanager.database.converter.TypeConverter
 import com.openclassrooms.realestatemanager.database.dao.AgentDao
 import com.openclassrooms.realestatemanager.models.*
 import java.util.*

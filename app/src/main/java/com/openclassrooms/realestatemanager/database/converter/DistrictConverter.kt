@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.database
+package com.openclassrooms.realestatemanager.database.converter
 
 import androidx.room.TypeConverter
 import com.openclassrooms.realestatemanager.models.District

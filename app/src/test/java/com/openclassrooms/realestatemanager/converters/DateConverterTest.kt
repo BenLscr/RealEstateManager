@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.converters
 
-import com.openclassrooms.realestatemanager.database.DateConverter
+import com.openclassrooms.realestatemanager.database.converter.DateConverter
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.*

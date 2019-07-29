@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.converters
 
-import com.openclassrooms.realestatemanager.database.CityConverter
+import com.openclassrooms.realestatemanager.database.converter.CityConverter
 import com.openclassrooms.realestatemanager.models.City
 import org.junit.Assert.assertEquals
 import org.junit.Test
