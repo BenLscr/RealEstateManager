@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 class PropertyDetailActivity : AppCompatActivity() {
 
-    private var propertyId: Int? = null
+    private var propertyId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

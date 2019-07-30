@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.propertyDetail.injections.Injection
+import com.openclassrooms.realestatemanager.propertyDetail.models.ModelsProcessedPropertyDetail
 import kotlinx.android.synthetic.main.property_detail_fragment.*
 
 class PropertyDetailFragment : Fragment() {
@@ -26,7 +29,8 @@ class PropertyDetailFragment : Fragment() {
         }
     }
 
-    private var propertyId: Int? = null
+    private var propertyId: Int = 0
+    private val propertyDetailViewModel: PropertyDetailViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(requireContext())).get(PropertyDetailViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +39,6 @@ class PropertyDetailFragment : Fragment() {
         }
     }
 
-    private lateinit var viewModel: PropertyDetailViewModel
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.property_detail_fragment, container, false)
@@ -44,20 +46,33 @@ class PropertyDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(PropertyDetailViewModel::class.java)
-        // TODO: Use the ViewModel
-        this.updateUi()
+        if (propertyId == 0) {
+            getFirstProperty()
+        } else {
+            getProperty()
+        }
     }
 
-    private fun updateUi() {
-        /*with(property) {
+    private fun getProperty() = propertyDetailViewModel.getProperty(propertyId).observe(this, Observer { updateUi(it) })
+
+    private fun getFirstProperty() = propertyDetailViewModel.getFirstProperty().observe(this, Observer { updateUi(it) })
+
+    private fun updateUi(model: ModelsProcessedPropertyDetail) {
+        with(model) {
             property_detail_description.text = description
+            property_detail_surface.text = surface
+            property_detail_rooms.text = rooms
+            property_detail_bathrooms.text = bathrooms
+            property_detail_bedrooms.text = bedrooms
+            property_detail_path.text = path
+            complement?.let {
+                property_detail_complement.visibility = View.VISIBLE
+                property_detail_complement.text = complement
+            }
+            property_detail_city.text = city
+            property_detail_postal_code.text = postalCode
+            property_detail_country.text = country
         }
-        //property_detail_description.text = property.description
-        property_detail_surface.text = property.surface
-        property_detail_rooms.text = property.rooms.toString()
-        property_detail_bathrooms.text = property.bathrooms.toString()
-        property_detail_bedrooms.text = property.bedrooms.toString()*/
     }
 
 }

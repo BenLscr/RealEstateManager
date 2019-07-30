@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.propertyDetail
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.models.City
@@ -18,8 +19,13 @@ class PropertyDetailViewModel(
         private val agentDataSource: AgentDataRepository,
         private val executor: Executor) : ViewModel() {
 
-    private var _properties: LiveData<List<ModelsProcessedPropertyDetail>> = Transformations.map(propertyDataSource.getProperties()) { it.map { property -> buildUiModel(property) } }
-    val properties:LiveData<List<ModelsProcessedPropertyDetail>> = _properties
+    fun getFirstProperty(): LiveData<ModelsProcessedPropertyDetail> {
+        return Transformations.map(propertyDataSource.getFirstProperty()) { buildUiModel(it) }
+    }
+
+    fun getProperty(propertyId: Int): LiveData<ModelsProcessedPropertyDetail> {
+        return Transformations.map(propertyDataSource.getProperty(propertyId)) { buildUiModel(it) }
+    }
 
     private fun buildUiModel(property: Property) =
             ModelsProcessedPropertyDetail(
@@ -35,7 +41,7 @@ class PropertyDetailViewModel(
                     country = getCountryIntoStringForUi(property.address?.country)
             )
 
-    private fun surfaceIntToString(surface: Int): String {
+    private fun surfaceIntToString(surface: Int?): String {
         return surface.toString() + "sq ft"
     }
 
