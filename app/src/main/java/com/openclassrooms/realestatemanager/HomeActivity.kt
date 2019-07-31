@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.openclassrooms.realestatemanager.emptyPropertyDetail.EmptyPropertyDetailFragment
 import com.openclassrooms.realestatemanager.form.FormActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
@@ -76,6 +77,7 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
     private var fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
     private lateinit var fragmentPropertyList: PropertyListFragment
     private var fragmentPropertyDetail: PropertyDetailFragment? = null
+    private var fragmentEmptyPropertyDetail: EmptyPropertyDetailFragment? = null
     private var containerPropertyDetail: Fragment? = null
 
     private fun initAndAddFragment() {
@@ -83,27 +85,30 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
         fragmentTransaction.add(R.id.activity_property_list_container, fragmentPropertyList)
         containerPropertyDetail = supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
         if (containerPropertyDetail == null && activity_property_detail_container != null) {
-            addFragment()
+            fragmentEmptyPropertyDetail = EmptyPropertyDetailFragment.newInstance()
+            fragmentTransaction.add(R.id.activity_property_detail_container, fragmentEmptyPropertyDetail!!)
         }
         fragmentTransaction.commit()
     }
 
-    private fun addFragment(propertyId: Int? = null) {
-        fragmentPropertyDetail = PropertyDetailFragment.newInstance(propertyId)
-        fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail!!)
-    }
-
     override fun onListFragmentInteraction(propertyId: Int) {
-        if (fragmentPropertyDetail == null) {
+        if (fragmentPropertyDetail == null && fragmentEmptyPropertyDetail == null) {
             val intent = Intent(this, PropertyDetailActivity::class.java)
             intent.putExtra(INTENT_PROPERTY_ID, propertyId)
             startActivity(intent)
+        } else if (fragmentPropertyDetail == null && fragmentEmptyPropertyDetail != null) {
+            addFragment(propertyId, fragmentEmptyPropertyDetail!!)
         } else {
-            fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.remove(fragmentPropertyDetail!!)
-            addFragment(propertyId)
-            fragmentTransaction.commit()
+            addFragment(propertyId, fragmentPropertyDetail!!)
         }
+    }
+
+    private fun addFragment(propertyId: Int, removeThisFragment: Fragment) {
+        fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.remove(removeThisFragment)
+        fragmentPropertyDetail = PropertyDetailFragment.newInstance(propertyId)
+        fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail!!)
+        fragmentTransaction.commit()
     }
 
 }

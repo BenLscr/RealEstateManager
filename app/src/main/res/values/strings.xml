@@ -15,6 +15,9 @@
     <string name="district">district</string>
     <string name="price">price</string>
 
+    //EMPTY PROPERTY DETAIL
+    <string name="select_property_for_detail">Select a property to see his detail.</string>
+
     //PROPERTY DETAIL
     <string name="media">Media</string>
     <string name="description">Description</string>

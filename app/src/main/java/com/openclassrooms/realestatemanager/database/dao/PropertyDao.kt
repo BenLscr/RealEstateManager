@@ -13,9 +13,6 @@ interface PropertyDao {
     @Query("SELECT * FROM Property INNER JOIN Address ON Property.addressId = Address.address_id INNER JOIN Agent ON Property.agentId = Agent.agent_id WHERE :id == id")
     fun getProperty(id: Int): LiveData<Property>
 
-    @Query("SELECT * FROM Property INNER JOIN Address ON Property.addressId = Address.address_id INNER JOIN Agent ON Property.agentId = Agent.agent_id LIMIT 1")
-    fun getFirstProperty(): LiveData<Property>
-
     @Insert
     fun insertProperty(property: Property)
 

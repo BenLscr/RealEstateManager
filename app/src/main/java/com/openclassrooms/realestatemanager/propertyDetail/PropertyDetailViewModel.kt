@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.propertyDetail
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.models.City
@@ -18,10 +17,6 @@ class PropertyDetailViewModel(
         private val addressDataSource: AddressDataRepository,
         private val agentDataSource: AgentDataRepository,
         private val executor: Executor) : ViewModel() {
-
-    fun getFirstProperty(): LiveData<ModelsProcessedPropertyDetail> {
-        return Transformations.map(propertyDataSource.getFirstProperty()) { buildUiModel(it) }
-    }
 
     fun getProperty(propertyId: Int): LiveData<ModelsProcessedPropertyDetail> {
         return Transformations.map(propertyDataSource.getProperty(propertyId)) { buildUiModel(it) }
