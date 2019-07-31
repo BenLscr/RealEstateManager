@@ -22,7 +22,4 @@ interface AddressDao {
     @Query("DELETE FROM Address WHERE :id == address_id")
     fun deleteAddress(id: Int)
 
-    /**@Delete("DELETE * FROM Address WHERE :id == id")
-    fun deleteAddress(id: Int)*/
-
 }

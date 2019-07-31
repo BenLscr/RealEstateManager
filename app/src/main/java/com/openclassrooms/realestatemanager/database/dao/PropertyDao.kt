@@ -25,7 +25,4 @@ interface PropertyDao {
     @Query("DELETE FROM Property WHERE :id == id")
     fun deleteProperty(id: Int)
 
-    /**@Delete("DELETE * FROM Property WHERE :id == id")
-    fun deleteProperty(id: Int)*/
-
 }

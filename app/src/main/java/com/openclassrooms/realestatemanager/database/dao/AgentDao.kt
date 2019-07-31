@@ -25,7 +25,4 @@ interface AgentDao {
     @Query("DELETE FROM Agent WHERE :id == agent_id")
     fun deleteAgent(id: Int)
 
-    /**@Delete("DELETE * FROM Agent WHERE :id == agent_id")
-    fun deleteAgent(id: Int)*/
-
 }
