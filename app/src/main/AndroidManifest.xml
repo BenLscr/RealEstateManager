@@ -28,6 +28,11 @@
             android:label="Property Detail"
             android:parentActivityName=".HomeActivity">
         </activity>
+        <activity
+            android:name=".form.FormActivity"
+            android:label="Add a new property"
+            android:parentActivityName=".HomeActivity">
+        </activity>
     </application>
 
 </manifest>

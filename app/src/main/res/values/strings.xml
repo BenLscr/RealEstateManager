@@ -3,7 +3,7 @@
 
     //MENU TOOLBAR
     <string name="search">Search</string>
-    <string name="create">Create</string>
+    <string name="update">Update</string>
     <string name="add">Add</string>
 
     //DRAWER MENU
@@ -33,6 +33,47 @@
     <string name="city">city</string>
     <string name="postal_code">postal code</string>
     <string name="country">country</string>
+    <string name="square_meters">square meters</string>
+    <string name="rooms">rooms</string>
+    <string name="bathrooms">bathrooms</string>
+    <string name="bedrooms">bedrooms</string>
+    <string name="name">name</string>
+    <string name="first_name">first name</string>
+    <string name="available">available</string>
+    <string name="school">school</string>
+    <string name="commerces">commerces</string>
+    <string name="park">park</string>
+    <string name="subways">subways</string>
+    <string name="train">train</string>
+    <string name="location_of_interest">location of interest</string>
+    <string name="agent_in_charge">Agent in charge of this property</string>
 
+    //FORM
+    <string-array name="form_district">
+        <item>Bronx</item>
+        <item>Brooklyn</item>
+        <item>Manhattan</item>
+        <item>Queens</item>
+        <item>Staten Island</item>
+    </string-array>
+
+    <string-array name="form_city">
+        <item>New York</item>
+    </string-array>
+
+    <string-array name="form_country">
+        <item>United States</item>
+    </string-array>
+
+    <string-array name="form_type">
+        <item>Flat</item>
+        <item>Penthouse</item>
+        <item>Mansion</item>
+        <item>Duplex</item>
+        <item>House</item>
+        <item>Loft</item>
+        <item>Townhouse</item>
+        <item>Condo</item>
+    </string-array>
 
 </resources>

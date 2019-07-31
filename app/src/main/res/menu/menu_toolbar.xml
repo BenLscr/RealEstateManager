@@ -10,10 +10,10 @@
     </item>
 
     <item
-        android:id="@+id/create_button"
+        android:id="@+id/update_button"
         android:icon="@drawable/baseline_create_white_24"
         app:showAsAction="ifRoom"
-        android:title="@string/create">
+        android:title="@string/update">
     </item>
 
     <item

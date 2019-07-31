@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.openclassrooms.realestatemanager.form.FormActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment
@@ -43,8 +44,12 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId) {
             R.id.search_button -> { println("do something"); true }
-            R.id.create_button -> { println("do something"); true }
-            R.id.add_button -> { println("do something"); true }
+            R.id.update_button -> { println("do something"); true }
+            R.id.add_button -> {
+                val intent = Intent(this, FormActivity::class.java)
+                startActivity(intent)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
