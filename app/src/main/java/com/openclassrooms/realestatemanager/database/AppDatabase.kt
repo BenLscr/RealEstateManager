@@ -53,7 +53,7 @@ abstract class AppDatabase : RoomDatabase() {
         private const val ADDRESSID = "addressId"
         private const val LOCATIONS_OF_INTEREST = "locationsOfInterest"
         private const val STATUS = "status"
-        private const val AVAILABLE_SINCE = "availableSince"
+        private const val ENTRY_DATE = "entryDate"
         private const val SALE_DATE = "saleDate"
         private const val AGENTID = "agentId"
 
@@ -147,7 +147,7 @@ abstract class AppDatabase : RoomDatabase() {
                                       addressId: Int,
                                       locationsOfInterest: String,
                                       status: Int,
-                                      availableSince: Long,
+                                      entryDate: Long,
                                       saleDate: Long? = null,
                                       agentId: Int) {
             contentValuesProperty.put(TYPE, type)
@@ -161,7 +161,7 @@ abstract class AppDatabase : RoomDatabase() {
             contentValuesProperty.put(ADDRESSID, addressId)
             contentValuesProperty.put(LOCATIONS_OF_INTEREST, locationsOfInterest)
             contentValuesProperty.put(STATUS, status)
-            contentValuesProperty.put(AVAILABLE_SINCE, availableSince)
+            contentValuesProperty.put(ENTRY_DATE, entryDate)
             if (saleDate == null) {
             } else {
                 contentValuesProperty.put(SALE_DATE, saleDate)
@@ -191,7 +191,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 1,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.PARK)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1549574288)),
+                    entryDate = DateConverter.fromDate(Date(1549574288)),
                     agentId = 7
             )
             insertValue(db)
@@ -215,7 +215,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 2,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1562752237)),
+                    entryDate = DateConverter.fromDate(Date(1562752237)),
                     agentId = 6
             )
             insertValue(db)
@@ -239,7 +239,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 3,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1562586286)),
+                    entryDate = DateConverter.fromDate(Date(1562586286)),
                     agentId = 1
             )
             insertValue(db)
@@ -263,7 +263,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 4,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1548328108)),
+                    entryDate = DateConverter.fromDate(Date(1548328108)),
                     agentId = 3
             )
             insertValue(db)
@@ -286,7 +286,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 5,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK, LocationOfInterest.TRAIN)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1561979308)),
+                    entryDate = DateConverter.fromDate(Date(1561979308)),
                     agentId = 4
             )
             insertValue(db)
@@ -309,7 +309,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 6,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.PARK)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1563359033)),
+                    entryDate = DateConverter.fromDate(Date(1563359033)),
                     agentId = 5
             )
             insertValue(db)
@@ -332,7 +332,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 7,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL)),
                     status = StatusConverter.fromStatus(Status.SOLD),
-                    availableSince = DateConverter.fromDate(Date(1558347833)),
+                    entryDate = DateConverter.fromDate(Date(1558347833)),
                     saleDate = DateConverter.fromDate(Date(1560595695)),
                     agentId = 8
             )
@@ -356,7 +356,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 8,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1560081674)),
+                    entryDate = DateConverter.fromDate(Date(1560081674)),
                     agentId = 3
             )
             insertValue(db)
@@ -379,7 +379,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 9,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1559915888)),
+                    entryDate = DateConverter.fromDate(Date(1559915888)),
                     agentId = 1
             )
             insertValue(db)
@@ -402,7 +402,7 @@ abstract class AppDatabase : RoomDatabase() {
                     addressId = 10,
                     locationsOfInterest = LocationsOfInterestConverter.fromLocationsOfInterest(listOf(LocationOfInterest.SCHOOL, LocationOfInterest.COMMERCES, LocationOfInterest.SUBWAYS)),
                     status = StatusConverter.fromStatus(Status.AVAILABLE),
-                    availableSince = DateConverter.fromDate(Date(1559075359)),
+                    entryDate = DateConverter.fromDate(Date(1559075359)),
                     agentId = 4
             )
             insertValue(db)

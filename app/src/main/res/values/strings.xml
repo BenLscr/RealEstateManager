@@ -30,7 +30,8 @@
     <string name="_2">2</string>
     <string name="number_of_bedrooms">Number of bedrooms</string>
     <string name="_4">4</string>
-    <string name="location">location</string>
+    <string name="agent">Agent</string>
+    <string name="location">Location</string>
     <string name="path">path</string>
     <string name="complement">complement</string>
     <string name="city">city</string>
@@ -42,14 +43,19 @@
     <string name="bedrooms">bedrooms</string>
     <string name="name">name</string>
     <string name="first_name">first name</string>
-    <string name="available">available</string>
+    <string name="available">AVAILABLE</string>
+    <string name="sold">SOLD</string>
     <string name="school">school</string>
     <string name="commerces">commerces</string>
     <string name="park">park</string>
     <string name="subways">subways</string>
     <string name="train">train</string>
-    <string name="location_of_interest">location of interest</string>
+    <string name="location_of_interest">Location of interest</string>
     <string name="agent_in_charge">Agent in charge of this property</string>
+    <string name="fake_agent">fake agent</string>
+    <string name="entry_date">Entry date</string>
+    <string name="date">10/12/1994</string>
+    <string name="sold_date">Sold date</string>
 
     //FORM
     <string-array name="form_district">

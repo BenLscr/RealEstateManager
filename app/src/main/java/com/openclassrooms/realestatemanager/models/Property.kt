@@ -22,7 +22,7 @@ class Property(
         @Embedded val address: Address?,
         val locationsOfInterest: MutableList<LocationOfInterest>,
         val status: Status,
-        val availableSince: Long,
+        val entryDate: Long,
         val saleDate: Long?,
         val agentId: Int,
         @Embedded val agent: Agent?
