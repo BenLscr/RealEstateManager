@@ -86,4 +86,9 @@
         <item>Condo</item>
     </string-array>
 
+    <string name="details">Property details</string>
+    <string name="is_available">Is available ?</string>
+    <string name="add_form_button">ADD</string>
+    <string name="cancel_form_button">CANCEL</string>
+
 </resources>
