@@ -1,0 +1,17 @@
+package com.openclassrooms.realestatemanager.repositories
+
+import androidx.lifecycle.LiveData
+import com.openclassrooms.realestatemanager.database.dao.CompositionPropertyAndLocationOfInterestDao
+import com.openclassrooms.realestatemanager.models.CompositionPropertyAndLocationOfInterest
+
+class CompositionPropertyAndLocationOfInterestDataRepository(private val compositionPropertyAndLocationOfInterestDao: CompositionPropertyAndLocationOfInterestDao) {
+
+    fun getLocationsOfInterest(propertyId: Int): LiveData<List<CompositionPropertyAndLocationOfInterest>> { return compositionPropertyAndLocationOfInterestDao.getLocationsOfInterest(propertyId) }
+
+    fun insertLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest) = compositionPropertyAndLocationOfInterestDao.insertLocationOfInterest(compositionPropertyAndLocationOfInterest)
+
+    fun updateLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest) = compositionPropertyAndLocationOfInterestDao.updateLocationOfInterest(compositionPropertyAndLocationOfInterest)
+
+    fun deleteLocationOfInterest(propertyId: Int) = compositionPropertyAndLocationOfInterestDao.deleteLocationOfInterest(propertyId)
+
+}

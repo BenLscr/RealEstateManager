@@ -214,6 +214,13 @@
                             android:textStyle="bold"/>
 
                         <TextView
+                            android:id="@+id/property_detail_empty_location_of_interest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empty_location_of_interest"
+                            android:visibility="gone"/>
+
+                        <TextView
                             android:id="@+id/property_detail_school"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -257,6 +264,7 @@
                 android:gravity="center_horizontal">
 
                 <TextView
+                    android:id="@+id/property_detail_available"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/available"
@@ -398,7 +406,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/property_detail_sold_date_layout"
+                        android:id="@+id/property_detail_sale_date_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -419,11 +427,11 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/sold_date"
+                                android:text="@string/sale_date"
                                 android:textStyle="bold"/>
 
                             <TextView
-                                android:id="@+id/property_detail_sold_date"
+                                android:id="@+id/property_detail_sale_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/date"/>

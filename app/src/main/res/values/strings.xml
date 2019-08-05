@@ -55,7 +55,8 @@
     <string name="fake_agent">fake agent</string>
     <string name="entry_date">Entry date</string>
     <string name="date">10/12/1994</string>
-    <string name="sold_date">Sold date</string>
+    <string name="sale_date">Sale date</string>
+    <string name="empty_location_of_interest">-</string>
 
     //FORM
     <string-array name="form_district">
