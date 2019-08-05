@@ -51,7 +51,7 @@
     <string name="subways">subways</string>
     <string name="train">train</string>
     <string name="location_of_interest">Location of interest</string>
-    <string name="agent_in_charge">Agent in charge of this property</string>
+    <string name="agent_in_charge">Agent in charge</string>
     <string name="fake_agent">fake agent</string>
     <string name="entry_date">Entry date</string>
     <string name="date">10/12/1994</string>
