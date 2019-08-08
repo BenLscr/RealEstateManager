@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/property_img"
@@ -12,37 +12,47 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/property_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:layout_gravity="top"
-            android:text="@string/type"
-            android:textStyle="bold"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/property_district"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_gravity="center_vertical"
-            android:text="@string/district"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            <TextView
+                android:id="@+id/property_type"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/type"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textAppearance="?attr/textAppearanceListItem"/>
 
-        <TextView
-            android:id="@+id/property_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_gravity="bottom"
-            android:text="@string/price"
-            android:textColor="@color/colorAccentPink"
-            android:textAppearance="?attr/textAppearanceListItem" />
+            <TextView
+                android:id="@+id/property_district"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/district"
+                android:textSize="18sp"
+                android:textAppearance="?attr/textAppearanceListItem"/>
+
+            <TextView
+                android:id="@+id/property_price"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/price"
+                android:textSize="24sp"
+                android:textColor="@color/colorAccentPink"
+                android:textAppearance="?attr/textAppearanceListItem"/>
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

@@ -13,9 +13,7 @@ import com.openclassrooms.realestatemanager.propertyList.models.ModelsProcessedP
 import kotlinx.android.synthetic.main.fragment_property.view.*
 
 
-class PropertyListRecyclerViewAdapter(
-        /*private var mListener: OnListFragmentInteractionListener?*/)
-    : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
+class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
 
     private val modelsProcessed = mutableListOf<ModelsProcessedPropertyList>()
     private var mListener: OnListFragmentInteractionListener? = null //TODO : Why a listener in parameters
