@@ -1,14 +1,12 @@
 package com.openclassrooms.realestatemanager.propertyDetail
 
-import android.opengl.Visibility
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-
+import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.propertyDetail.injections.Injection
 import com.openclassrooms.realestatemanager.propertyDetail.models.LocationOfInterestModelsProcessed

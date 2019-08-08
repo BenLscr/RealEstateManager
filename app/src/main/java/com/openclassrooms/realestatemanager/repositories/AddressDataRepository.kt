@@ -10,7 +10,8 @@ class AddressDataRepository(private val addressDao: AddressDao) {
 
     fun getAddress(addressId: Int): LiveData<Address> { return this.addressDao.getAddress(addressId) }
 
-    fun insertAddress(address: Address) = addressDao.insertAddress(address)
+    //fun insertAddress(address: Address) = addressDao.insertAddress(address)
+    fun insertAddress(address: Address): Long { return addressDao.insertAddress(address) }
 
     fun updateAddress(address: Address) = addressDao.updateAddress(address)
 

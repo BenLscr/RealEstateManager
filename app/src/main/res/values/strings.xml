@@ -41,8 +41,6 @@
     <string name="rooms">rooms</string>
     <string name="bathrooms">bathrooms</string>
     <string name="bedrooms">bedrooms</string>
-    <string name="name">name</string>
-    <string name="first_name">first name</string>
     <string name="available">AVAILABLE</string>
     <string name="sold">SOLD</string>
     <string name="school">school</string>
@@ -90,5 +88,7 @@
     <string name="is_available">Is available ?</string>
     <string name="add_form_button">ADD</string>
     <string name="cancel_form_button">CANCEL</string>
+    <string name="entry_date_form">Date of entry into the market</string>
+    <string name="select_a_date">Select a date</string>
 
 </resources>

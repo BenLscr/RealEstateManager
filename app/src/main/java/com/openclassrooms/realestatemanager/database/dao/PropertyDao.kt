@@ -14,7 +14,7 @@ interface PropertyDao {
     fun getProperty(id: Int): LiveData<Property>
 
     @Insert
-    fun insertProperty(property: Property)
+    fun insertProperty(property: Property): Long
 
     @Update
     fun updateProperty(property: Property)

@@ -42,7 +42,7 @@ class AddressDaoTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetAddress() {
-        db.addressDao().insertAddress(Address(3,
+        db.addressDao().insertAddress(Address(
                 "451, rue Robert Lefranc",
                 null,
                 District.STATEN_ISLAND,

@@ -17,7 +17,7 @@ interface AgentDao {
     fun getAgent(id: Int): LiveData<Agent>
 
     @Insert
-    fun insertAgent(agent: Agent)
+    fun insertAgent(agent: Agent): Long
 
     @Update
     fun updateAgent(agent: Agent)

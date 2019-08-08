@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include
@@ -138,6 +139,7 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_margin="10dp"
+                app:startIconDrawable="@drawable/baseline_attach_money_black_24"
                 android:hint="@string/price">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -266,43 +268,20 @@
                 android:text="@string/agent_in_charge"
                 android:textSize="18sp"/>
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_margin="10dp"
+                android:hint="@string/agent">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
+                <AutoCompleteTextView
+                    android:id="@+id/form_full_name_agent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_margin="10dp"
-                    android:hint="@string/name">
+                    android:editable="false"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/form_name_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_margin="10dp"
-                    android:hint="@string/first_name">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/form_first_name_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -334,18 +313,21 @@
                             android:id="@+id/form_school_checkbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onCheckboxClicked"
                             android:text="@string/school"/>
 
                         <CheckBox
                             android:id="@+id/form_commerces_checkbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onCheckboxClicked"
                             android:text="@string/commerces"/>
 
                         <CheckBox
                             android:id="@+id/form_park_checkbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onCheckboxClicked"
                             android:text="@string/park"/>
 
                     </LinearLayout>
@@ -368,12 +350,14 @@
                             android:id="@+id/form_subways_checkbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onCheckboxClicked"
                             android:text="@string/subways"/>
 
                         <CheckBox
                             android:id="@+id/form_train_checkbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="onCheckboxClicked"
                             android:text="@string/train"/>
 
                     </LinearLayout>
@@ -382,25 +366,21 @@
 
             </LinearLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textSize="18sp"
+                android:text="@string/entry_date_form"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:text="@string/is_available"
-                    android:layout_gravity="center_vertical"/>
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/form_available_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"/>
-
-            </FrameLayout>
+            <TextView
+                android:id="@+id/form_select_entry_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/select_a_date"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

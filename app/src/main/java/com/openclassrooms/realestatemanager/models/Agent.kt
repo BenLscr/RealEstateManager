@@ -6,9 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity
 class Agent(
-        @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "agent_id")
-        val id: Int,
         val name: String,
         val firstName: String
-)
+) {
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "agent_id")
+        var id: Int = 0
+}

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <include
         layout="@layout/toolbar"
@@ -158,6 +159,7 @@
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_margin="10dp"
+                        app:startIconDrawable="@drawable/baseline_attach_money_black_24"
                         android:hint="@string/price">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -322,18 +324,21 @@
                                     android:id="@+id/form_school_checkbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:onClick="onCheckboxClicked"
                                     android:text="@string/school"/>
 
                                 <CheckBox
                                     android:id="@+id/form_commerces_checkbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:onClick="onCheckboxClicked"
                                     android:text="@string/commerces"/>
 
                                 <CheckBox
                                     android:id="@+id/form_park_checkbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:onClick="onCheckboxClicked"
                                     android:text="@string/park"/>
 
                             </LinearLayout>
@@ -356,12 +361,14 @@
                                     android:id="@+id/form_subways_checkbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:onClick="onCheckboxClicked"
                                     android:text="@string/subways"/>
 
                                 <CheckBox
                                     android:id="@+id/form_train_checkbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:onClick="onCheckboxClicked"
                                     android:text="@string/train"/>
 
                             </LinearLayout>
@@ -394,32 +401,17 @@
                         android:baselineAligned="false">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_margin="10dp"
-                            android:hint="@string/name">
+                            android:hint="@string/agent">
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/form_name_edit_text"
+                            <AutoCompleteTextView
+                                android:id="@+id/form_full_name_agent"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_margin="10dp"
-                            android:hint="@string/first_name">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/form_first_name_edit_text"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:editable="false"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -427,32 +419,64 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:paddingStart="100dp"
-                    android:paddingEnd="100dp"
                     android:layout_margin="10dp"
-                    android:orientation="vertical"
-                    android:gravity="bottom">
+                    android:orientation="vertical">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/form_add_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/add_form_button"/>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/form_cancel_button"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="@string/cancel_form_button"/>
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp"
+                            android:text="@string/entry_date_form"/>
+
+                        <TextView
+                            android:id="@+id/form_select_entry_date"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_a_date"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="bottom">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/form_cancel_button"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/cancel_form_button"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/form_add_button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="@string/add_form_button"/>
+
+                    </LinearLayout>
+
+                </FrameLayout>
 
             </LinearLayout>
 

@@ -14,7 +14,7 @@ interface AddressDao {
     fun getAddress(id: Int): LiveData<Address>
 
     @Insert
-    fun insertAddress(address: Address)
+    fun insertAddress(address: Address): Long
 
     @Update
     fun updateAddress(address: Address)

@@ -52,7 +52,7 @@ class PropertyListViewModel (
     //---ADDRESS--\\
     fun getAddress(addressId: Int): LiveData<Address> { return addressDataSource.getAddress(addressId) }
 
-    fun insertAddress(address: Address) = executor.execute { addressDataSource.insertAddress(address) }
+    //fun insertAddress(address: Address) = executor.execute { addressDataSource.insertAddress(address) }
 
     fun updateAddress(address: Address) = executor.execute { addressDataSource.updateAddress(address) }
 
