@@ -144,7 +144,7 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         private fun buildFakeProperty(type: Int,
-                                      price: String,
+                                      price: Long,
                                       surface: Int,
                                       rooms: Int,
                                       bedrooms: Int,
@@ -186,7 +186,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.HOUSE),
-                    price = "$895,000",
+                    price = 895000,
                     surface = 4000,
                     rooms = 8,
                     bedrooms = 4,
@@ -209,7 +209,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.TOWNHOUSE),
-                    price = "$1,500,000",
+                    price = 1500000,
                     surface = 1325,
                     rooms = 10,
                     bedrooms = 3,
@@ -232,7 +232,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.CONDO),
-                    price = "$29,900,000",
+                    price = 29900000,
                     surface = 4019,
                     rooms = 7,
                     bedrooms = 3,
@@ -255,7 +255,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.PENTHOUSE),
-                    price = "$35,000,000",
+                    price = 35000000,
                     surface = 5955,
                     rooms = 11,
                     bedrooms = 5,
@@ -277,7 +277,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.PENTHOUSE),
-                    price = "$35,000,000",
+                    price = 35000000,
                     surface = 6240,
                     rooms = 9,
                     bedrooms = 4,
@@ -299,7 +299,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.TOWNHOUSE),
-                    price = "$1,675,000",
+                    price = 1675000,
                     surface = 1765,
                     rooms = 7,
                     bedrooms = 4,
@@ -321,7 +321,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.HOUSE),
-                    price = "$4,499,000",
+                    price = 4499000,
                     surface = 12200,
                     rooms = 15,
                     bedrooms = 6,
@@ -344,7 +344,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.TOWNHOUSE),
-                    price = "$6,950,000",
+                    price = 6950000,
                     surface = 4500,
                     rooms = 7,
                     bedrooms = 5,
@@ -366,7 +366,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.PENTHOUSE),
-                    price = "$26,000,000",
+                    price = 26000000,
                     surface = 7693,
                     rooms = 8,
                     bedrooms = 4,
@@ -388,7 +388,7 @@ abstract class AppDatabase : RoomDatabase() {
             )
             buildFakeProperty(
                     type = TypeConverter.fromType(Type.TOWNHOUSE),
-                    price = "$17,900,000",
+                    price = 17900000,
                     surface = 2016,
                     rooms = 8,
                     bedrooms = 8,

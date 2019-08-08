@@ -6,6 +6,7 @@ import com.openclassrooms.realestatemanager.propertyList.models.ModelsProcessedP
 import com.openclassrooms.realestatemanager.repositories.AddressDataRepository
 import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
+import java.text.NumberFormat
 import java.util.concurrent.Executor
 
 class PropertyListViewModel (
@@ -22,7 +23,7 @@ class PropertyListViewModel (
                     propertyId = property.id,
                     type = getTypeIntoStringForUi(property.type),
                     district = getDistrictIntoStringForUi(property.address?.district),
-                    price = property.price
+                    price = getPriceIntoStringForUi(property.price)
             )
 
     private fun getTypeIntoStringForUi(type: Type): String {
@@ -49,22 +50,8 @@ class PropertyListViewModel (
         }
     }
 
-    //---ADDRESS--\\
-    fun getAddress(addressId: Int): LiveData<Address> { return addressDataSource.getAddress(addressId) }
-
-    //fun insertAddress(address: Address) = executor.execute { addressDataSource.insertAddress(address) }
-
-    fun updateAddress(address: Address) = executor.execute { addressDataSource.updateAddress(address) }
-
-    fun deleteAddresses(addressId: Int) = executor.execute { addressDataSource.deleteAddress(addressId) }
-
-    //---PROPERTY---\\
-    fun getProperty(propertyId: Int): LiveData<Property> { return propertyDataSource.getProperty(propertyId) }
-
-    fun insertProperty(property: Property) = executor.execute { propertyDataSource.insertProperty(property) }
-
-    fun updateProperty(property: Property) = executor.execute { propertyDataSource.updateProperty(property) }
-
-    fun deleteProperty(propertyId: Int) = executor.execute { propertyDataSource.deleteProperty(propertyId) }
+    private fun getPriceIntoStringForUi(price: Long): String {
+        return "$" + NumberFormat.getIntegerInstance().format(price)
+    }
 
 }

@@ -51,7 +51,7 @@ class FormViewModel(
         with(formModelRaw) {
             property = Property(
                     type = getTypeForDatabase(type),
-                    price = price,
+                    price = price.toLong(),
                     surface = surface.toInt(),
                     rooms = rooms.toInt(),
                     bedrooms = bedrooms.toInt(),
