@@ -16,7 +16,6 @@ class Property(
         val bedrooms: Int,
         val bathrooms: Int,
         val description: String,
-        //val images: MutableList<Bitmap>,
         val addressId: Int,
         val available: Boolean,
         val entryDate: Long,

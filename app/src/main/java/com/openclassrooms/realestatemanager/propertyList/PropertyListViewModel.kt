@@ -6,6 +6,7 @@ import com.openclassrooms.realestatemanager.propertyList.models.ModelsProcessedP
 import com.openclassrooms.realestatemanager.repositories.AddressDataRepository
 import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
+import com.openclassrooms.realestatemanager.repositories.PropertyPhotoDataRepository
 import java.text.NumberFormat
 import java.util.concurrent.Executor
 
@@ -13,6 +14,7 @@ class PropertyListViewModel (
         private val propertyDataSource: PropertyDataRepository,
         private val addressDataSource: AddressDataRepository,
         private val agentDataSource: AgentDataRepository,
+        private val propertyPhotoDataSource: PropertyPhotoDataRepository,
         private val executor: Executor) : ViewModel() {
 
     private var _properties: LiveData<List<ModelsProcessedPropertyList>> = Transformations.map(propertyDataSource.getProperties()) { it.map { property -> buildUiModel(property) } }
