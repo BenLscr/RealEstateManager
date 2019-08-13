@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.propertyDetail.models
 
-class PropertyModelsProcessed(
+class PropertyModelProcessed(
         val description: String,
         val surface: String,
         val rooms: String,

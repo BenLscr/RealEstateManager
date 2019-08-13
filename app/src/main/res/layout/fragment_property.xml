@@ -6,9 +6,11 @@
 
     <ImageView
         android:id="@+id/property_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher_background"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
+        android:contentDescription="@string/illustration_property_s" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,7 +27,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="@string/type"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -36,7 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="@string/district"
                 android:textSize="18sp"
                 android:textAppearance="?attr/textAppearanceListItem"/>
@@ -46,9 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:text="@string/price"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textColor="@color/colorAccentPink"
                 android:textAppearance="?attr/textAppearanceListItem"/>
 

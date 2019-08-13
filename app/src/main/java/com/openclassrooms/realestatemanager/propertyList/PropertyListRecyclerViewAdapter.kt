@@ -1,6 +1,9 @@
 package com.openclassrooms.realestatemanager.propertyList
 
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +12,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment.OnListFragmentInteractionListener
-import com.openclassrooms.realestatemanager.propertyList.models.ModelsProcessedPropertyList
+import com.openclassrooms.realestatemanager.propertyList.models.IllustrationModelProcessed
+import com.openclassrooms.realestatemanager.propertyList.models.PropertyModelProcessed
 import kotlinx.android.synthetic.main.fragment_property.view.*
+import java.io.File
+import java.io.FileInputStream
 
 
 class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
 
-    private val modelsProcessed = mutableListOf<ModelsProcessedPropertyList>()
-    private var mListener: OnListFragmentInteractionListener? = null //TODO : Why a listener in parameters
+    private val properties = mutableListOf<PropertyModelProcessed>()
+    private var mListener: OnListFragmentInteractionListener? = null
+    private val propertiesPhotos = mutableListOf<IllustrationModelProcessed>()
+    private var context: Context? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -27,23 +35,44 @@ class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecycle
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.img.setImageResource(R.drawable.ic_launcher_background)
 
-        val model: ModelsProcessedPropertyList = modelsProcessed[position]
+        val property: PropertyModelProcessed = properties[position]
 
         with(holder) {
-            //img.setImageBitmap(property.images[0])
-            type.text = model.type
-            district.text = model.district
-            price.text = model.price
-            mView.setOnClickListener { mListener?.onListFragmentInteraction(model.propertyId) }
+            type.text = property.type
+            district.text = property.district
+            price.text = property.price
+            mView.setOnClickListener { mListener?.onListFragmentInteraction(property.propertyId) }
+        }
+
+        if(propertiesPhotos.isNotEmpty()) {
+            for (propertyPhoto in propertiesPhotos) {
+                if (propertyPhoto.propertyId == property.propertyId) {
+                    holder.img.setImageBitmap(retrievePhoto(property, propertyPhoto))
+                    break
+                }
+            }
         }
     }
 
-    override fun getItemCount(): Int = modelsProcessed.size
+    private fun retrievePhoto(property: PropertyModelProcessed, propertyPhoto: IllustrationModelProcessed): Bitmap {
+        val folder = File(context?.filesDir, property.path)
+        val file = File(folder, propertyPhoto.photoName)
+        return BitmapFactory.decodeStream(FileInputStream(file))
+    }
 
-    fun receiveData(modelsProcessed: List<ModelsProcessedPropertyList>, listener: OnListFragmentInteractionListener?) {
-        this.modelsProcessed.clear()
-        this.modelsProcessed.addAll(modelsProcessed)
+    override fun getItemCount(): Int = properties.size
+
+    fun receivePropertiesDataAndListener(properties: List<PropertyModelProcessed>, listener: OnListFragmentInteractionListener?) {
+        this.properties.clear()
+        this.properties.addAll(properties)
         mListener = listener
+        notifyDataSetChanged()
+    }
+
+    fun receivePropertiesPhotos(propertiesPhotos: List<IllustrationModelProcessed>, context: Context) {
+        this.propertiesPhotos.clear()
+        this.propertiesPhotos.addAll(propertiesPhotos)
+        this.context = context
         notifyDataSetChanged()
     }
 

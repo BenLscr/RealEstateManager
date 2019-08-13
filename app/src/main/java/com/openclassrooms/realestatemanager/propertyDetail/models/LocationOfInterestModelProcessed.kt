@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.propertyDetail.models
 
-class LocationOfInterestModelsProcessed (
+class LocationOfInterestModelProcessed (
         val school: Boolean,
         val commerces: Boolean,
         val park: Boolean,

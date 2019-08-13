@@ -2,8 +2,8 @@ package com.openclassrooms.realestatemanager.propertyDetail
 
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.*
-import com.openclassrooms.realestatemanager.propertyDetail.models.LocationOfInterestModelsProcessed
-import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelsProcessed
+import com.openclassrooms.realestatemanager.propertyDetail.models.LocationOfInterestModelProcessed
+import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelProcessed
 import com.openclassrooms.realestatemanager.repositories.AddressDataRepository
 import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
@@ -21,12 +21,12 @@ class PropertyDetailViewModel(
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-    fun getProperty(propertyId: Int): LiveData<PropertyModelsProcessed> {
-        return Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelsProcessed(it) }
+    fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> {
+        return Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) }
     }
 
-    private fun buildPropertyModelsProcessed(property: Property) =
-            PropertyModelsProcessed(
+    private fun buildPropertyModelProcessed(property: Property) =
+            PropertyModelProcessed(
                     description = property.description,
                     surface = surfaceIntToStringForUi(property.surface),
                     rooms = property.rooms.toString(),
@@ -75,11 +75,11 @@ class PropertyDetailViewModel(
                 null
             }
 
-    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationOfInterestModelsProcessed> {
-        return Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelsProcessed(it) }
+    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationOfInterestModelProcessed> {
+        return Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
     }
 
-    private fun buildLocationOfInterestModelsProcessed(composition: List<CompositionPropertyAndLocationOfInterest>): LocationOfInterestModelsProcessed {
+    private fun buildLocationOfInterestModelProcessed(composition: List<CompositionPropertyAndLocationOfInterest>): LocationOfInterestModelProcessed {
         var school = false
         var commerces= false
         var park = false
@@ -94,7 +94,7 @@ class PropertyDetailViewModel(
                 4 -> train = true
             }
         }
-        return LocationOfInterestModelsProcessed(
+        return LocationOfInterestModelProcessed(
                 school = school,
                 commerces = commerces,
                 park = park,

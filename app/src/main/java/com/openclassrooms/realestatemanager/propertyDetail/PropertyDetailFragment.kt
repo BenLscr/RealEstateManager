@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.propertyDetail.injections.Injection
-import com.openclassrooms.realestatemanager.propertyDetail.models.LocationOfInterestModelsProcessed
-import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelsProcessed
+import com.openclassrooms.realestatemanager.propertyDetail.models.LocationOfInterestModelProcessed
+import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelProcessed
 import kotlinx.android.synthetic.main.property_detail_fragment.*
 
 private const val ARG_PROPERTY_ID = "ARG_PROPERTY_ID"
@@ -47,7 +47,7 @@ class PropertyDetailFragment : Fragment() {
         propertyDetailViewModel.getLocationsOfInterest(propertyId).observe(this, Observer { updateUiWithLocationsOfInterestData(it) })
     }
 
-    private fun updateUiWithPropertyData(model: PropertyModelsProcessed) {
+    private fun updateUiWithPropertyData(model: PropertyModelProcessed) {
         with(model) {
             property_detail_description.text = description
             property_detail_surface.text = surface
@@ -79,7 +79,7 @@ class PropertyDetailFragment : Fragment() {
         }
     }
 
-    private fun updateUiWithLocationsOfInterestData(model: LocationOfInterestModelsProcessed) {
+    private fun updateUiWithLocationsOfInterestData(model: LocationOfInterestModelProcessed) {
         with(model) {
             if (!school) {
                 property_detail_school.visibility = View.GONE

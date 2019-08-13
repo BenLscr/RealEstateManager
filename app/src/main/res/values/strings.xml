@@ -11,6 +11,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     //PROPERTY LIST
+    <string name="illustration_property_s">Illustration property\'s</string>
     <string name="type">type</string>
     <string name="district">district</string>
     <string name="price">price</string>
