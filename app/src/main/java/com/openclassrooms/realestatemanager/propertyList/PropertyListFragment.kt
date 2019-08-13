@@ -20,6 +20,12 @@ import com.openclassrooms.realestatemanager.propertyList.injections.Injection
  */
 class PropertyListFragment : Fragment() {
 
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+                PropertyListFragment().apply { }
+    }
+
     private var listener: OnListFragmentInteractionListener? = null
     private val propertyListViewModel : PropertyListViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(requireContext())).get(PropertyListViewModel::class.java) }
     private val propertyListAdapter: PropertyListRecyclerViewAdapter = PropertyListRecyclerViewAdapter()
@@ -71,12 +77,5 @@ class PropertyListFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         fun onListFragmentInteraction(propertyId: Int)
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance() =
-                PropertyListFragment().apply { }
     }
 }

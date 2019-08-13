@@ -10,6 +10,6 @@ class PropertyPhoto(
         @ColumnInfo(name = "property_photo_id")
         val id: Int,
         val name: String,
-        val wording: Int,
+        val wording: Wording,
         val isThisTheIllustration: Boolean
 )

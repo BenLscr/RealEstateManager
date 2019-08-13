@@ -21,9 +21,8 @@ class PropertyDetailViewModel(
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-    fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> {
-        return Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) }
-    }
+    fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> =
+            Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) }
 
     private fun buildPropertyModelProcessed(property: Property) =
             PropertyModelProcessed(
@@ -43,27 +42,23 @@ class PropertyDetailViewModel(
                     saleDate = getSaleDateIntoStringForUi(property.saleDate)
             )
 
-    private fun surfaceIntToStringForUi(surface: Int?): String {
-        return surface.toString() + "sq ft"
-    }
+    //TODO SUPPRESS RETURN VALUE
+    private fun surfaceIntToStringForUi(surface: Int?): String = surface.toString() + "sq ft"
 
-    private fun getCityIntoStringForUi(city: City?): String? {
-        return when(city) {
-            City.NEW_YORK -> "New York"
-            else -> null
-        }
-    }
+    private fun getCityIntoStringForUi(city: City?): String? =
+            when(city) {
+                City.NEW_YORK -> "New York"
+                else -> null
+            }
 
-    private fun getCountryIntoStringForUi(country: Country?): String? {
-        return when(country) {
-            Country.UNITED_STATES -> "United States"
-            else -> null
-        }
-    }
+    private fun getCountryIntoStringForUi(country: Country?): String? =
+            when(country) {
+                Country.UNITED_STATES -> "United States"
+                else -> null
+            }
 
-    private fun getAgentFullName(firstName: String?, name: String?): String {
-        return "$firstName $name"
-    }
+
+    private fun getAgentFullName(firstName: String?, name: String?): String = "$firstName $name"
 
     private fun getEntryDateIntoStringForUi(entryDate: Long) = dateFormat.format(Date(entryDate))
 
@@ -75,9 +70,8 @@ class PropertyDetailViewModel(
                 null
             }
 
-    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationOfInterestModelProcessed> {
-        return Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
-    }
+    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationOfInterestModelProcessed> =
+            Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
 
     private fun buildLocationOfInterestModelProcessed(composition: List<CompositionPropertyAndLocationOfInterest>): LocationOfInterestModelProcessed {
         var school = false

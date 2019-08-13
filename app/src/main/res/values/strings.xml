@@ -94,5 +94,6 @@
 
     //MEDIA
     <string name="wording">Wording</string>
+    <string name="many_photos_of_the_property">Many photos of the property</string>
 
 </resources>

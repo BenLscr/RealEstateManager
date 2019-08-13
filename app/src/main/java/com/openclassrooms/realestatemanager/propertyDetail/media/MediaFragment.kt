@@ -1,36 +1,39 @@
 package com.openclassrooms.realestatemanager.propertyDetail.media
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.propertyDetail.media.injections.Injection
 
-import com.openclassrooms.realestatemanager.propertyDetail.media.dummy.DummyContent
-import com.openclassrooms.realestatemanager.propertyDetail.media.dummy.DummyContent.DummyItem
+const val ARG_MEDIA_PROPERTY_ID = "ARG_MEDIA_PROPERTY_ID"
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [MediaFragment.OnListFragmentInteractionListener] interface.
- */
 class MediaFragment : Fragment() {
 
-    // TODO: Customize parameters
-    private var columnCount = 1
+    companion object {
+        @JvmStatic
+        fun newInstance(propertyId: Int) =
+                MediaFragment().apply {
+                    arguments = Bundle().apply {
+                        putInt(ARG_MEDIA_PROPERTY_ID, propertyId)
+                    }
+                }
+    }
 
-    private var listener: OnListFragmentInteractionListener? = null
+    private var propertyId: Int = 0
+    private val mediaViewModel: MediaViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(requireContext())).get(MediaViewModel::class.java) }
+    private val mediaAdapter: MediaRecyclerViewAdapter = MediaRecyclerViewAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
+            propertyId = it.getInt(ARG_MEDIA_PROPERTY_ID)
         }
     }
 
@@ -39,60 +42,19 @@ class MediaFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_media_list, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MediaRecyclerViewAdapter(DummyContent.ITEMS, listener)
-            }
+        (view as RecyclerView).apply {
+            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = mediaAdapter
         }
+
+        getPropertyPath()
+        getPropertyPhoto()
         return view
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
-        }
-    }
+    private fun getPropertyPath() = mediaViewModel.getPropertyPath(propertyId).observe(this, Observer { mediaAdapter.receivePropertyPath(it) })
 
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
+    private fun getPropertyPhoto() = mediaViewModel.getPropertyPhotos(propertyId).observe(this, Observer { mediaAdapter.receivePropertyPhotos(it, requireContext()) })
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
-    }
-
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-                MediaFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(ARG_COLUMN_COUNT, columnCount)
-                    }
-                }
-    }
 }

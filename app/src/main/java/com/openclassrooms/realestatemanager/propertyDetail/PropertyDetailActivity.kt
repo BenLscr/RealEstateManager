@@ -36,4 +36,5 @@ class PropertyDetailActivity : AppCompatActivity() {
         val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.activity_property_detail_container, propertyDetailFragment).commit()
     }
+
 }

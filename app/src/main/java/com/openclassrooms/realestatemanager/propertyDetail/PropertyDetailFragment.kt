@@ -9,11 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.propertyDetail.injections.Injection
+import com.openclassrooms.realestatemanager.propertyDetail.media.MediaFragment
 import com.openclassrooms.realestatemanager.propertyDetail.models.LocationOfInterestModelProcessed
 import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelProcessed
 import kotlinx.android.synthetic.main.property_detail_fragment.*
 
-private const val ARG_PROPERTY_ID = "ARG_PROPERTY_ID"
+private const val ARG_PROPERTY_DETAIL_PROPERTY_ID = "ARG_PROPERTY_DETAIL_PROPERTY_ID"
 
 class PropertyDetailFragment : Fragment() {
 
@@ -21,7 +22,7 @@ class PropertyDetailFragment : Fragment() {
         fun newInstance(propertyId: Int) =
                 PropertyDetailFragment().apply {
                     arguments = Bundle().apply {
-                        putInt(ARG_PROPERTY_ID, propertyId)
+                        putInt(ARG_PROPERTY_DETAIL_PROPERTY_ID, propertyId)
                     }
                 }
     }
@@ -32,7 +33,7 @@ class PropertyDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            propertyId = it.getInt(ARG_PROPERTY_ID)
+            propertyId = it.getInt(ARG_PROPERTY_DETAIL_PROPERTY_ID)
         }
     }
 
@@ -45,6 +46,7 @@ class PropertyDetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         propertyDetailViewModel.getProperty(propertyId).observe(this, Observer { updateUiWithPropertyData(it) })
         propertyDetailViewModel.getLocationsOfInterest(propertyId).observe(this, Observer { updateUiWithLocationsOfInterestData(it) })
+        addMediaFragment()
     }
 
     private fun updateUiWithPropertyData(model: PropertyModelProcessed) {
@@ -100,6 +102,13 @@ class PropertyDetailFragment : Fragment() {
                 property_detail_empty_location_of_interest.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun addMediaFragment() {
+        val mediaFragment = MediaFragment.newInstance(propertyId)
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+        //activity.supportFragmentManager
+        fragmentTransaction?.add(R.id.property_detail_media_container, mediaFragment)?.commit()
     }
 
 }
