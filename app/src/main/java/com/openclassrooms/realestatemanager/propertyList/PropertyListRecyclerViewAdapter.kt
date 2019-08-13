@@ -30,8 +30,6 @@ class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecycle
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.img.setImageResource(R.drawable.ic_launcher_background)
-
         val property: PropertyModelProcessed = properties[position]
 
         with(holder) {

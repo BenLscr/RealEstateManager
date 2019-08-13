@@ -2,9 +2,10 @@
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:name="com.openclassrooms.realestatemanager.PropertyList.PropertyListFragment"
+    android:name="com.openclassrooms.realestatemanager.propertyDetail.media.MediaFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".propertyList.PropertyListFragment"
-    tools:listitem="@layout/fragment_property" />
+    tools:context=".propertyDetail.media.MediaFragment"
+    tools:listitem="@layout/fragment_media" />

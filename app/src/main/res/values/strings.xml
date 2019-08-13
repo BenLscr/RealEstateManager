@@ -92,4 +92,7 @@
     <string name="entry_date_form">Date of entry into the market</string>
     <string name="select_a_date">Select a date</string>
 
+    //MEDIA
+    <string name="wording">Wording</string>
+
 </resources>
