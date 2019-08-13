@@ -1,8 +1,11 @@
 package com.openclassrooms.realestatemanager
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
-import android.net.wifi.WifiManager
+import java.io.File
+import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToLong
@@ -51,5 +54,16 @@ object Utils {
      */
     fun convertEuroToDollar(euros: Int): Int {
         return (euros * 1.232).roundToLong().toInt()
+    }
+
+    /**
+     * Return an image (Bitmap) from /data/user/0/com.openclassrooms.realestatemanager/files
+     * @path is the name of the directory
+     * @name is the name of the file as to be selected
+     */
+    fun getInternalBitmap(path: String?, name: String?, context: Context?): Bitmap {
+        val folder = File(context?.filesDir, path)
+        val file = File(folder, name)
+        return BitmapFactory.decodeStream(FileInputStream(file))
     }
 }

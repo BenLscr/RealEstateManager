@@ -2,8 +2,6 @@ package com.openclassrooms.realestatemanager.propertyList
 
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment.OnListFragmentInteractionListener
 import com.openclassrooms.realestatemanager.propertyList.models.IllustrationModelProcessed
 import com.openclassrooms.realestatemanager.propertyList.models.PropertyModelProcessed
 import kotlinx.android.synthetic.main.fragment_property.view.*
-import java.io.File
-import java.io.FileInputStream
 
 
 class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
@@ -47,17 +44,11 @@ class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecycle
         if(propertiesPhotos.isNotEmpty()) {
             for (propertyPhoto in propertiesPhotos) {
                 if (propertyPhoto.propertyId == property.propertyId) {
-                    holder.img.setImageBitmap(retrievePhoto(property, propertyPhoto))
+                    holder.img.setImageBitmap(Utils.getInternalBitmap(property.path, propertyPhoto.photoName, context))
                     break
                 }
             }
         }
-    }
-
-    private fun retrievePhoto(property: PropertyModelProcessed, propertyPhoto: IllustrationModelProcessed): Bitmap {
-        val folder = File(context?.filesDir, property.path)
-        val file = File(folder, propertyPhoto.photoName)
-        return BitmapFactory.decodeStream(FileInputStream(file))
     }
 
     override fun getItemCount(): Int = properties.size
