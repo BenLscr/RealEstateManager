@@ -14,16 +14,15 @@ import java.util.concurrent.Executor
 class FormViewModel(
         private val propertyDataSource: PropertyDataRepository,
         private val addressDataSource: AddressDataRepository,
-        private val agentDataSource: AgentDataRepository,
+        agentDataSource: AgentDataRepository,
         private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository,
         private val executor: Executor) : ViewModel() {
 
     private var _fullNameAgents: LiveData<List<String>> = Transformations.map(agentDataSource.getAgents()) { list -> list.map { agent -> agent.firstName + " " + agent.name } }
     val fullNameAgents: LiveData<List<String>> = _fullNameAgents
 
-    fun startBuildingModelsForDatabase(formModelRaw: FormModelRaw) {
-        buildAddressModel(formModelRaw)
-    }
+    fun startBuildingModelsForDatabase(formModelRaw: FormModelRaw) = buildAddressModel(formModelRaw)
+
 
     private fun buildAddressModel(formModelRaw: FormModelRaw) {
         val address: Address
@@ -119,64 +118,54 @@ class FormViewModel(
             }
 
     //---FACTORY---\\
-    private fun returnComplementOrNull(complement: String): String? {
-        return if (complement.isNotEmpty()) {
-            complement
-        } else {
-            null
-        }
-    }
+    private fun returnComplementOrNull(complement: String) = if (complement.isNotEmpty()) { complement } else { null }
 
-    private fun getDistrictForDatabase(district: String): District {
-        return when(district) {
-            "Bronx" -> District.BRONX
-            "Brooklyn" -> District.BROOKLYN
-            "Manhattan" -> District.MANHATTAN
-            "Queens" -> District.QUEENS
-            "Staten Island" -> District.STATEN_ISLAND
-            else -> return District.BRONX //TODO: Why ?
-        }
-    }
+    private fun getDistrictForDatabase(district: String) =
+            when(district) {
+                "Bronx" -> District.BRONX
+                "Brooklyn" -> District.BROOKLYN
+                "Manhattan" -> District.MANHATTAN
+                "Queens" -> District.QUEENS
+                "Staten Island" -> District.STATEN_ISLAND
+                else -> District.BRONX
+            }
 
-    private fun getCityForDatabase(city: String): City {
-        return when(city) {
-            "New York" -> City.NEW_YORK
-            else -> City.NEW_YORK //TODO: Why ?
-        }
-    }
+    private fun getCityForDatabase(city: String) =
+            when(city) {
+                "New York" -> City.NEW_YORK
+                else -> City.NEW_YORK
+            }
 
-    private fun getCountryForDatabase(country: String): Country {
-        return when(country) {
-            "United States" -> Country.UNITED_STATES
-            else -> Country.UNITED_STATES //TODO: Why ?
-        }
-    }
-    private fun getTypeForDatabase(type: String): Type {
-        return when(type) {
-            "Flat" -> Type.FLAT
-            "Penthouse" -> Type.PENTHOUSE
-            "Mansion" -> Type.MANSION
-            "Duplex" -> Type.DUPLEX
-            "House" -> Type.HOUSE
-            "Loft" -> Type.LOFT
-            "Townhouse" -> Type.TOWNHOUSE
-            "Condo" -> Type.CONDO
-            else -> Type.FLAT //TODO: Why ?
-        }
-    }
+    private fun getCountryForDatabase(country: String) =
+            when(country) {
+                "United States" -> Country.UNITED_STATES
+                else -> Country.UNITED_STATES
+            }
 
-    private fun getAgentIdForDatabase(fullNameAgent: String): Int {
-        return when(fullNameAgent) {
-            "Tony Stark" -> 1
-            "Peter Parker" -> 2
-            "Steve Rogers" -> 3
-            "Natasha Romanoff" -> 4
-            "Bruce Banner" -> 5
-            "Clinton Barton" -> 6
-            "Carol Denvers" -> 7
-            "Wanda Maximoff" -> 8
-            else -> 1 //TODO: Why ?
+    private fun getTypeForDatabase(type: String) =
+            when(type) {
+                "Flat" -> Type.FLAT
+                "Penthouse" -> Type.PENTHOUSE
+                "Mansion" -> Type.MANSION
+                "Duplex" -> Type.DUPLEX
+                "House" -> Type.HOUSE
+                "Loft" -> Type.LOFT
+                "Townhouse" -> Type.TOWNHOUSE
+                "Condo" -> Type.CONDO
+                else -> Type.FLAT
+            }
+
+    private fun getAgentIdForDatabase(fullNameAgent: String) =
+            when(fullNameAgent) {
+                "Tony Stark" -> 1
+                "Peter Parker" -> 2
+                "Steve Rogers" -> 3
+                "Natasha Romanoff" -> 4
+                "Bruce Banner" -> 5
+                "Clinton Barton" -> 6
+                "Carol Denvers" -> 7
+                "Wanda Maximoff" -> 8
+                else -> 1
         }
-    }
 
 }

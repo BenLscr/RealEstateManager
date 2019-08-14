@@ -14,10 +14,7 @@ import java.util.concurrent.Executor
 
 class PropertyDetailViewModel(
         private val propertyDataSource: PropertyDataRepository,
-        private val addressDataSource: AddressDataRepository,
-        private val agentDataSource: AgentDataRepository,
-        private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository,
-        private val executor: Executor) : ViewModel() {
+        private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository) : ViewModel() {
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
@@ -42,23 +39,22 @@ class PropertyDetailViewModel(
                     saleDate = getSaleDateIntoStringForUi(property.saleDate)
             )
 
-    //TODO SUPPRESS RETURN VALUE
-    private fun surfaceIntToStringForUi(surface: Int?): String = surface.toString() + "sq ft"
+    private fun surfaceIntToStringForUi(surface: Int?) = surface.toString() + "sq ft"
 
-    private fun getCityIntoStringForUi(city: City?): String? =
+    private fun getCityIntoStringForUi(city: City?) =
             when(city) {
                 City.NEW_YORK -> "New York"
                 else -> null
             }
 
-    private fun getCountryIntoStringForUi(country: Country?): String? =
+    private fun getCountryIntoStringForUi(country: Country?) =
             when(country) {
                 Country.UNITED_STATES -> "United States"
                 else -> null
             }
 
 
-    private fun getAgentFullName(firstName: String?, name: String?): String = "$firstName $name"
+    private fun getAgentFullName(firstName: String?, name: String?) = "$firstName $name"
 
     private fun getEntryDateIntoStringForUi(entryDate: Long) = dateFormat.format(Date(entryDate))
 

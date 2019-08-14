@@ -17,11 +17,8 @@ import java.text.NumberFormat
 import java.util.concurrent.Executor
 
 class PropertyListViewModel (
-        private val propertyDataSource: PropertyDataRepository,
-        private val addressDataSource: AddressDataRepository,
-        private val agentDataSource: AgentDataRepository,
-        private val compositionPropertyAndPropertyPhotoDataRepository: CompositionPropertyAndPropertyPhotoDataRepository,
-        private val executor: Executor) : ViewModel() {
+        propertyDataSource: PropertyDataRepository,
+        compositionPropertyAndPropertyPhotoDataRepository: CompositionPropertyAndPropertyPhotoDataRepository) : ViewModel() {
 
     private var _properties: LiveData<List<PropertyModelProcessed>> = Transformations.map(propertyDataSource.getProperties()) { it.map { property -> buildPropertyModelProcessed(property) } }
     val properties: LiveData<List<PropertyModelProcessed>> = _properties
@@ -42,33 +39,29 @@ class PropertyListViewModel (
                     price = getPriceIntoStringForUi(property.price)
             )
 
-    private fun getTypeIntoStringForUi(type: Type): String {
-        return when(type) {
-            Type.PENTHOUSE -> "Penthouse"
-            Type.MANSION -> "Mansion"
-            Type.FLAT -> "Flat"
-            Type.DUPLEX -> "Duplex"
-            Type.HOUSE -> "House"
-            Type.LOFT -> "Loft"
-            Type.TOWNHOUSE -> "Townhouse"
-            Type.CONDO -> "Condo"
-        }
-    }
+    private fun getTypeIntoStringForUi(type: Type) =
+            when(type) {
+                Type.PENTHOUSE -> "Penthouse"
+                Type.MANSION -> "Mansion"
+                Type.FLAT -> "Flat"
+                Type.DUPLEX -> "Duplex"
+                Type.HOUSE -> "House"
+                Type.LOFT -> "Loft"
+                Type.TOWNHOUSE -> "Townhouse"
+                Type.CONDO -> "Condo"
+            }
 
-    private fun getDistrictIntoStringForUi(district: District?): String? {
-        return when(district) {
-            District.MANHATTAN -> "Manhattan"
-            District.BROOKLYN -> "Brooklyn"
-            District.STATEN_ISLAND -> "Staten Island"
-            District.QUEENS -> "Queens"
-            District.BRONX -> "Bronx"
-            else -> null
-        }
-    }
+    private fun getDistrictIntoStringForUi(district: District?) =
+            when(district) {
+                District.MANHATTAN -> "Manhattan"
+                District.BROOKLYN -> "Brooklyn"
+                District.STATEN_ISLAND -> "Staten Island"
+                District.QUEENS -> "Queens"
+                District.BRONX -> "Bronx"
+                else -> null
+            }
 
-    private fun getPriceIntoStringForUi(price: Long): String {
-        return "$" + NumberFormat.getIntegerInstance().format(price)
-    }
+    private fun getPriceIntoStringForUi(price: Long) = "$" + NumberFormat.getIntegerInstance().format(price)
 
     private fun buildUiModelForIllustration(compositionPropertyAndPropertyPhoto: CompositionPropertyAndPropertyPhoto) =
             IllustrationModelProcessed(

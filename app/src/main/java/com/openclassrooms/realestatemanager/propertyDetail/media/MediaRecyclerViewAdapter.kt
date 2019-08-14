@@ -34,7 +34,7 @@ class MediaRecyclerViewAdapter : RecyclerView.Adapter<MediaRecyclerViewAdapter.V
         }
     }
 
-    override fun getItemCount(): Int = propertyPhotos.size
+    override fun getItemCount() = propertyPhotos.size
 
     fun receivePropertyPath(propertyPath: String) {
         this.propertyPath = propertyPath
@@ -48,7 +48,7 @@ class MediaRecyclerViewAdapter : RecyclerView.Adapter<MediaRecyclerViewAdapter.V
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
 
         val photo: ImageView = mView.media_photo
         val wording: TextView = mView.media_wording

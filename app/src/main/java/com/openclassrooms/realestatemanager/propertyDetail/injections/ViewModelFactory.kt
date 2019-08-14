@@ -12,14 +12,11 @@ import java.util.concurrent.Executor
 
 class ViewModelFactory(
         private val propertyDataSource: PropertyDataRepository,
-        private val addressDataSource: AddressDataRepository,
-        private val agentDataSource: AgentDataRepository,
-        private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository,
-        private val executor: Executor): ViewModelProvider.Factory {
+        private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository): ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(PropertyDetailViewModel::class.java)) {
-            return PropertyDetailViewModel(propertyDataSource, addressDataSource, agentDataSource, compositionPropertyAndLocationOfInterestDataSource, executor) as T
+            return PropertyDetailViewModel(propertyDataSource, compositionPropertyAndLocationOfInterestDataSource) as T
         }
         throw IllegalArgumentException("Unknown ViewModel Class")
     }

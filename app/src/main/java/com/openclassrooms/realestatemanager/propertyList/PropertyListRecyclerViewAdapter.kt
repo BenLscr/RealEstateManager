@@ -49,7 +49,7 @@ class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecycle
         }
     }
 
-    override fun getItemCount(): Int = properties.size
+    override fun getItemCount() = properties.size
 
     fun receivePropertiesDataAndListener(properties: List<PropertyModelProcessed>, listener: OnListFragmentInteractionListener?) {
         this.properties.clear()
