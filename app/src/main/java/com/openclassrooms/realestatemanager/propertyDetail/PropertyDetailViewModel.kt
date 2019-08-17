@@ -60,8 +60,7 @@ class PropertyDetailViewModel(
 
     private fun getSaleDateIntoStringForUi(saleDate: Long?) =
             if (saleDate != null) {
-                val date = Date(saleDate)
-                dateFormat.format(date)
+                dateFormat.format(Date(saleDate))
             } else {
                 null
             }

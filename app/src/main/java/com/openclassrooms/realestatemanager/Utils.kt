@@ -70,6 +70,11 @@ object Utils {
         return BitmapFactory.decodeStream(FileInputStream(file))
     }
 
+    /**
+     * Save an image (Bitmap) in /data/user/0/com.openclassrooms.realestatemanager/files
+     * @path is the name of the directory
+     * @name is the name of the file as to be selected
+     */
     fun setInternalBitmap(photo: Bitmap?, path: String, name: String, context: Context?) {
         val folder = File(context?.filesDir, path)
         val file = File(folder, name)
