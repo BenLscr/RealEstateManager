@@ -1,6 +1,10 @@
 package com.openclassrooms.realestatemanager.form.models
 
+import android.content.Context
+import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
+
 class FormModelRaw(
+        val listFormPhotoAndWording: MutableList<FormPhotoAndWording> = mutableListOf(),
         var path: String = "",
         var complement: String = "",
         var district: String = "",
@@ -21,5 +25,6 @@ class FormModelRaw(
         var subways: Boolean = false,
         var train: Boolean = false,
         var available: Boolean = true,
-        var entryDate: Long = 0
+        var entryDate: Long = 0,
+        var context: Context? = null
 )

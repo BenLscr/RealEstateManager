@@ -14,7 +14,7 @@ interface PropertyPhotoDao {
     fun getIllustrationPropertyPhoto(id: Int, isThisTheIllustration: Boolean): LiveData<PropertyPhoto>
 
     @Insert
-    fun insertPropertyPhoto(propertyPhoto: PropertyPhoto)
+    fun insertPropertyPhoto(propertyPhoto: PropertyPhoto): Long
 
     @Update
     fun updatePropertyPhoto(propertyPhoto: PropertyPhoto)

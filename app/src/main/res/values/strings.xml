@@ -58,6 +58,33 @@
     <string name="empty_location_of_interest">-</string>
 
     //FORM
+    <string-array name="form_wording">
+        <item>Street view</item>
+        <item>Living room</item>
+        <item>Hall</item>
+        <item>Kitchen</item>
+        <item>Dining room</item>
+        <item>Bathroom</item>
+        <item>Balcony</item>
+        <item>Bedroom</item>
+        <item>Terrace</item>
+        <item>Walk in closet</item>
+        <item>Office</item>
+        <item>Roof top</item>
+        <item>Plan</item>
+        <item>Hallway</item>
+        <item>View</item>
+        <item>Garage</item>
+        <item>Swimming pool</item>
+        <item>Fitness centre</item>
+        <item>Spa</item>
+        <item>Cinema</item>
+        <item>Conference</item>
+        <item>Stairs</item>
+        <item>Garden</item>
+        <item>Floor</item>
+    </string-array>
+
     <string-array name="form_district">
         <item>Bronx</item>
         <item>Brooklyn</item>
@@ -85,12 +112,19 @@
         <item>Condo</item>
     </string-array>
 
+    <string name="pick_a_photo">Pick a photo</string>
     <string name="details">Property details</string>
     <string name="is_available">Is available ?</string>
     <string name="add_form_button">ADD</string>
     <string name="cancel_form_button">CANCEL</string>
     <string name="entry_date_form">Date of entry into the market</string>
     <string name="select_a_date">Select a date</string>
+    <string name="form_error_mandatory_fiels">Please complete all mandatory fields.</string>
+    <string name="form_error_photo">Please pick at least one photo.</string>
+    <string name="form_error_mandatory_fields_and_photo">Please complete all mandatory fields and pick at least one photo.</string>
+    <string name="form_error_media_photo">Pick a photo with your camera or from your gallery.</string>
+    <string name="form_error_media_wording">A wording is necessary to add your photo.</string>
+    <string name="form_error_media_photo_wording">Pick a photo with your camera or from your gallery and put it a wording.</string>
 
     //MEDIA
     <string name="wording">Wording</string>

@@ -8,6 +8,7 @@ import androidx.room.ForeignKey
         foreignKeys = [ForeignKey(entity = PropertyPhoto::class, parentColumns = ["property_photo_id"], childColumns = ["propertyPhotoId"])])
 class CompositionPropertyAndPropertyPhoto(
         val propertyId: Int,
-        val propertyPhotoId: Int,
-        @Embedded var propertyPhoto: PropertyPhoto? = null
-)
+        val propertyPhotoId: Int
+) {
+    @Embedded var propertyPhoto: PropertyPhoto? = null
+}

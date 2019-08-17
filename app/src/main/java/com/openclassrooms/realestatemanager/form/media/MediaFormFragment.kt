@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.propertyList
+package com.openclassrooms.realestatemanager.form.media
 
 import android.content.Context
 import android.os.Bundle
@@ -6,44 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.propertyList.injections.Injection
+import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
 
-class PropertyListFragment : Fragment() {
+class MediaFormFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() =
-                PropertyListFragment().apply { }
+        fun newInstance() = MediaFormFragment().apply { }
     }
 
     private var listener: OnListFragmentInteractionListener? = null
-    private val propertyListViewModel : PropertyListViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(requireContext())).get(PropertyListViewModel::class.java) }
-    private val propertyListAdapter: PropertyListRecyclerViewAdapter = PropertyListRecyclerViewAdapter()
+    private val mediaFormAdapter: MediaFormRecyclerViewAdapter = MediaFormRecyclerViewAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_property_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_media_list, container, false)
 
         // Set the adapter
         (view as RecyclerView).apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = propertyListAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = mediaFormAdapter
         }
-
-        getProperties()
-        getPropertiesPhotos()
         return view
     }
-
-    private fun getProperties() = propertyListViewModel.properties.observe(this, Observer { propertyListAdapter.receivePropertiesDataAndListener(it, listener) })
-
-
-    private fun getPropertiesPhotos() = propertyListViewModel.illustrationsPropertiesPhotos.observe(this, Observer { propertyListAdapter.receivePropertiesPhotos(it, requireContext()) })
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -59,6 +48,10 @@ class PropertyListFragment : Fragment() {
         listener = null
     }
 
+    fun shareNewElementsInListToRecyclerView(listFormPhotoAndWording: List<FormPhotoAndWording>) {
+        mediaFormAdapter.receiveNewElementsInList(listFormPhotoAndWording, listener)
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -71,6 +64,6 @@ class PropertyListFragment : Fragment() {
      * for more information.
      */
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(propertyId: Int)
+        fun onListFragmentInteraction(position: Int)
     }
 }

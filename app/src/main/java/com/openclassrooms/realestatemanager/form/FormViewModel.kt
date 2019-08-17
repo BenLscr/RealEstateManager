@@ -3,12 +3,10 @@ package com.openclassrooms.realestatemanager.form
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.form.models.FormModelRaw
 import com.openclassrooms.realestatemanager.models.*
-import com.openclassrooms.realestatemanager.repositories.AddressDataRepository
-import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
-import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
-import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
+import com.openclassrooms.realestatemanager.repositories.*
 import java.util.concurrent.Executor
 
 class FormViewModel(
@@ -16,6 +14,8 @@ class FormViewModel(
         private val addressDataSource: AddressDataRepository,
         agentDataSource: AgentDataRepository,
         private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository,
+        private val propertyPhotoDataSource: PropertyPhotoDataRepository,
+        private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository,
         private val executor: Executor) : ViewModel() {
 
     private var _fullNameAgents: LiveData<List<String>> = Transformations.map(agentDataSource.getAgents()) { list -> list.map { agent -> agent.firstName + " " + agent.name } }
@@ -70,6 +70,7 @@ class FormViewModel(
             executor.execute {
                 val rowIdProperty = propertyDataSource.insertProperty(property)
                 buildCompositionPropertyAndLocationOfInterestDataSource(formModelRaw, rowIdProperty)
+                buildPropertyPhotoAndSavePhotosOnInternalStorage(formModelRaw, rowIdProperty)
             }
 
     private fun buildCompositionPropertyAndLocationOfInterestDataSource(formModelRaw: FormModelRaw, rowIdProperty: Long) {
@@ -115,6 +116,41 @@ class FormViewModel(
     private fun insertCompositionPropertyAndLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest) =
             executor.execute {
                 compositionPropertyAndLocationOfInterestDataSource.insertLocationOfInterest(compositionPropertyAndLocationOfInterest)
+            }
+
+    private fun buildPropertyPhotoAndSavePhotosOnInternalStorage(formModelRaw: FormModelRaw, rowIdProperty: Long) {
+        with(formModelRaw) {
+            listFormPhotoAndWording.forEachIndexed {index, formPhotoAndWording ->
+                val name = getNamePhoto(index)
+                Utils.setInternalBitmap(formPhotoAndWording.photo, path, name, context)
+                val propertyPhoto = PropertyPhoto(
+                        name = name,
+                        wording = getWordingForDatabase(formPhotoAndWording.wording),
+                        isThisTheIllustration = index == 0
+                )
+                insertPropertyPhoto(propertyPhoto, rowIdProperty)
+            }
+        }
+    }
+
+    private fun insertPropertyPhoto(propertyPhoto: PropertyPhoto, rowIdProperty: Long) =
+            executor.execute {
+                val rowIdPropertyPhoto = propertyPhotoDataSource.insertPropertyPhoto(propertyPhoto)
+                buildCompositionPropertyAndPropertyPhoto(rowIdProperty, rowIdPropertyPhoto)
+            }
+
+
+    private fun buildCompositionPropertyAndPropertyPhoto(rowIdProperty: Long, rowIdPropertyPhoto: Long) {
+        val compositionPropertyAndPropertyPhoto = CompositionPropertyAndPropertyPhoto(
+                rowIdProperty.toInt(),
+                rowIdPropertyPhoto.toInt()
+        )
+        insertCompositionPropertyAndPropertyPhoto(compositionPropertyAndPropertyPhoto)
+    }
+
+    private fun insertCompositionPropertyAndPropertyPhoto(compositionPropertyAndPropertyPhoto: CompositionPropertyAndPropertyPhoto) =
+            executor.execute {
+                compositionPropertyAndPropertyPhotoDataSource.insertPropertyPhoto(compositionPropertyAndPropertyPhoto)
             }
 
     //---FACTORY---\\
@@ -167,5 +203,36 @@ class FormViewModel(
                 "Wanda Maximoff" -> 8
                 else -> 1
         }
+
+    private fun getWordingForDatabase(wording: String?) =
+            when(wording) {
+                "Street View" -> Wording.STREET_VIEW
+                "Living room" -> Wording.LIVING_ROOM
+                "Hall" -> Wording.HALL
+                "Kitchen" -> Wording.KITCHEN
+                "Dining room" -> Wording.DINING_ROOM
+                "Bathroom" -> Wording.BATHROOM
+                "Balcony" -> Wording.BALCONY
+                "Bedroom" -> Wording.BEDROOM
+                "Terrace" -> Wording.TERRACE
+                "Walk in closet" -> Wording.WALK_IN_CLOSET
+                "Office" -> Wording.OFFICE
+                "Roof top" -> Wording.ROOF_TOP
+                "plan" -> Wording.PLAN
+                "Hallway" -> Wording.HALLWAY
+                "View" -> Wording.VIEW
+                "Garage" -> Wording.GARAGE
+                "Swimming pool" -> Wording.SWIMMING_POOL
+                "Fitness centre" -> Wording.FITNESS_CENTRE
+                "Spa" -> Wording.SPA
+                "Cinema" -> Wording.CINEMA
+                "Conference" -> Wording.CONFERENCE
+                "Stairs" -> Wording.STAIRS
+                "Garden" -> Wording.GARDEN
+                "Floor" -> Wording.FLOOR
+                else -> Wording.STREET_VIEW
+            }
+
+    private fun getNamePhoto(index: Int) = "$index.png"
 
 }

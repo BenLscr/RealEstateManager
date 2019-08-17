@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey
 
 @Entity
 class PropertyPhoto(
-        @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "property_photo_id")
-        val id: Int,
         val name: String,
         val wording: Wording,
         val isThisTheIllustration: Boolean
-)
+) {
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "property_photo_id")
+        var id: Int = 0
+}

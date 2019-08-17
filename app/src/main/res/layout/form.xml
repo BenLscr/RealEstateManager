@@ -26,6 +26,102 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:text="@string/media"
+                android:textSize="18sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="140dp"
+                        android:layout_height="160dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@android:color/darker_gray">
+
+                        <ImageView
+                            android:id="@+id/form_photo_plus"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="center"
+                            android:src="@drawable/baseline_add_black_48"
+                            android:tint="@android:color/white"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:contentDescription="@string/pick_a_photo" />
+
+                        <ImageView
+                            android:id="@+id/form_photo_filled"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:contentDescription="@string/pick_a_photo" />
+
+                        <ImageView
+                            android:id="@+id/form_photo_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textAppearance="?attr/textAppearanceListItem"
+                            android:contentDescription="@string/pick_a_photo" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_gravity="bottom"
+                            android:gravity="center"
+                            android:background="@drawable/trans_black_rectangle">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/form_wording"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/wording"
+                                android:textColorHint="@android:color/white"
+                                android:editable="false"
+                                android:dropDownWidth="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@android:color/white"/>
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/form_add_button_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/add"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/form_cancel_button_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:text="@string/cancel_form_button"/>
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/form_property_photo_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:text="@string/location"
                 android:textSize="18sp" />
 

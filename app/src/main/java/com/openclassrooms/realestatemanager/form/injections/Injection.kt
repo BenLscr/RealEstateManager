@@ -2,10 +2,7 @@ package com.openclassrooms.realestatemanager.form.injections
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.database.AppDatabase
-import com.openclassrooms.realestatemanager.repositories.AddressDataRepository
-import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
-import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
-import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
+import com.openclassrooms.realestatemanager.repositories.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
@@ -33,6 +30,16 @@ class Injection {
             return CompositionPropertyAndLocationOfInterestDataRepository(database.compositionPropertyAndLocationOfInterestDao())
         }
 
+        private fun providePropertyPhotoDataSource(context: Context): PropertyPhotoDataRepository {
+            val database = AppDatabase.getInstance(context)
+            return PropertyPhotoDataRepository(database.propertyPhotoDao())
+        }
+
+        private fun provideCompositionPropertyAndPropertyPhoto(context: Context): CompositionPropertyAndPropertyPhotoDataRepository {
+            val database = AppDatabase.getInstance(context)
+            return CompositionPropertyAndPropertyPhotoDataRepository(database.compositionPropertyAndPropertyPhotoDao())
+        }
+
         private fun provideExecutor() : Executor {
             return Executors.newSingleThreadExecutor()
         }
@@ -42,8 +49,16 @@ class Injection {
             val dataSourceAddress = provideAddressDataSource(context)
             val dataSourceAgent = provideAgentDataSource(context)
             val dataSourceCompositionPropertyAndLocationOfInterest = provideCompositionPropertyAndLocationOfInterestDataSource(context)
+            val dataSourcePropertyPhoto = providePropertyPhotoDataSource(context)
+            val dataSourceCompositionPropertyAndPropertyPhoto = provideCompositionPropertyAndPropertyPhoto(context)
             val executor = provideExecutor()
-            return ViewModelFactory(dataSourceProperty, dataSourceAddress, dataSourceAgent, dataSourceCompositionPropertyAndLocationOfInterest, executor)
+            return ViewModelFactory(dataSourceProperty,
+                    dataSourceAddress,
+                    dataSourceAgent,
+                    dataSourceCompositionPropertyAndLocationOfInterest,
+                    dataSourcePropertyPhoto,
+                    dataSourceCompositionPropertyAndPropertyPhoto,
+                    executor)
         }
 
     }

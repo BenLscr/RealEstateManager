@@ -4,8 +4,11 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
+import android.util.Log
 import java.io.File
 import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToLong
@@ -65,5 +68,23 @@ object Utils {
         val folder = File(context?.filesDir, path)
         val file = File(folder, name)
         return BitmapFactory.decodeStream(FileInputStream(file))
+    }
+
+    fun setInternalBitmap(photo: Bitmap?, path: String, name: String, context: Context?) {
+        val folder = File(context?.filesDir, path)
+        val file = File(folder, name)
+        file.parentFile.mkdirs()
+        val fos = FileOutputStream(file)
+        try {
+            photo?.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                fos.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
     }
 }

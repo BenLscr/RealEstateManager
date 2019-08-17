@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.propertyList
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment.On
 import com.openclassrooms.realestatemanager.propertyList.models.IllustrationModelProcessed
 import com.openclassrooms.realestatemanager.propertyList.models.PropertyModelProcessed
 import kotlinx.android.synthetic.main.fragment_property.view.*
-
 
 class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecyclerViewAdapter.ViewHolder>() {
 

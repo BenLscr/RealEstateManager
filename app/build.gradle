@@ -73,6 +73,9 @@ dependencies {
     // TESTING
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
 
+    //PICKIMAGE
+    implementation 'com.github.jrvansuita:PickImage:2.2.4'
+
 }
 repositories {
     mavenCentral()

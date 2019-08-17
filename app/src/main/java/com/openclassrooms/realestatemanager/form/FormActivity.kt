@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.form
 
 import android.app.DatePickerDialog
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,23 +9,34 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.injections.Injection
+import com.openclassrooms.realestatemanager.form.media.MediaFormFragment
 import com.openclassrooms.realestatemanager.form.models.FormModelRaw
+import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
+import com.vansuita.pickimage.bean.PickResult
+import com.vansuita.pickimage.bundle.PickSetup
+import com.vansuita.pickimage.dialog.PickImageDialog
+import com.vansuita.pickimage.listeners.IPickResult
 import kotlinx.android.synthetic.main.form.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FormActivity : AppCompatActivity() {
+class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListFragmentInteractionListener {
 
     private val formViewModel: FormViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(applicationContext)).get(FormViewModel::class.java) }
 
-
+    private val mediaFormFragment = MediaFormFragment.newInstance()
     private var calendar = Calendar.getInstance()
+    private var photo: Bitmap? = null
+    private var wording: String = ""
+    private val tempListFormPhotoAndWording = mutableListOf<FormPhotoAndWording>()
     private var formModelRaw = FormModelRaw()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +46,7 @@ class FormActivity : AppCompatActivity() {
         configureToolbar()
         fillEveryDropDownMenu()
         addEveryListener()
+        addMediaFormFragment()
     }
 
     private fun configureToolbar() {
@@ -42,6 +55,16 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun fillEveryDropDownMenu() {
+        //Wording //
+        form_wording.setOnTouchListener { _, _ ->
+            form_wording.showDropDown()
+            return@setOnTouchListener true
+        }
+        ArrayAdapter.createFromResource(this, R.array.form_wording, R.layout.dropdown_menu_form_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.dropdown_menu_form_item)
+            form_wording.setAdapter(adapter)
+        }
         //District
         ArrayAdapter.createFromResource(this, R.array.form_district, R.layout.dropdown_menu_form_item
         ).also { adapter ->
@@ -76,6 +99,10 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun addEveryListener() {
+        form_photo_button.setOnClickListener { PickImageDialog.build(PickSetup()).show(this) } /*Possibility to take a video*/
+        form_wording.doAfterTextChanged { wording = it.toString() }
+        form_add_button_photo.setOnClickListener { checkIfFormPhotoAndWordingIsCompleted() }
+        form_cancel_button_photo.setOnClickListener { resetPhotoButton() }
         with(formModelRaw) {
             form_path_edit_text.doAfterTextChanged { path = it.toString() }
             form_complement_edit_text.doAfterTextChanged { complement = it.toString() }
@@ -91,13 +118,53 @@ class FormActivity : AppCompatActivity() {
             form_bathrooms_edit_text.doAfterTextChanged { bathrooms = it.toString() }
             form_bedrooms_edit_text.doAfterTextChanged { bedrooms = it.toString() }
             form_full_name_agent.doAfterTextChanged { fullNameAgent = it.toString() }
-            form_select_entry_date.setOnClickListener { initBeginDatePickerDialog() }
-            form_cancel_button.setOnClickListener { finish() }
-            form_add_button.setOnClickListener {
-                shareModelToTheViewModel()
-                finish()
-            }
         }
+        form_select_entry_date.setOnClickListener { initBeginDatePickerDialog() }
+        form_cancel_button.setOnClickListener { finish() }
+        form_add_button.setOnClickListener {
+            shareModelToTheViewModel()
+            finish()
+        }
+    }
+
+    override fun onPickResult(r: PickResult) {
+        if (r.error == null) {
+            if(form_photo_plus.isVisible) {
+                form_photo_plus.visibility = View.GONE
+                form_photo_filled.visibility = View.VISIBLE
+            }
+            photo = r.bitmap
+            form_photo_filled.setImageBitmap(photo)
+        } else {
+        }
+    }
+
+    private fun checkIfFormPhotoAndWordingIsCompleted() {
+        if (photo != null && wording.isNotEmpty()) {
+            tempListFormPhotoAndWording.add(FormPhotoAndWording(photo!!, wording))
+            shareListToMediaFormFragment()
+        } else if (photo == null) {
+            Toast.makeText(applicationContext, R.string.form_error_media_photo, Toast.LENGTH_LONG).show()
+        } else if (wording.isEmpty()) {
+            Toast.makeText(applicationContext, R.string.form_error_media_wording, Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(applicationContext, R.string.form_error_mandatory_fields_and_photo, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun shareListToMediaFormFragment() {
+        mediaFormFragment.shareNewElementsInListToRecyclerView(tempListFormPhotoAndWording)
+        resetPhotoButton()
+    }
+
+    private fun resetPhotoButton() {
+        if (!form_photo_plus.isVisible) {
+            form_photo_filled.visibility = View.GONE
+            form_photo_plus.visibility = View.VISIBLE
+            photo = null
+        }
+        form_wording.text.clear()
+        wording = ""
     }
 
     private fun initBeginDatePickerDialog() {
@@ -113,7 +180,7 @@ class FormActivity : AppCompatActivity() {
         datePickerDialog.show()
     }
 
-    private var entryDateSetListener = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+    private var entryDateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
         calendar.set(year, month, dayOfMonth)
         val visualFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val entryDateToShow = visualFormat.format(calendar.time)
@@ -135,7 +202,8 @@ class FormActivity : AppCompatActivity() {
 
     private fun shareModelToTheViewModel() {
         with(formModelRaw) {
-            if (path.isNotEmpty()
+            if (tempListFormPhotoAndWording.isNotEmpty()
+                    && path.isNotEmpty()
                     && district.isNotEmpty()
                     && city.isNotEmpty()
                     && postalCode.isNotEmpty()
@@ -148,13 +216,69 @@ class FormActivity : AppCompatActivity() {
                     && bedrooms.isNotEmpty()
                     && fullNameAgent.isNotEmpty()
                     && entryDate > 0) {
+                listFormPhotoAndWording.addAll(tempListFormPhotoAndWording)
+                context = applicationContext
                 formViewModel.startBuildingModelsForDatabase(formModelRaw)
+            } else if (tempListFormPhotoAndWording.isNotEmpty()
+                    && path.isEmpty()
+                    || district.isEmpty()
+                    || city.isEmpty()
+                    || postalCode.isEmpty()
+                    || country.isEmpty()
+                    || price.isEmpty()
+                    || type.isEmpty()
+                    || surface.isEmpty()
+                    || rooms.isEmpty()
+                    || bathrooms.isEmpty()
+                    || bedrooms.isEmpty()
+                    || fullNameAgent.isEmpty()
+                    || entryDate > 0) {
+                Toast.makeText(this@FormActivity,
+                        R.string.form_error_mandatory_fiels,
+                        Toast.LENGTH_LONG).show()
+            } else if (tempListFormPhotoAndWording.isEmpty()
+                    && path.isNotEmpty()
+                    && district.isNotEmpty()
+                    && city.isNotEmpty()
+                    && postalCode.isNotEmpty()
+                    && country.isNotEmpty()
+                    && price.isNotEmpty()
+                    && type.isNotEmpty()
+                    && surface.isNotEmpty()
+                    && rooms.isNotEmpty()
+                    && bathrooms.isNotEmpty()
+                    && bedrooms.isNotEmpty()
+                    && fullNameAgent.isNotEmpty()
+                    && entryDate > 0) {
+                Toast.makeText(this@FormActivity,
+                        R.string.form_error_photo,
+                        Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(this@FormActivity,
-                        "Please complete all mandatory fields.",
+                        R.string.form_error_mandatory_fields_and_photo,
                         Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun addMediaFormFragment() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.form_property_photo_container, mediaFormFragment).commit()
+    }
+
+
+    override fun onListFragmentInteraction(position: Int) {
+        showAlertDialogForConfirmation(position)
+    }
+
+    private fun showAlertDialogForConfirmation(position: Int) {
+        AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to delete photo $position ?")
+                .setPositiveButton("Yes") { dialog, id -> tempListFormPhotoAndWording.removeAt(position)
+                    shareListToMediaFormFragment()
+                }
+                .setNegativeButton("No", null)
+                .show()
     }
 
 }
