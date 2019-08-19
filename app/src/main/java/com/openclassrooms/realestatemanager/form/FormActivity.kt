@@ -39,9 +39,30 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
     private var calendar = Calendar.getInstance()
     private var photo: Bitmap? = null
     private var wording: String = ""
-    private val tempListFormPhotoAndWording = mutableListOf<FormPhotoAndWording>()
-    private var formModelRaw = FormModelRaw()
+    private val listFormPhotoAndWording = mutableListOf<FormPhotoAndWording>()
     private val mAwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
+
+    private var path: String = ""
+    private var complement: String = ""
+    private var district: String = ""
+    private var city: String = ""
+    private var postalCode: String = ""
+    private var country: String = ""
+    private var price: String = ""
+    private var description: String = ""
+    private var type: String = ""
+    private var surface: String = ""
+    private var rooms: String = ""
+    private var bathrooms: String = ""
+    private var bedrooms: String = ""
+    private var fullNameAgent: String = ""
+    private var school: Boolean = false
+    private var commerces: Boolean = false
+    private var park: Boolean = false
+    private var subways: Boolean = false
+    private var train: Boolean = false
+    private var available: Boolean = true
+    private var entryDate: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,22 +129,20 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
         form_wording.doAfterTextChanged { wording = it.toString() }
         form_add_button_photo.setOnClickListener { checkIfFormPhotoAndWordingIsCompleted() }
         form_cancel_button_photo.setOnClickListener { resetPhotoButton() }
-        with(formModelRaw) {
-            form_path_edit_text.doAfterTextChanged { path = it.toString() }
-            form_complement_edit_text.doAfterTextChanged { complement = it.toString() }
-            form_district.doAfterTextChanged { district = it.toString() }
-            form_city.doAfterTextChanged { city = it.toString() }
-            form_postal_code_edit_text.doAfterTextChanged { postalCode = it.toString() }
-            form_country.doAfterTextChanged { country = it.toString() }
-            form_price_edit_text.doAfterTextChanged { price = it.toString() }
-            form_description_edit_text.doAfterTextChanged { description = it.toString() }
-            form_type.doAfterTextChanged { type = it.toString() }
-            form_surface_edit_text.doAfterTextChanged { surface = it.toString() }
-            form_rooms_edit_text.doAfterTextChanged { rooms = it.toString() }
-            form_bathrooms_edit_text.doAfterTextChanged { bathrooms = it.toString() }
-            form_bedrooms_edit_text.doAfterTextChanged { bedrooms = it.toString() }
-            form_full_name_agent.doAfterTextChanged { fullNameAgent = it.toString() }
-        }
+        form_path_edit_text.doAfterTextChanged { path = it.toString() }
+        form_complement_edit_text.doAfterTextChanged { complement = it.toString() }
+        form_district.doAfterTextChanged { district = it.toString() }
+        form_city.doAfterTextChanged { city = it.toString() }
+        form_postal_code_edit_text.doAfterTextChanged { postalCode = it.toString() }
+        form_country.doAfterTextChanged { country = it.toString() }
+        form_price_edit_text.doAfterTextChanged { price = it.toString() }
+        form_description_edit_text.doAfterTextChanged { description = it.toString() }
+        form_type.doAfterTextChanged { type = it.toString() }
+        form_surface_edit_text.doAfterTextChanged { surface = it.toString() }
+        form_rooms_edit_text.doAfterTextChanged { rooms = it.toString() }
+        form_bathrooms_edit_text.doAfterTextChanged { bathrooms = it.toString() }
+        form_bedrooms_edit_text.doAfterTextChanged { bedrooms = it.toString() }
+        form_full_name_agent.doAfterTextChanged { fullNameAgent = it.toString() }
         form_select_entry_date.setOnClickListener { initBeginDatePickerDialog() }
         form_cancel_button.setOnClickListener { finish() }
         form_add_button.setOnClickListener {
@@ -145,7 +164,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
 
     private fun checkIfFormPhotoAndWordingIsCompleted() {
         if (photo != null && wording.isNotEmpty()) {
-            tempListFormPhotoAndWording.add(FormPhotoAndWording(photo!!, wording))
+            listFormPhotoAndWording.add(FormPhotoAndWording(photo!!, wording))
             shareListToMediaFormFragment()
         } else if (photo == null) {
             Toast.makeText(applicationContext, R.string.form_error_media_photo, Toast.LENGTH_LONG).show()
@@ -157,7 +176,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
     }
 
     private fun shareListToMediaFormFragment() {
-        mediaFormFragment.shareNewElementsInListToRecyclerView(tempListFormPhotoAndWording)
+        mediaFormFragment.shareNewElementsInListToRecyclerView(listFormPhotoAndWording)
         resetPhotoButton()
     }
 
@@ -189,55 +208,73 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
         val visualFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val entryDateToShow = visualFormat.format(calendar.time)
         form_select_entry_date.text = entryDateToShow
-        formModelRaw.entryDate = calendar.timeInMillis
+        entryDate = calendar.timeInMillis
     }
 
     fun onCheckboxClicked(view: View) {
-        with(formModelRaw) {
-            when(view as CheckBox) {
-                form_school_checkbox -> school = form_school_checkbox.isChecked
-                form_commerces_checkbox -> commerces = form_commerces_checkbox.isChecked
-                form_park_checkbox -> park = form_park_checkbox.isChecked
-                form_subways_checkbox -> subways = form_subways_checkbox.isChecked
-                form_train_checkbox -> train = form_train_checkbox.isChecked
-            }
+        when(view as CheckBox) {
+            form_school_checkbox -> school = form_school_checkbox.isChecked
+            form_commerces_checkbox -> commerces = form_commerces_checkbox.isChecked
+            form_park_checkbox -> park = form_park_checkbox.isChecked
+            form_subways_checkbox -> subways = form_subways_checkbox.isChecked
+            form_train_checkbox -> train = form_train_checkbox.isChecked
         }
     }
 
     private fun shareModelToTheViewModel() {
         checkIfFormIsFilled()
-
-        with(formModelRaw) {
-            if (tempListFormPhotoAndWording.isNotEmpty()
-                    && path.isNotEmpty()
-                    && district.isNotEmpty()
-                    && city.isNotEmpty()
-                    && postalCode.isNotEmpty()
-                    && country.isNotEmpty()
-                    && price.isNotEmpty()
-                    && type.isNotEmpty()
-                    && surface.isNotEmpty()
-                    && rooms.isNotEmpty()
-                    && bathrooms.isNotEmpty()
-                    && bedrooms.isNotEmpty()
-                    && fullNameAgent.isNotEmpty()
-                    && entryDate > 0) {
-                listFormPhotoAndWording.addAll(tempListFormPhotoAndWording)
-                context = applicationContext
-                formViewModel.startBuildingModelsForDatabase(formModelRaw)
-                finish()
-            }
+        if (listFormPhotoAndWording.isNotEmpty()
+                && path.isNotEmpty()
+                && district.isNotEmpty()
+                && city.isNotEmpty()
+                && postalCode.isNotEmpty()
+                && country.isNotEmpty()
+                && price.isNotEmpty()
+                && type.isNotEmpty()
+                && surface.isNotEmpty()
+                && rooms.isNotEmpty()
+                && bathrooms.isNotEmpty()
+                && bedrooms.isNotEmpty()
+                && fullNameAgent.isNotEmpty()
+                && entryDate > 0) {
+            val formModelRaw = FormModelRaw(
+                    listFormPhotoAndWording = listFormPhotoAndWording,
+                    path = path,
+                    complement = complement,
+                    district = district,
+                    city = city,
+                    postalCode = postalCode,
+                    country = country,
+                    price = price,
+                    description = description,
+                    type = type,
+                    surface= surface,
+                    rooms = rooms,
+                    bathrooms = bathrooms,
+                    bedrooms = bedrooms,
+                    fullNameAgent = fullNameAgent,
+                    school = school,
+                    commerces = commerces,
+                    park = park,
+                    subways = subways,
+                    train = train,
+                    available = available,
+                    entryDate = entryDate,
+                    context = applicationContext
+            )
+            formViewModel.startBuildingModelsForDatabase(formModelRaw)
+            finish()
         }
     }
 
     private fun checkIfFormIsFilled() {
         mAwesomeValidation.validate()
-        if (tempListFormPhotoAndWording.isEmpty()) {
+        if (listFormPhotoAndWording.isEmpty()) {
             form_error_photo.visibility = View.VISIBLE
         } else {
             form_error_photo.visibility = View.GONE
         }
-        if (formModelRaw.entryDate <= 0) {
+        if (entryDate <= 0) {
             form_error_date.visibility = View.VISIBLE
         } else {
             form_error_date.visibility = View.GONE
@@ -256,7 +293,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
     private fun showAlertDialogForConfirmation(position: Int) {
         AlertDialog.Builder(this)
                 .setMessage("Are you sure you want to delete photo $position ?")
-                .setPositiveButton("Yes") { _, _ -> tempListFormPhotoAndWording.removeAt(position)
+                .setPositiveButton("Yes") { _, _ -> listFormPhotoAndWording.removeAt(position)
                     shareListToMediaFormFragment()
                 }
                 .setNegativeButton("No", null)

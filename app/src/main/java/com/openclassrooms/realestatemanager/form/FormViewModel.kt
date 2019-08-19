@@ -1,8 +1,12 @@
 package com.openclassrooms.realestatemanager.form
 
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.form.models.FormModelRaw
 import com.openclassrooms.realestatemanager.models.*
@@ -131,6 +135,7 @@ class FormViewModel(
                 insertPropertyPhoto(propertyPhoto, rowIdProperty)
             }
         }
+        sendNotification(formModelRaw)
     }
 
     private fun insertPropertyPhoto(propertyPhoto: PropertyPhoto, rowIdProperty: Long) =
@@ -152,6 +157,17 @@ class FormViewModel(
             executor.execute {
                 compositionPropertyAndPropertyPhotoDataSource.insertPropertyPhoto(compositionPropertyAndPropertyPhoto)
             }
+
+    private fun sendNotification(formModelRaw: FormModelRaw) {
+        /*val channelId: String = getString(R.string.default_notification_channel_id)
+        val builder = NotificationCompat.Builder(formModelRaw.context, channelId)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("RealEstateManager")
+                .setContentText("Your property as been add.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        NotificationManagerCompat.from(formModelRaw.context).notify(0, builder.build())*/
+    }
 
     //---FACTORY---\\
     private fun returnComplementOrNull(complement: String) = if (complement.isNotEmpty()) { complement } else { null }
