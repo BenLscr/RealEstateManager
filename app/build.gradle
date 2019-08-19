@@ -64,17 +64,21 @@ dependencies {
     //Robolectric
     testImplementation "org.robolectric:robolectric:4.3"
 
-    //ROOM
+    //Room
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     kapt "android.arch.persistence.room:compiler:1.1.1"
-    //VIEW MODEL & LIVE DATA
+
+    //ViewModel & LiveData
     implementation "android.arch.lifecycle:extensions:1.1.1"
 
-    // TESTING
+    // Testing
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
 
-    //PICKIMAGE
+    //PickImage
     implementation 'com.github.jrvansuita:PickImage:2.2.4'
+
+    //AwesomeValidation
+    implementation 'com.github.thyrlian:AwesomeValidation:v4.2'
 
 }
 repositories {

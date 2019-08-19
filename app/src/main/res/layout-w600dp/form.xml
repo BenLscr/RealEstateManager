@@ -106,11 +106,28 @@
 
                 </LinearLayout>
 
-                <FrameLayout
-                    android:id="@+id/form_property_photo_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </FrameLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/form_property_photo_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/form_error_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="@string/form_error_photo"
+                        android:textSize="16sp"
+                        android:layout_margin="4dp"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -136,6 +153,7 @@
                         android:textSize="18sp"/>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/form_path_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -145,7 +163,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/form_path_edit_text"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:maxLength="30"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,11 +178,13 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/form_complement_edit_text"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:maxLength="30"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/form_district_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -185,6 +206,7 @@
                         android:baselineAligned="false">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/form_city_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -201,6 +223,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/form_postal_code_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -211,13 +234,15 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/form_postal_code_edit_text"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:maxLength="10"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/form_country_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -250,6 +275,7 @@
                         android:textSize="18sp"/>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/form_price_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -261,15 +287,19 @@
                             android:id="@+id/form_price_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:maxLength="12"
                             android:inputType="number"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/form_description_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_margin="10dp"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="2000"
                         android:hint="@string/description">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -285,6 +315,7 @@
                         android:orientation="horizontal">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/form_type_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -301,6 +332,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/form_square_meters_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -312,6 +344,7 @@
                                 android:id="@+id/form_surface_edit_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:maxLength="6"
                                 android:inputType="number"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -325,6 +358,7 @@
                         android:baselineAligned="false">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/form_rooms_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -336,11 +370,13 @@
                                 android:id="@+id/form_rooms_edit_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:maxLength="3"
                                 android:inputType="number"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/form_bathrooms_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -352,11 +388,13 @@
                                 android:id="@+id/form_bathrooms_edit_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:maxLength="3"
                                 android:inputType="number"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/form_bedrooms_layout"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -368,6 +406,7 @@
                                 android:id="@+id/form_bedrooms_edit_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:maxLength="3"
                                 android:inputType="number"/>
 
                         </com.google.android.material.textfield.TextInputLayout>
@@ -420,21 +459,24 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:onClick="onCheckboxClicked"
-                                    android:text="@string/school"/>
+                                    android:text="@string/school"
+                                    android:textSize="16sp"/>
 
                                 <CheckBox
                                     android:id="@+id/form_commerces_checkbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:onClick="onCheckboxClicked"
-                                    android:text="@string/commerces"/>
+                                    android:text="@string/commerces"
+                                    android:textSize="16sp"/>
 
                                 <CheckBox
                                     android:id="@+id/form_park_checkbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:onClick="onCheckboxClicked"
-                                    android:text="@string/park"/>
+                                    android:text="@string/park"
+                                    android:textSize="16sp"/>
 
                             </LinearLayout>
 
@@ -457,14 +499,16 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:onClick="onCheckboxClicked"
-                                    android:text="@string/subways"/>
+                                    android:text="@string/subways"
+                                    android:textSize="16sp"/>
 
                                 <CheckBox
                                     android:id="@+id/form_train_checkbox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:onClick="onCheckboxClicked"
-                                    android:text="@string/train"/>
+                                    android:text="@string/train"
+                                    android:textSize="16sp"/>
 
                             </LinearLayout>
 
@@ -496,6 +540,7 @@
                         android:baselineAligned="false">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/form_agent_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -535,12 +580,29 @@
                             android:textSize="18sp"
                             android:text="@string/entry_date_form"/>
 
-                        <TextView
-                            android:id="@+id/form_select_entry_date"
-                            android:layout_marginTop="10dp"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/select_a_date"/>
+                            android:orientation="vertical"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/form_select_entry_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/select_a_date"
+                                android:textSize="16sp"/>
+
+                            <TextView
+                                android:id="@+id/form_error_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/form_error_date"
+                                android:textColor="@android:color/holo_red_dark"
+                                android:textSize="16sp"
+                                android:visibility="gone"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

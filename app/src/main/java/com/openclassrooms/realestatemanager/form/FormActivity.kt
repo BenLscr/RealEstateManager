@@ -14,11 +14,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProviders
+import com.basgeekball.awesomevalidation.AwesomeValidation
+import com.basgeekball.awesomevalidation.ValidationStyle
+import com.basgeekball.awesomevalidation.utility.RegexTemplate
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.injections.Injection
 import com.openclassrooms.realestatemanager.form.media.MediaFormFragment
-import com.openclassrooms.realestatemanager.form.models.FormModelRaw
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
+import com.openclassrooms.realestatemanager.form.models.FormModelRaw
 import com.vansuita.pickimage.bean.PickResult
 import com.vansuita.pickimage.bundle.PickSetup
 import com.vansuita.pickimage.dialog.PickImageDialog
@@ -38,6 +41,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
     private var wording: String = ""
     private val tempListFormPhotoAndWording = mutableListOf<FormPhotoAndWording>()
     private var formModelRaw = FormModelRaw()
+    private val mAwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
         fillEveryDropDownMenu()
         addEveryListener()
         addMediaFormFragment()
+        setEveryAwesomeValidation()
     }
 
     private fun configureToolbar() {
@@ -123,7 +128,6 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
         form_cancel_button.setOnClickListener { finish() }
         form_add_button.setOnClickListener {
             shareModelToTheViewModel()
-            finish()
         }
     }
 
@@ -148,7 +152,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
         } else if (wording.isEmpty()) {
             Toast.makeText(applicationContext, R.string.form_error_media_wording, Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(applicationContext, R.string.form_error_mandatory_fields_and_photo, Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, R.string.form_error_media_photo_wording, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -201,6 +205,8 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
     }
 
     private fun shareModelToTheViewModel() {
+        checkIfFormIsFilled()
+
         with(formModelRaw) {
             if (tempListFormPhotoAndWording.isNotEmpty()
                     && path.isNotEmpty()
@@ -219,45 +225,22 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
                 listFormPhotoAndWording.addAll(tempListFormPhotoAndWording)
                 context = applicationContext
                 formViewModel.startBuildingModelsForDatabase(formModelRaw)
-            } else if (tempListFormPhotoAndWording.isNotEmpty()
-                    && path.isEmpty()
-                    || district.isEmpty()
-                    || city.isEmpty()
-                    || postalCode.isEmpty()
-                    || country.isEmpty()
-                    || price.isEmpty()
-                    || type.isEmpty()
-                    || surface.isEmpty()
-                    || rooms.isEmpty()
-                    || bathrooms.isEmpty()
-                    || bedrooms.isEmpty()
-                    || fullNameAgent.isEmpty()
-                    || entryDate > 0) {
-                Toast.makeText(this@FormActivity,
-                        R.string.form_error_mandatory_fiels,
-                        Toast.LENGTH_LONG).show()
-            } else if (tempListFormPhotoAndWording.isEmpty()
-                    && path.isNotEmpty()
-                    && district.isNotEmpty()
-                    && city.isNotEmpty()
-                    && postalCode.isNotEmpty()
-                    && country.isNotEmpty()
-                    && price.isNotEmpty()
-                    && type.isNotEmpty()
-                    && surface.isNotEmpty()
-                    && rooms.isNotEmpty()
-                    && bathrooms.isNotEmpty()
-                    && bedrooms.isNotEmpty()
-                    && fullNameAgent.isNotEmpty()
-                    && entryDate > 0) {
-                Toast.makeText(this@FormActivity,
-                        R.string.form_error_photo,
-                        Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this@FormActivity,
-                        R.string.form_error_mandatory_fields_and_photo,
-                        Toast.LENGTH_LONG).show()
+                finish()
             }
+        }
+    }
+
+    private fun checkIfFormIsFilled() {
+        mAwesomeValidation.validate()
+        if (tempListFormPhotoAndWording.isEmpty()) {
+            form_error_photo.visibility = View.VISIBLE
+        } else {
+            form_error_photo.visibility = View.GONE
+        }
+        if (formModelRaw.entryDate <= 0) {
+            form_error_date.visibility = View.VISIBLE
+        } else {
+            form_error_date.visibility = View.GONE
         }
     }
 
@@ -266,7 +249,6 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
         fragmentTransaction.add(R.id.form_property_photo_container, mediaFormFragment).commit()
     }
 
-
     override fun onListFragmentInteraction(position: Int) {
         showAlertDialogForConfirmation(position)
     }
@@ -274,11 +256,27 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
     private fun showAlertDialogForConfirmation(position: Int) {
         AlertDialog.Builder(this)
                 .setMessage("Are you sure you want to delete photo $position ?")
-                .setPositiveButton("Yes") { dialog, id -> tempListFormPhotoAndWording.removeAt(position)
+                .setPositiveButton("Yes") { _, _ -> tempListFormPhotoAndWording.removeAt(position)
                     shareListToMediaFormFragment()
                 }
                 .setNegativeButton("No", null)
                 .show()
+    }
+
+    private fun setEveryAwesomeValidation() {
+        mAwesomeValidation.addValidation(this, R.id.form_path_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_district_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_city_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_postal_code_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_country_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_description_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_price_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_type_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_square_meters_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_rooms_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_bathrooms_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_bedrooms_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+        mAwesomeValidation.addValidation(this, R.id.form_agent_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
     }
 
 }
