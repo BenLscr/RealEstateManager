@@ -29,10 +29,15 @@
             android:parentActivityName=".HomeActivity">
         </activity>
         <activity
-            android:name=".form.FormActivity"
-            android:label="Add a new property"
+            android:name=".form.AddFormActivity"
+            android:label="Add property"
             android:parentActivityName=".HomeActivity">
         </activity>
+        <activity
+            android:name=".form.UpdateFormActivity"
+            android:label="Update property">
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.com.vansuita.pickimage.provider"

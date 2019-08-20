@@ -31,9 +31,9 @@ import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListFragmentInteractionListener {
+class AddFormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListFragmentInteractionListener {
 
-    private val formViewModel: FormViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(applicationContext)).get(FormViewModel::class.java) }
+    private val addFormViewModel: AddFormViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(applicationContext)).get(AddFormViewModel::class.java) }
 
     private val mediaFormFragment = MediaFormFragment.newInstance()
     private var calendar = Calendar.getInstance()
@@ -81,7 +81,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
     }
 
     private fun fillEveryDropDownMenu() {
-        //Wording //
+        //Wording
         form_wording.setOnTouchListener { _, _ ->
             form_wording.showDropDown()
             return@setOnTouchListener true
@@ -116,7 +116,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
             form_type.setAdapter(adapter)
         }
         //Agent
-        formViewModel.fullNameAgents.observe(this, androidx.lifecycle.Observer { setDropDownMenuForAgentField(it) })
+        addFormViewModel.fullNameAgents.observe(this, androidx.lifecycle.Observer { setDropDownMenuForAgentField(it) })
     }
 
     private fun setDropDownMenuForAgentField(fullNameAgents: List<String>) {
@@ -262,7 +262,7 @@ class FormActivity : AppCompatActivity(), IPickResult, MediaFormFragment.OnListF
                     entryDate = entryDate,
                     context = applicationContext
             )
-            formViewModel.startBuildingModelsForDatabase(formModelRaw)
+            addFormViewModel.startBuildingModelsForDatabase(formModelRaw)
             finish()
         }
     }

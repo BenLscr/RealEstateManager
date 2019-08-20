@@ -1,11 +1,18 @@
 package com.openclassrooms.realestatemanager.propertyDetail
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
-import com.openclassrooms.realestatemanager.INTENT_PROPERTY_ID
+import com.openclassrooms.realestatemanager.INTENT_HOME_TO_DETAIL
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.form.UpdateFormActivity
 import kotlinx.android.synthetic.main.toolbar.*
+
+const val INTENT_DETAIL_TO_UPDATE = "INTENT_DETAIL_TO_UPDATE"
 
 class PropertyDetailActivity : AppCompatActivity() {
 
@@ -20,9 +27,31 @@ class PropertyDetailActivity : AppCompatActivity() {
         initAndAddFragment()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.detail_menu_toolbar_phone, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item?.itemId) {
+            R.id.update_button -> {
+                if (propertyId != 0) {
+                    val intent = Intent(this, UpdateFormActivity::class.java)
+                    intent.putExtra(INTENT_DETAIL_TO_UPDATE, propertyId)
+                    startActivity(intent)
+                } else {
+                    //TODO: STRING
+                    Toast.makeText(this, "Something wrong append !", Toast.LENGTH_LONG).show()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun retrievesIntent() {
-        if (intent.hasExtra(INTENT_PROPERTY_ID)) {
-            propertyId = intent.getIntExtra(INTENT_PROPERTY_ID, 0)
+        if (intent.hasExtra(INTENT_HOME_TO_DETAIL)) {
+            propertyId = intent.getIntExtra(INTENT_HOME_TO_DETAIL, 0)
         }
     }
 

@@ -13,7 +13,7 @@ import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import java.util.concurrent.Executor
 
-class FormViewModel(
+class AddFormViewModel(
         private val propertyDataSource: PropertyDataRepository,
         private val addressDataSource: AddressDataRepository,
         agentDataSource: AgentDataRepository,
