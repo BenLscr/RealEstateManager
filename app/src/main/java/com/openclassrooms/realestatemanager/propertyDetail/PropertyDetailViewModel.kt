@@ -1,7 +1,12 @@
 package com.openclassrooms.realestatemanager.propertyDetail
 
-import androidx.lifecycle.*
-import com.openclassrooms.realestatemanager.models.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.models.City
+import com.openclassrooms.realestatemanager.models.CompositionPropertyAndLocationOfInterest
+import com.openclassrooms.realestatemanager.models.Country
+import com.openclassrooms.realestatemanager.models.Property
 import com.openclassrooms.realestatemanager.propertyDetail.models.LocationsOfInterestModelProcessed
 import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelProcessed
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
@@ -18,6 +23,11 @@ class PropertyDetailViewModel(
     fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> =
             Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) }
 
+    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> =
+            Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
+
+
+    //---FACTORY---\\
     private fun buildPropertyModelProcessed(property: Property) =
             PropertyModelProcessed(
                     description = property.description,
@@ -41,15 +51,14 @@ class PropertyDetailViewModel(
     private fun getCityIntoStringForUi(city: City?) =
             when(city) {
                 City.NEW_YORK -> "New York"
-                else -> null
+                else -> "City unknown"
             }
 
     private fun getCountryIntoStringForUi(country: Country?) =
             when(country) {
                 Country.UNITED_STATES -> "United States"
-                else -> null
+                else -> "Country unknown"
             }
-
 
     private fun getAgentFullName(firstName: String?, name: String?) = "$firstName $name"
 
@@ -62,10 +71,6 @@ class PropertyDetailViewModel(
                 null
             }
 
-    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> =
-            Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
-
-    //---FACTORY---\\
     private fun buildLocationOfInterestModelProcessed(composition: List<CompositionPropertyAndLocationOfInterest>): LocationsOfInterestModelProcessed {
         var school = false
         var commerces= false

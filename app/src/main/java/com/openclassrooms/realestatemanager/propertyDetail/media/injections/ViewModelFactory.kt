@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.propertyDetail.media.MediaViewModel
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndPropertyPhotoDataRepository
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
-import java.util.concurrent.Executor
 
 class ViewModelFactory(
         private val propertyDataSource: PropertyDataRepository,

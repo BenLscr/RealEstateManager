@@ -51,8 +51,7 @@ class PropertyDetailActivity : AppCompatActivity() {
                     intent.putExtra(INTENT_DETAIL_TO_UPDATE, propertyId)
                     startActivity(intent)
                 } else {
-                    //TODO: STRING
-                    Toast.makeText(this, "Something wrong append !", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.update_button_property_detail, Toast.LENGTH_LONG).show()
                 }
                 true
             }

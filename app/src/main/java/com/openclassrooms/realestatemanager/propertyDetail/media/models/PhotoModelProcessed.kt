@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.propertyDetail.media.models
 
+import android.graphics.Bitmap
+
 class PhotoModelProcessed(
-        val name: String?,
-        val wording: String?
+        val photo: Bitmap,
+        val wording: String
 )

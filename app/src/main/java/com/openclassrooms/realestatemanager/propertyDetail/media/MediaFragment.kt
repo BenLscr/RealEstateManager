@@ -49,12 +49,11 @@ class MediaFragment : Fragment() {
         }
 
         getPropertyPath()
-        getPropertyPhoto()
         return view
     }
 
-    private fun getPropertyPath() = mediaViewModel.getPropertyPath(propertyId).observe(this, Observer { mediaAdapter.receivePropertyPath(it) })
+    private fun getPropertyPath() = mediaViewModel.getPropertyPath(propertyId).observe(this, Observer { getPropertyPhotos(it) })
 
-    private fun getPropertyPhoto() = mediaViewModel.getPropertyPhotos(propertyId).observe(this, Observer { mediaAdapter.receivePropertyPhotos(it, requireContext()) })
+    private fun getPropertyPhotos(path: String) = mediaViewModel.getPropertyPhotos(propertyId, path, requireContext()).observe(this, Observer { mediaAdapter.receivePropertyPhotos(it) })
 
 }
