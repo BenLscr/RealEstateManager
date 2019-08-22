@@ -110,7 +110,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
 
                     <FrameLayout
                         android:id="@+id/form_property_photo_container"
@@ -125,7 +126,7 @@
                         android:textColor="@android:color/holo_red_dark"
                         android:text="@string/form_error_photo"
                         android:textSize="16sp"
-                        android:layout_margin="4dp"
+                        android:layout_marginStart="4dp"
                         android:visibility="gone"/>
 
                 </LinearLayout>

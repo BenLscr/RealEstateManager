@@ -21,6 +21,8 @@ class MediaViewModel(
     fun getPropertyPhotos(propertyId: Int, path: String?, context: Context): LiveData<List<PhotoModelProcessed>> =
             Transformations.map(compositionPropertyAndPropertyPhotoDataSource.getPropertyPhotos(propertyId)) { it.map { propertyPhoto -> buildPhotoModelProcessed(propertyPhoto, path, context) } }
 
+
+    //---FACTORY---\\
     private fun buildPhotoModelProcessed(propertyPhoto: CompositionPropertyAndPropertyPhoto, path: String?, context: Context?) =
             PhotoModelProcessed(
                     photo = Utils.getInternalBitmap(path, propertyPhoto.propertyPhoto?.name, context),

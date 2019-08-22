@@ -31,8 +31,23 @@ class UpdateFormViewModel(
     private var _fullNameAgents: LiveData<List<String>> = Transformations.map(agentDataSource.getAgents()) { list -> list.map { agent -> agent.firstName + " " + agent.name } }
     val fullNameAgents: LiveData<List<String>> = _fullNameAgents
 
-    fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> { return Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) } }
+    fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> {
+        return Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) }
+    }
 
+    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> {
+        return Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterest(it) }
+    }
+
+    fun getPropertyPhotos(propertyId: Int, path: String?, context: Context): LiveData<List<FormPhotoAndWording>> {
+        return Transformations.map(compositionPropertyAndPropertyPhotoDataSource.getPropertyPhotos(propertyId)) {
+            it.map {
+                composition -> buildFormPhotoAndWording(composition, path, context)
+            }
+        }
+    }
+
+    //---FACTORY---\\
     private fun buildPropertyModelProcessed(property: Property)
             = PropertyModelProcessed(
             type = property.type.ordinal,
@@ -62,8 +77,6 @@ class UpdateFormViewModel(
                 null
             }
 
-    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> { return Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterest(it) } }
-
     private fun buildLocationOfInterest(listComposition: List<CompositionPropertyAndLocationOfInterest>): LocationsOfInterestModelProcessed {
         var school = false
         var commerces= false
@@ -88,15 +101,12 @@ class UpdateFormViewModel(
         )
     }
 
-    fun getPropertyPhotos(propertyId: Int, path: String?, context: Context): LiveData<List<FormPhotoAndWording>> { return Transformations.map(compositionPropertyAndPropertyPhotoDataSource.getPropertyPhotos(propertyId)) { it.map { composition -> buildFormPhotoAndWording(composition, path, context) } } }
-
     private fun buildFormPhotoAndWording(composition: CompositionPropertyAndPropertyPhoto, path: String?, context: Context) =
             FormPhotoAndWording(
                     photo = Utils.getInternalBitmap(path, composition.propertyPhoto?.name, context),
                     wording = getWordingIntoStringForUi(composition.propertyPhoto?.wording)
             )
 
-    //---FACTORY---\\
     private fun getWordingIntoStringForUi(wording: Wording?) =
             when(wording) {
                 Wording.STREET_VIEW -> "Street view"
