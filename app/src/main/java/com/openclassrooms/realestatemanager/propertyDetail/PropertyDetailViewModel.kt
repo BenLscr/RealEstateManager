@@ -65,6 +65,7 @@ class PropertyDetailViewModel(
     fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> =
             Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
 
+    //---FACTORY---\\
     private fun buildLocationOfInterestModelProcessed(composition: List<CompositionPropertyAndLocationOfInterest>): LocationsOfInterestModelProcessed {
         var school = false
         var commerces= false

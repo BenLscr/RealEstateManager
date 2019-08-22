@@ -10,8 +10,8 @@ import com.openclassrooms.realestatemanager.models.CompositionPropertyAndPropert
 @Dao
 interface CompositionPropertyAndPropertyPhotoDao {
 
-    @Query("SELECT * FROM CompositionPropertyAndPropertyPhoto INNER JOIN PropertyPhoto ON CompositionPropertyAndPropertyPhoto.propertyPhotoId = PropertyPhoto.property_photo_id WHERE :isThisTheIllustration = PropertyPhoto.isThisTheIllustration")
-    fun getIllustrationPropertyPhotos(isThisTheIllustration: Boolean): LiveData<List<CompositionPropertyAndPropertyPhoto>>
+    @Query("SELECT * FROM CompositionPropertyAndPropertyPhoto INNER JOIN PropertyPhoto ON CompositionPropertyAndPropertyPhoto.propertyPhotoId = PropertyPhoto.property_photo_id WHERE :isThisTheIllustration = PropertyPhoto.isThisTheIllustration AND :propertyId = CompositionPropertyAndPropertyPhoto.propertyId")
+    fun getPropertyIllustration(propertyId: Int, isThisTheIllustration: Boolean): LiveData<CompositionPropertyAndPropertyPhoto>
 
     @Query("SELECT * FROM CompositionPropertyAndPropertyPhoto INNER JOIN PropertyPhoto ON CompositionPropertyAndPropertyPhoto.propertyPhotoId = PropertyPhoto.property_photo_id WHERE :propertyId = propertyId")
     fun getPropertyPhotos(propertyId: Int): LiveData<List<CompositionPropertyAndPropertyPhoto>>

@@ -96,6 +96,7 @@ class UpdateFormViewModel(
                     wording = getWordingIntoStringForUi(composition.propertyPhoto?.wording)
             )
 
+    //---FACTORY---\\
     private fun getWordingIntoStringForUi(wording: Wording?) =
             when(wording) {
                 Wording.STREET_VIEW -> "Street view"

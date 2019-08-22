@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.propertyList
 
-import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment.OnListFragmentInteractionListener
 import com.openclassrooms.realestatemanager.propertyList.models.IllustrationModelProcessed
 import com.openclassrooms.realestatemanager.propertyList.models.PropertyModelProcessed
@@ -18,8 +17,7 @@ class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecycle
 
     private val properties = mutableListOf<PropertyModelProcessed>()
     private var mListener: OnListFragmentInteractionListener? = null
-    private val propertiesPhotos = mutableListOf<IllustrationModelProcessed>()
-    private var context: Context? = null
+    private val illustrations = mutableListOf<IllustrationModelProcessed>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -37,10 +35,10 @@ class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecycle
             mView.setOnClickListener { mListener?.onListFragmentInteraction(property.propertyId) }
         }
 
-        if(propertiesPhotos.isNotEmpty()) {
-            for (propertyPhoto in propertiesPhotos) {
-                if (propertyPhoto.propertyId == property.propertyId) {
-                    holder.img.setImageBitmap(Utils.getInternalBitmap(property.path, propertyPhoto.photoName, context))
+        if(illustrations.isNotEmpty()) {
+            for (illustration in illustrations) {
+                if (illustration.propertyId == property.propertyId) {
+                    holder.img.setImageBitmap(illustration.illustration)
                     break
                 }
             }
@@ -56,10 +54,9 @@ class PropertyListRecyclerViewAdapter : RecyclerView.Adapter<PropertyListRecycle
         notifyDataSetChanged()
     }
 
-    fun receivePropertiesPhotos(propertiesPhotos: List<IllustrationModelProcessed>, context: Context) {
-        this.propertiesPhotos.clear()
-        this.propertiesPhotos.addAll(propertiesPhotos)
-        this.context = context
+    fun receiveIllustrations(illustrations: List<IllustrationModelProcessed>) {
+        this.illustrations.clear()
+        this.illustrations.addAll(illustrations)
         notifyDataSetChanged()
     }
 

@@ -6,7 +6,7 @@ import com.openclassrooms.realestatemanager.models.CompositionPropertyAndPropert
 
 class CompositionPropertyAndPropertyPhotoDataRepository(private val compositionPropertyAndPropertyPhotoDao: CompositionPropertyAndPropertyPhotoDao) {
 
-    fun getIllustrationPropertyPhotos(isThisTheIllustration: Boolean): LiveData<List<CompositionPropertyAndPropertyPhoto>> { return compositionPropertyAndPropertyPhotoDao.getIllustrationPropertyPhotos(isThisTheIllustration) }
+    fun getPropertyIllustration(propertyId: Int, isThisTheIllustration: Boolean): LiveData<CompositionPropertyAndPropertyPhoto> { return compositionPropertyAndPropertyPhotoDao.getPropertyIllustration(propertyId, isThisTheIllustration) }
 
     fun getPropertyPhotos(propertyId: Int): LiveData<List<CompositionPropertyAndPropertyPhoto>> { return compositionPropertyAndPropertyPhotoDao.getPropertyPhotos(propertyId) }
 
