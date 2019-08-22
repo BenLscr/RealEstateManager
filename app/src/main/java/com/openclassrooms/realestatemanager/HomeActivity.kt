@@ -12,8 +12,8 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.openclassrooms.realestatemanager.emptyPropertyDetail.EmptyPropertyDetailFragment
-import com.openclassrooms.realestatemanager.form.AddFormActivity
-import com.openclassrooms.realestatemanager.form.UpdateFormActivity
+import com.openclassrooms.realestatemanager.form.addForm.AddFormActivity
+import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment
@@ -56,10 +56,10 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
             R.id.update_button -> {
                 if (fragmentPropertyDetail != null) {
                     val intent = Intent(this, UpdateFormActivity::class.java)
+                    intent.putExtra(INTENT_HOME_TO_UPDATE, propertyId)
                     startActivity(intent)
                 } else {
-                    //TODO: STRING
-                    Toast.makeText(this, "Do something!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.update_button_select_property_first, Toast.LENGTH_LONG).show()
                 }
                 true
             }
@@ -97,7 +97,7 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
     private var fragmentPropertyDetail: PropertyDetailFragment? = null
     private var fragmentEmptyPropertyDetail: EmptyPropertyDetailFragment? = null
     private var containerPropertyDetail: Fragment? = supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
-    private var propertyId: Int? = null
+    private var propertyId: Int = 0
 
     private fun initAndAddFragment() {
         fragmentTransaction.add(R.id.activity_property_list_container, fragmentPropertyList)

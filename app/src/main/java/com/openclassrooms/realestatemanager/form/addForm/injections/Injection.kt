@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.form.injections
+package com.openclassrooms.realestatemanager.form.addForm.injections
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.database.AppDatabase

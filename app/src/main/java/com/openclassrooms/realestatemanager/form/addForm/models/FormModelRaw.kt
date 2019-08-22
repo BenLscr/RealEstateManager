@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.form.models
+package com.openclassrooms.realestatemanager.form.addForm.models
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording

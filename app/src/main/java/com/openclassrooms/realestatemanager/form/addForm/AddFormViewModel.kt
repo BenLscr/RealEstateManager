@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.form
+package com.openclassrooms.realestatemanager.form.addForm
 
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -8,7 +8,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.Utils
-import com.openclassrooms.realestatemanager.form.models.FormModelRaw
+import com.openclassrooms.realestatemanager.form.addForm.models.FormModelRaw
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import java.util.concurrent.Executor
@@ -159,8 +159,8 @@ class AddFormViewModel(
             }
 
     private fun sendNotification(formModelRaw: FormModelRaw) {
-        /*val channelId: String = getString(R.string.default_notification_channel_id)
-        val builder = NotificationCompat.Builder(formModelRaw.context, channelId)
+        //TODO : Utils
+        /*val builder = NotificationCompat.Builder(formModelRaw.context, "channelId")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("RealEstateManager")
                 .setContentText("Your property as been add.")

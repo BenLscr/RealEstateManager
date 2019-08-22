@@ -29,12 +29,12 @@
             android:parentActivityName=".HomeActivity">
         </activity>
         <activity
-            android:name=".form.AddFormActivity"
+            android:name=".form.addForm.AddFormActivity"
             android:label="Add property"
             android:parentActivityName=".HomeActivity">
         </activity>
         <activity
-            android:name=".form.UpdateFormActivity"
+            android:name=".form.updateForm.UpdateFormActivity"
             android:label="Update property">
         </activity>
 

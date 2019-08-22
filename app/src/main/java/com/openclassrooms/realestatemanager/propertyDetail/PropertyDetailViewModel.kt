@@ -2,15 +2,12 @@ package com.openclassrooms.realestatemanager.propertyDetail
 
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.*
-import com.openclassrooms.realestatemanager.propertyDetail.models.LocationOfInterestModelProcessed
+import com.openclassrooms.realestatemanager.propertyDetail.models.LocationsOfInterestModelProcessed
 import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelProcessed
-import com.openclassrooms.realestatemanager.repositories.AddressDataRepository
-import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.Executor
 
 class PropertyDetailViewModel(
         private val propertyDataSource: PropertyDataRepository,
@@ -65,10 +62,10 @@ class PropertyDetailViewModel(
                 null
             }
 
-    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationOfInterestModelProcessed> =
+    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> =
             Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
 
-    private fun buildLocationOfInterestModelProcessed(composition: List<CompositionPropertyAndLocationOfInterest>): LocationOfInterestModelProcessed {
+    private fun buildLocationOfInterestModelProcessed(composition: List<CompositionPropertyAndLocationOfInterest>): LocationsOfInterestModelProcessed {
         var school = false
         var commerces= false
         var park = false
@@ -83,7 +80,7 @@ class PropertyDetailViewModel(
                 4 -> train = true
             }
         }
-        return LocationOfInterestModelProcessed(
+        return LocationsOfInterestModelProcessed(
                 school = school,
                 commerces = commerces,
                 park = park,

@@ -79,7 +79,7 @@
 
                             <AutoCompleteTextView
                                 android:id="@+id/form_wording"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/wording"
                                 android:textColorHint="@android:color/white"
@@ -305,7 +305,8 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/form_description_edit_text"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:maxLength="2000"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -452,7 +453,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:layout_gravity="center_horizontal">
+                                android:layout_marginStart="10dp">
 
                                 <CheckBox
                                     android:id="@+id/form_school_checkbox"
@@ -491,8 +492,7 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_gravity="center_horizontal">
+                                android:orientation="vertical">
 
                                 <CheckBox
                                     android:id="@+id/form_subways_checkbox"
@@ -559,16 +559,16 @@
 
                 </LinearLayout>
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_margin="10dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
@@ -594,7 +594,7 @@
                                 android:textSize="16sp"/>
 
                             <TextView
-                                android:id="@+id/form_error_date"
+                                android:id="@+id/form_error_entry_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/form_error_date"
@@ -606,36 +606,88 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/form_is_available_switch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="bottom">
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/is_available"
+                        android:textSize="18sp"
+                        android:visibility="gone"/>
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/form_cancel_button"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:text="@string/cancel_form_button"/>
+                    <LinearLayout
+                        android:id="@+id/form_sale_date_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/form_add_button"
-                            android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:text="@string/add_form_button"/>
+                            android:textSize="18sp"
+                            android:text="@string/sale_date"/>
+
+                        <TextView
+                            android:id="@+id/form_select_sale_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/select_a_date"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:id="@+id/form_error_sale_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/form_error_date"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="16sp"
+                            android:visibility="gone"/>
 
                     </LinearLayout>
 
-                </FrameLayout>
+                </LinearLayout>
 
             </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/form_cancel_button"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/cancel_form_button"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/form_add_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/add_form_button"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
 
         </LinearLayout>
 

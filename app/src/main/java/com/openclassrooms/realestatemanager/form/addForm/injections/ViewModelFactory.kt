@@ -1,8 +1,8 @@
-package com.openclassrooms.realestatemanager.form.injections
+package com.openclassrooms.realestatemanager.form.addForm.injections
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.openclassrooms.realestatemanager.form.AddFormViewModel
+import com.openclassrooms.realestatemanager.form.addForm.AddFormViewModel
 import com.openclassrooms.realestatemanager.repositories.*
 import java.lang.IllegalArgumentException
 import java.util.concurrent.Executor

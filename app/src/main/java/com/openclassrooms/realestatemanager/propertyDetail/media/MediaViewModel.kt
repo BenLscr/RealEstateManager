@@ -28,7 +28,7 @@ class MediaViewModel(
 
     private fun getWordingIntoStringForUi(wording: Wording?) =
             when(wording) {
-                Wording.STREET_VIEW -> "Street View"
+                Wording.STREET_VIEW -> "Street view"
                 Wording.LIVING_ROOM -> "Living room"
                 Wording.HALL -> "Hall"
                 Wording.KITCHEN -> "Kitchen"

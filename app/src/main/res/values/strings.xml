@@ -5,6 +5,7 @@
     <string name="search">Search</string>
     <string name="update">Update</string>
     <string name="add">Add</string>
+    <string name="update_button_select_property_first">To update a property, select a property first in the list.</string>
 
     //DRAWER MENU
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -117,7 +118,7 @@
     <string name="is_available">Is available ?</string>
     <string name="add_form_button">ADD</string>
     <string name="cancel_form_button">CANCEL</string>
-    <string name="entry_date_form">Date of entry into the market</string>
+    <string name="entry_date_form">Entry date into the market</string>
     <string name="select_a_date">Select a date</string>
 
     <string name="default_notification_channel_id" translatable="false">default notification channel id</string>

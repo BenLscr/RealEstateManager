@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.openclassrooms.realestatemanager.INTENT_HOME_TO_DETAIL
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.form.UpdateFormActivity
+import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormActivity
 import kotlinx.android.synthetic.main.toolbar.*
 
 const val INTENT_DETAIL_TO_UPDATE = "INTENT_DETAIL_TO_UPDATE"
@@ -25,6 +25,17 @@ class PropertyDetailActivity : AppCompatActivity() {
         retrievesIntent()
         configureToolbar()
         initAndAddFragment()
+    }
+
+    private fun retrievesIntent() {
+        if (intent.hasExtra(INTENT_HOME_TO_DETAIL)) {
+            propertyId = intent.getIntExtra(INTENT_HOME_TO_DETAIL, 0)
+        }
+    }
+
+    private fun configureToolbar() {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -47,17 +58,6 @@ class PropertyDetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun retrievesIntent() {
-        if (intent.hasExtra(INTENT_HOME_TO_DETAIL)) {
-            propertyId = intent.getIntExtra(INTENT_HOME_TO_DETAIL, 0)
-        }
-    }
-
-    private fun configureToolbar() {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initAndAddFragment() {
