@@ -3,7 +3,7 @@ package com.openclassrooms.realestatemanager.form.addForm.models
 import android.content.Context
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
 
-class FormModelRaw(
+class AddFormModelRaw(
         val listFormPhotoAndWording: MutableList<FormPhotoAndWording>,
         val path: String,
         val complement: String,

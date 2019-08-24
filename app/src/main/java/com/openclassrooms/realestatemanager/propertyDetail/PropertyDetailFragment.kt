@@ -83,19 +83,29 @@ class PropertyDetailFragment : Fragment() {
 
     private fun updateUiWithLocationsOfInterestData(model: LocationsOfInterestModelProcessed) {
         with(model) {
-            if (!school) {
+            if (school) {
+                property_detail_school.visibility = View.VISIBLE
+            } else {
                 property_detail_school.visibility = View.GONE
             }
-            if (!commerces) {
+            if (commerces) {
+                property_detail_commerces.visibility = View.VISIBLE
+            } else {
                 property_detail_commerces.visibility = View.GONE
             }
-            if (!park) {
+            if (park) {
+                property_detail_park.visibility = View.VISIBLE
+            } else {
                 property_detail_park.visibility = View.GONE
             }
-            if (!subways) {
+            if (subways) {
+                property_detail_subways.visibility = View.VISIBLE
+            } else {
                 property_detail_subways.visibility = View.GONE
             }
-            if (!train) {
+            if (train) {
+                property_detail_train.visibility = View.VISIBLE
+            } else {
                 property_detail_train.visibility = View.GONE
             }
             if (!school && !commerces && !park && !subways && !train) {

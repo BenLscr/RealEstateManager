@@ -1,14 +1,10 @@
 package com.openclassrooms.realestatemanager.form.addForm
 
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.res.TypedArrayUtils.getString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.Utils
-import com.openclassrooms.realestatemanager.form.addForm.models.FormModelRaw
+import com.openclassrooms.realestatemanager.form.addForm.models.AddFormModelRaw
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import java.util.concurrent.Executor
@@ -25,12 +21,12 @@ class AddFormViewModel(
     private var _fullNameAgents: LiveData<List<String>> = Transformations.map(agentDataSource.getAgents()) { list -> list.map { agent -> agent.firstName + " " + agent.name } }
     val fullNameAgents: LiveData<List<String>> = _fullNameAgents
 
-    fun startBuildingModelsForDatabase(formModelRaw: FormModelRaw) = buildAddressModel(formModelRaw)
+    fun startBuildingModelsForDatabase(addFormModelRaw: AddFormModelRaw) = buildAddressModel(addFormModelRaw)
 
 
-    private fun buildAddressModel(formModelRaw: FormModelRaw) {
+    private fun buildAddressModel(addFormModelRaw: AddFormModelRaw) {
         val address: Address
-        with(formModelRaw) {
+        with(addFormModelRaw) {
             address = Address(
                     path = path,
                     complement = returnComplementOrNull(complement),
@@ -40,18 +36,18 @@ class AddFormViewModel(
                     country = getCountryForDatabase(country)
             )
         }
-        insertAddress(formModelRaw, address)
+        insertAddress(addFormModelRaw, address)
     }
 
-    private fun insertAddress(formModelRaw: FormModelRaw, address: Address) =
+    private fun insertAddress(addFormModelRaw: AddFormModelRaw, address: Address) =
             executor.execute {
                 val rowIdAddress = addressDataSource.insertAddress(address)
-                buildPropertyModel(formModelRaw, rowIdAddress)
+                buildPropertyModel(addFormModelRaw, rowIdAddress)
             }
 
-    private fun buildPropertyModel(formModelRaw: FormModelRaw, rowIdAddress: Long) {
+    private fun buildPropertyModel(addFormModelRaw: AddFormModelRaw, rowIdAddress: Long) {
         val property: Property
-        with(formModelRaw) {
+        with(addFormModelRaw) {
             property = Property(
                     type = getTypeForDatabase(type),
                     price = price.toLong(),
@@ -67,18 +63,18 @@ class AddFormViewModel(
                     agentId = getAgentIdForDatabase(fullNameAgent)
             )
         }
-        insertProperty(formModelRaw, property)
+        insertProperty(addFormModelRaw, property)
     }
 
-    private fun insertProperty(formModelRaw: FormModelRaw, property: Property) =
+    private fun insertProperty(addFormModelRaw: AddFormModelRaw, property: Property) =
             executor.execute {
                 val rowIdProperty = propertyDataSource.insertProperty(property)
-                buildCompositionPropertyAndLocationOfInterestDataSource(formModelRaw, rowIdProperty)
-                buildPropertyPhotoAndSavePhotosOnInternalStorage(formModelRaw, rowIdProperty)
+                buildCompositionPropertyAndLocationOfInterestDataSource(addFormModelRaw, rowIdProperty)
+                buildPropertyPhotoAndSavePhotosOnInternalStorage(addFormModelRaw, rowIdProperty)
             }
 
-    private fun buildCompositionPropertyAndLocationOfInterestDataSource(formModelRaw: FormModelRaw, rowIdProperty: Long) {
-        with(formModelRaw) {
+    private fun buildCompositionPropertyAndLocationOfInterestDataSource(addFormModelRaw: AddFormModelRaw, rowIdProperty: Long) {
+        with(addFormModelRaw) {
             if (school){
                 val compositionPropertyAndLocationOfInterest = CompositionPropertyAndLocationOfInterest(
                         propertyId = rowIdProperty.toInt(),
@@ -122,8 +118,8 @@ class AddFormViewModel(
                 compositionPropertyAndLocationOfInterestDataSource.insertLocationOfInterest(compositionPropertyAndLocationOfInterest)
             }
 
-    private fun buildPropertyPhotoAndSavePhotosOnInternalStorage(formModelRaw: FormModelRaw, rowIdProperty: Long) {
-        with(formModelRaw) {
+    private fun buildPropertyPhotoAndSavePhotosOnInternalStorage(addFormModelRaw: AddFormModelRaw, rowIdProperty: Long) {
+        with(addFormModelRaw) {
             listFormPhotoAndWording.forEachIndexed {index, formPhotoAndWording ->
                 val name = getNamePhoto(index)
                 Utils.setInternalBitmap(formPhotoAndWording.photo, path, name, context)
@@ -135,7 +131,7 @@ class AddFormViewModel(
                 insertPropertyPhoto(propertyPhoto, rowIdProperty)
             }
         }
-        sendNotification(formModelRaw)
+        sendNotification(addFormModelRaw)
     }
 
     private fun insertPropertyPhoto(propertyPhoto: PropertyPhoto, rowIdProperty: Long) =
@@ -158,15 +154,15 @@ class AddFormViewModel(
                 compositionPropertyAndPropertyPhotoDataSource.insertPropertyPhoto(compositionPropertyAndPropertyPhoto)
             }
 
-    private fun sendNotification(formModelRaw: FormModelRaw) {
+    private fun sendNotification(addFormModelRaw: AddFormModelRaw) {
         //TODO : Utils
-        /*val builder = NotificationCompat.Builder(formModelRaw.context, "channelId")
+        /*val builder = NotificationCompat.Builder(addFormModelRaw.context, "channelId")
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("RealEstateManager")
                 .setContentText("Your property as been add.")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        NotificationManagerCompat.from(formModelRaw.context).notify(0, builder.build())*/
+        NotificationManagerCompat.from(addFormModelRaw.context).notify(0, builder.build())*/
     }
 
     //---FACTORY---\\

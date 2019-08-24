@@ -8,10 +8,10 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.FormBaseActivity
 import com.openclassrooms.realestatemanager.form.addForm.injections.Injection
 import com.openclassrooms.realestatemanager.form.media.MediaFormFragment
-import com.openclassrooms.realestatemanager.form.addForm.models.FormModelRaw
+import com.openclassrooms.realestatemanager.form.addForm.models.AddFormModelRaw
 import kotlinx.android.synthetic.main.form.*
 
-class AddFormActivity : FormBaseActivity(), MediaFormFragment.OnListFragmentInteractionListener {
+class AddFormActivity : FormBaseActivity() {
 
     private val addFormViewModel: AddFormViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(applicationContext)).get(AddFormViewModel::class.java) }
 
@@ -46,7 +46,7 @@ class AddFormActivity : FormBaseActivity(), MediaFormFragment.OnListFragmentInte
                 && bedrooms.isNotEmpty()
                 && fullNameAgent.isNotEmpty()
                 && entryDate > 0) {
-            val formModelRaw = FormModelRaw(
+            val formModelRaw = AddFormModelRaw(
                     listFormPhotoAndWording = listFormPhotoAndWording,
                     path = path,
                     complement = complement,
@@ -88,22 +88,6 @@ class AddFormActivity : FormBaseActivity(), MediaFormFragment.OnListFragmentInte
         } else {
             form_error_entry_date.visibility = View.GONE
         }
-    }
-
-    private fun setEveryAwesomeValidation() {
-        mAwesomeValidation.addValidation(this, R.id.form_path_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_district_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_city_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_postal_code_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_country_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_description_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_price_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_type_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_square_meters_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_rooms_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_bathrooms_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_bedrooms_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
-        mAwesomeValidation.addValidation(this, R.id.form_agent_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
     }
 
 }

@@ -2,12 +2,12 @@ package com.openclassrooms.realestatemanager.form.updateForm.injections
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormViewModel
+import com.openclassrooms.realestatemanager.form.updateForm.SetUpdateFormViewModel
 import com.openclassrooms.realestatemanager.repositories.*
 import java.lang.IllegalArgumentException
 import java.util.concurrent.Executor
 
-class ViewModelFactory(
+class SetViewModelFactory(
         private val propertyDataSource: PropertyDataRepository,
         private val addressDataSource: AddressDataRepository,
         private val agentDataSource: AgentDataRepository,
@@ -17,8 +17,8 @@ class ViewModelFactory(
         private val executor: Executor): ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(UpdateFormViewModel::class.java)) {
-            return UpdateFormViewModel(
+        if (modelClass.isAssignableFrom(SetUpdateFormViewModel::class.java)) {
+            return SetUpdateFormViewModel(
                     propertyDataSource,
                     addressDataSource,
                     agentDataSource,

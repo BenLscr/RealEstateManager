@@ -17,14 +17,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executor
 
-class UpdateFormViewModel(
+class GetUpdateFormViewModel(
         private val propertyDataSource: PropertyDataRepository,
-        private val addressDataSource: AddressDataRepository,
         agentDataSource: AgentDataRepository,
         private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository,
-        private val propertyPhotoDataSource: PropertyPhotoDataRepository,
-        private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository,
-        private val executor: Executor) : ViewModel() {
+        private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository) : ViewModel() {
 
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
