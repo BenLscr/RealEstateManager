@@ -1,7 +1,10 @@
 package com.openclassrooms.realestatemanager.form.updateForm
 
 import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.Utils
+import com.openclassrooms.realestatemanager.form.updateForm.models.AddressModelRaw
 import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelRaw
+import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.models.CompositionPropertyAndLocationOfInterest
 import com.openclassrooms.realestatemanager.models.LocationOfInterest
 import com.openclassrooms.realestatemanager.repositories.*
@@ -16,7 +19,9 @@ class SetUpdateFormViewModel(
         private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository,
         private val executor: Executor) : ViewModel() {
 
-    fun setLocationsOfInterest(locationsOfInterestModelRaw: LocationsOfInterestModelRaw) {
+    fun updateAddress(addressModelRaw: AddressModelRaw) = executor.execute { addressDataSource.updateAddress(getAddressForDatabase(addressModelRaw)) }
+
+    fun updateLocationsOfInterest(locationsOfInterestModelRaw: LocationsOfInterestModelRaw) {
         with(locationsOfInterestModelRaw) {
             checkBooleanAndInsertOrDeleteIt(school, propertyId, LocationOfInterest.SCHOOL.ordinal)
             checkBooleanAndInsertOrDeleteIt(commerces, propertyId, LocationOfInterest.COMMERCES.ordinal)
@@ -38,5 +43,17 @@ class SetUpdateFormViewModel(
 
     //---FACTORY---\\
 
+    private fun getAddressForDatabase(addressModelRaw: AddressModelRaw) =
+            with(addressModelRaw) {
+                Address(
+                        id = id,
+                        path = path,
+                        complement = Utils.returnComplementOrNull(complement),
+                        district = Utils.getDistrictForDatabaseFromString(district),
+                        city = Utils.getCityForDatabaseFromString(city),
+                        postalCode = postalCode,
+                        country = Utils.getCountryForDatabaseFromString(country)
+                )
+            }
 
 }

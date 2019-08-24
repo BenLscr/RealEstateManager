@@ -5,6 +5,10 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.util.Log
+import com.openclassrooms.realestatemanager.models.City
+import com.openclassrooms.realestatemanager.models.Country
+import com.openclassrooms.realestatemanager.models.District
+import com.openclassrooms.realestatemanager.models.Type
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -92,4 +96,78 @@ object Utils {
             }
         }
     }
+
+    //---TO-DATABASE---\\
+    fun returnComplementOrNull(complement: String) = if (complement.isNotEmpty()) { complement } else { null }
+
+    fun getDistrictForDatabaseFromString(district: String) =
+            when(district) {
+                "Bronx" -> District.BRONX
+                "Brooklyn" -> District.BROOKLYN
+                "Manhattan" -> District.MANHATTAN
+                "Queens" -> District.QUEENS
+                "Staten Island" -> District.STATEN_ISLAND
+                else -> District.BRONX
+            }
+
+    fun getCityForDatabaseFromString(city: String) =
+            when(city) {
+                "New York" -> City.NEW_YORK
+                else -> City.NEW_YORK
+            }
+
+    fun getCountryForDatabaseFromString(country: String) =
+            when(country) {
+                "United States" -> Country.UNITED_STATES
+                else -> Country.UNITED_STATES
+            }
+
+    //---TO-UI---\\
+
+    fun getTypeIntoStringForUi(type: Type) =
+            when(type) {
+                Type.PENTHOUSE -> "Penthouse"
+                Type.MANSION -> "Mansion"
+                Type.FLAT -> "Flat"
+                Type.DUPLEX -> "Duplex"
+                Type.HOUSE -> "House"
+                Type.LOFT -> "Loft"
+                Type.TOWNHOUSE -> "Townhouse"
+                Type.CONDO -> "Condo"
+            }
+
+    fun getDistrictIntoStringForUi(district: District?) =
+            when(district) {
+                District.MANHATTAN -> "Manhattan"
+                District.BROOKLYN -> "Brooklyn"
+                District.STATEN_ISLAND -> "Staten Island"
+                District.QUEENS -> "Queens"
+                District.BRONX -> "Bronx"
+                else -> "District unknown"
+            }
+
+    fun getCityIntoStringForUi(city: City?) =
+            when(city) {
+                City.NEW_YORK -> "New York"
+                else -> "City unknown"
+            }
+
+    fun getCountryIntoStringForUi(country: Country?) =
+            when(country) {
+                Country.UNITED_STATES -> "United States"
+                else -> "Country unknown"
+            }
+
+    fun getAgentIntoIntForUi(agentId: Int) =
+            when(agentId) {
+                1 -> "Tony Stark"
+                2 -> "Peter Parker"
+                3 -> "Steve Rogers"
+                4 -> "Natasha Romanoff"
+                5 -> "Bruce Banner"
+                6 -> "Clinton Barton"
+                7 -> "Carol Denvers"
+                8 -> "Wanda Maximoff"
+                else -> "Agent unknown"
+            }
 }

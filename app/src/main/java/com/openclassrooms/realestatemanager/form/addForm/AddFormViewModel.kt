@@ -23,7 +23,6 @@ class AddFormViewModel(
 
     fun startBuildingModelsForDatabase(addFormModelRaw: AddFormModelRaw) = buildAddressModel(addFormModelRaw)
 
-
     private fun buildAddressModel(addFormModelRaw: AddFormModelRaw) {
         val address: Address
         with(addFormModelRaw) {

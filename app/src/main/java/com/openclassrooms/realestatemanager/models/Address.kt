@@ -6,14 +6,13 @@ import androidx.room.PrimaryKey
 
 @Entity
 class Address(
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "address_id")
+        var id: Int = 0,
         val path: String,
         val complement: String?,
         val district: District,
         val city: City,
         val postalCode: String,
         val country: Country
-) {
-        @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "address_id")
-        var id: Int = 0
-}
+)

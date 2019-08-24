@@ -47,7 +47,7 @@ class GetUpdateFormViewModel(
     //---FACTORY---\\
     private fun buildPropertyModelProcessed(property: Property)
             = PropertyModelProcessed(
-            type = property.type.ordinal,
+            type = Utils.getTypeIntoStringForUi(property.type),
             price = property.price.toString(),
             rooms = property.rooms.toString(),
             bedrooms = property.bedrooms.toString(),
@@ -56,13 +56,14 @@ class GetUpdateFormViewModel(
             available = property.available,
             entryDate = getEntryDateIntoStringForUi(property.entryDate),
             saleDate = getSaleDateIntoStringForUi(property.saleDate),
+            addressId = property.addressId,
             path = property.address?.path,
-            complement = property.address?.complement,
-            district = property.address?.district?.ordinal,
-            city = property.address?.city?.ordinal,
+            complement = if (property.address?.complement != null) { property.address?.complement } else { "" },
+            district = Utils.getDistrictIntoStringForUi(property.address?.district),
+            city = Utils.getCityIntoStringForUi(property.address?.city),
             postalCode = property.address?.postalCode,
-            country = property.address?.country?.ordinal,
-            agent = property.agentId - 1
+            country = Utils.getCountryIntoStringForUi(property.address?.country),
+            agent = Utils.getAgentIntoIntForUi(property.agentId)
     )
 
     private fun getEntryDateIntoStringForUi(entryDate: Long) = dateFormat.format(Date(entryDate))

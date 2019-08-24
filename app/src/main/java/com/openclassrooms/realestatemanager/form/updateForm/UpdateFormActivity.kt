@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.form.updateForm
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
@@ -13,9 +14,11 @@ import com.openclassrooms.realestatemanager.form.FormBaseActivity
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
 import com.openclassrooms.realestatemanager.form.updateForm.injections.GetInjection
 import com.openclassrooms.realestatemanager.form.updateForm.injections.SetInjection
+import com.openclassrooms.realestatemanager.form.updateForm.models.AddressModelRaw
 import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelProcessed
 import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelRaw
 import com.openclassrooms.realestatemanager.form.updateForm.models.PropertyModelProcessed
+import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.propertyDetail.INTENT_DETAIL_TO_UPDATE
 import kotlinx.android.synthetic.main.form.*
 
@@ -58,11 +61,11 @@ class UpdateFormActivity: FormBaseActivity() {
     }
 
     override fun getAgentsNameForDropDownMenu() {
-        getUpdateFormViewModel.fullNameAgents.observe(this, Observer { setDropDownMenuForAgentField(it) })
+        getUpdateFormViewModel.fullNameAgents.observeOnce(this, Observer { setDropDownMenuForAgentField(it) })
     }
 
     private fun retrievesDataFromDatabase() {
-        getUpdateFormViewModel.getProperty(propertyId).observe(this, Observer { filledFormWithPropertyData(it) })
+        getUpdateFormViewModel.getProperty(propertyId).observeOnce(this, Observer { filledFormWithPropertyData(it) })
         getUpdateFormViewModel.getLocationsOfInterest(propertyId).observeOnce(this, Observer { filledFormWithLocationsOfInterestData(it) })
     }
 
@@ -80,24 +83,18 @@ class UpdateFormActivity: FormBaseActivity() {
             entryPropertyModelProcessed = this
             form_path_edit_text.setText(path)
             form_complement_edit_text.setText(complement)
-            if (district != null) {
-                form_district.setText(form_district.adapter.getItem(district).toString(), false)
-            }
-            if (city != null) {
-                form_city.setText(form_city.adapter.getItem(city).toString(), false)
-            }
+            form_district.setText(district, false)
+            form_city.setText(city, false)
             form_postal_code_edit_text.setText(postalCode)
-            if (country != null) {
-                form_country.setText(form_country.adapter.getItem(country).toString(), false)
-            }
+            form_country.setText(country, false)
             form_price_edit_text.setText(price)
             form_description_edit_text.setText(description)
-            form_type.setText(form_type.adapter.getItem(type).toString(), false)
+            form_type.setText(type, false)
             form_surface_edit_text.setText(surface)
             form_rooms_edit_text.setText(rooms)
             form_bathrooms_edit_text.setText(bathrooms)
             form_bedrooms_edit_text.setText(bedrooms)
-            form_full_name_agent.setText(form_full_name_agent.adapter.getItem(agent).toString(), false)
+            form_full_name_agent.setText(agent, false)
             form_select_entry_date.text = entryDate
             form_is_available_switch.visibility = View.VISIBLE
             form_is_available_switch.isChecked = available
@@ -116,7 +113,6 @@ class UpdateFormActivity: FormBaseActivity() {
     }
 
     private fun filledFormWithLocationsOfInterestData(locationsOfInterestModelProcessed: LocationsOfInterestModelProcessed) {
-
         entryLocationsOfInterestModelProcessed = locationsOfInterestModelProcessed
         if (locationsOfInterestModelProcessed.school) {
             form_school_checkbox.isChecked = true
@@ -141,17 +137,35 @@ class UpdateFormActivity: FormBaseActivity() {
     }
 
     override fun shareModelToTheViewModel() {
-        //TODO
+        //TODO : update photos
         /*if (entryListFormPhotoAndWording == listFormPhotoAndWording) {
             Log.e("Share", "Are equals")
         } else {
             Log.e("Share", "Are not equals")
         }*/
-
-        //TODO : A tester
-        setUpdateFormViewModel.setLocationsOfInterest(getNewLocationsOfInterest())
-
+        if (path != entryPropertyModelProcessed.path
+                || complement != entryPropertyModelProcessed.complement
+                || district != entryPropertyModelProcessed.district
+                || city != entryPropertyModelProcessed.city
+                || postalCode != entryPropertyModelProcessed.postalCode
+                || country != entryPropertyModelProcessed.country) {
+            setUpdateFormViewModel.updateAddress(getNewAddress())
+        }
+        //TODO : update agent
+        //TODO : update property
+        setUpdateFormViewModel.updateLocationsOfInterest(getNewLocationsOfInterest())
     }
+
+    private fun getNewAddress() =
+            AddressModelRaw(
+                    id = entryPropertyModelProcessed.addressId,
+                    path = path,
+                    complement = complement,
+                    district = district,
+                    city = city,
+                    postalCode = postalCode,
+                    country = country
+            )
 
     private fun getNewLocationsOfInterest() =
             LocationsOfInterestModelRaw(
