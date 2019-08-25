@@ -30,7 +30,7 @@ import java.util.*
 abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFragment.OnListFragmentInteractionListener {
 
     private val mediaFormFragment = MediaFormFragment.newInstance()
-    private var calendar = Calendar.getInstance()
+    protected var calendar: Calendar = Calendar.getInstance()
     private var photo: Bitmap? = null
     private var wording: String = ""
     protected val listFormPhotoAndWording = mutableListOf<FormPhotoAndWording>()
@@ -56,7 +56,10 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
     protected var subways: Boolean = false
     protected var train: Boolean = false
     protected var available: Boolean = true
-    protected var entryDate: Long = 0
+    protected var entryDate: String = ""
+    protected var entryDateLong: Long = 0
+    protected var saleDate: String = ""
+    protected var saleDateLong: Long = 0
 
     protected abstract fun getAgentsNameForDropDownMenu()
     protected abstract fun shareModelToTheViewModel()
@@ -129,7 +132,7 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
         form_bathrooms_edit_text.doAfterTextChanged { bathrooms = it.toString() }
         form_bedrooms_edit_text.doAfterTextChanged { bedrooms = it.toString() }
         form_full_name_agent.doAfterTextChanged { fullNameAgent = it.toString() }
-        form_select_entry_date.setOnClickListener { initBeginDatePickerDialog() }
+        form_select_entry_date.setOnClickListener { initEntryDatePickerDialog() }
         form_cancel_button.setOnClickListener { finish() }
         form_add_button.setOnClickListener {
             shareModelToTheViewModel()
@@ -176,7 +179,7 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
         wording = ""
     }
 
-    private fun initBeginDatePickerDialog() {
+    private fun initEntryDatePickerDialog() {
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
@@ -192,9 +195,9 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
     private var entryDateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
         calendar.set(year, month, dayOfMonth)
         val visualFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val entryDateToShow = visualFormat.format(calendar.time)
-        form_select_entry_date.text = entryDateToShow
-        entryDate = calendar.timeInMillis
+        entryDate = visualFormat.format(calendar.time)
+        form_select_entry_date.text = entryDate
+        entryDateLong = calendar.timeInMillis
     }
 
     fun onCheckboxClicked(view: View) {

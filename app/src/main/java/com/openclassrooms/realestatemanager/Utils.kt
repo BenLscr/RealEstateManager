@@ -122,6 +122,32 @@ object Utils {
                 else -> Country.UNITED_STATES
             }
 
+    fun getTypeForDatabaseFromString(type: String) =
+            when(type) {
+                "Flat" -> Type.FLAT
+                "Penthouse" -> Type.PENTHOUSE
+                "Mansion" -> Type.MANSION
+                "Duplex" -> Type.DUPLEX
+                "House" -> Type.HOUSE
+                "Loft" -> Type.LOFT
+                "Townhouse" -> Type.TOWNHOUSE
+                "Condo" -> Type.CONDO
+                else -> Type.FLAT
+            }
+
+    fun getAgentIdForDatabaseFromString(fullNameAgent: String) =
+            when(fullNameAgent) {
+                "Tony Stark" -> 1
+                "Peter Parker" -> 2
+                "Steve Rogers" -> 3
+                "Natasha Romanoff" -> 4
+                "Bruce Banner" -> 5
+                "Clinton Barton" -> 6
+                "Carol Denvers" -> 7
+                "Wanda Maximoff" -> 8
+                else -> 1
+            }
+
     //---TO-UI---\\
 
     fun getTypeIntoStringForUi(type: Type) =
@@ -158,7 +184,7 @@ object Utils {
                 else -> "Country unknown"
             }
 
-    fun getAgentIntoIntForUi(agentId: Int) =
+    fun getAgentIntoStringForUi(agentId: Int) =
             when(agentId) {
                 1 -> "Tony Stark"
                 2 -> "Peter Parker"

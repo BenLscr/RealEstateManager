@@ -45,7 +45,7 @@ class AddFormActivity : FormBaseActivity() {
                 && bathrooms.isNotEmpty()
                 && bedrooms.isNotEmpty()
                 && fullNameAgent.isNotEmpty()
-                && entryDate > 0) {
+                && entryDateLong > 0) {
             val formModelRaw = AddFormModelRaw(
                     listFormPhotoAndWording = listFormPhotoAndWording,
                     path = path,
@@ -68,7 +68,7 @@ class AddFormActivity : FormBaseActivity() {
                     subways = subways,
                     train = train,
                     available = available,
-                    entryDate = entryDate,
+                    entryDate = entryDateLong,
                     context = applicationContext
             )
             addFormViewModel.startBuildingModelsForDatabase(formModelRaw)
@@ -83,7 +83,7 @@ class AddFormActivity : FormBaseActivity() {
         } else {
             form_error_photo.visibility = View.GONE
         }
-        if (entryDate <= 0) {
+        if (entryDateLong <= 0) {
             form_error_entry_date.visibility = View.VISIBLE
         } else {
             form_error_entry_date.visibility = View.GONE

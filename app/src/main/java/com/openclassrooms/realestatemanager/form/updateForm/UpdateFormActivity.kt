@@ -1,7 +1,9 @@
 package com.openclassrooms.realestatemanager.form.updateForm
 
+import android.app.DatePickerDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
@@ -14,18 +16,16 @@ import com.openclassrooms.realestatemanager.form.FormBaseActivity
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
 import com.openclassrooms.realestatemanager.form.updateForm.injections.GetInjection
 import com.openclassrooms.realestatemanager.form.updateForm.injections.SetInjection
-import com.openclassrooms.realestatemanager.form.updateForm.models.AddressModelRaw
-import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelProcessed
-import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelRaw
-import com.openclassrooms.realestatemanager.form.updateForm.models.PropertyModelProcessed
-import com.openclassrooms.realestatemanager.models.Address
+import com.openclassrooms.realestatemanager.form.updateForm.models.*
 import com.openclassrooms.realestatemanager.propertyDetail.INTENT_DETAIL_TO_UPDATE
 import kotlinx.android.synthetic.main.form.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class UpdateFormActivity: FormBaseActivity() {
 
-    private val getUpdateFormViewModel: GetUpdateFormViewModel by lazy { ViewModelProviders.of(this, GetInjection.provideViewModelFactory(applicationContext)).get(GetUpdateFormViewModel::class.java) }
-    private val setUpdateFormViewModel: SetUpdateFormViewModel by lazy { ViewModelProviders.of(this, SetInjection.provideViewModelFactory(applicationContext)).get(SetUpdateFormViewModel::class.java) }
+    private val setUpdateFormViewModel: SetUpdateFormViewModel by lazy { ViewModelProviders.of(this, GetInjection.provideViewModelFactory(applicationContext)).get(SetUpdateFormViewModel::class.java) }
+    private val getUpdateFormViewModel: GetUpdateFormViewModel by lazy { ViewModelProviders.of(this, SetInjection.provideViewModelFactory(applicationContext)).get(GetUpdateFormViewModel::class.java) }
     private var propertyId: Int = 0
 
     private lateinit var entryListFormPhotoAndWording: List<FormPhotoAndWording>
@@ -61,12 +61,12 @@ class UpdateFormActivity: FormBaseActivity() {
     }
 
     override fun getAgentsNameForDropDownMenu() {
-        getUpdateFormViewModel.fullNameAgents.observeOnce(this, Observer { setDropDownMenuForAgentField(it) })
+        setUpdateFormViewModel.fullNameAgents.observeOnce(this, Observer { setDropDownMenuForAgentField(it) })
     }
 
     private fun retrievesDataFromDatabase() {
-        getUpdateFormViewModel.getProperty(propertyId).observeOnce(this, Observer { filledFormWithPropertyData(it) })
-        getUpdateFormViewModel.getLocationsOfInterest(propertyId).observeOnce(this, Observer { filledFormWithLocationsOfInterestData(it) })
+        setUpdateFormViewModel.getProperty(propertyId).observeOnce(this, Observer { filledFormWithPropertyData(it) })
+        setUpdateFormViewModel.getLocationsOfInterest(propertyId).observeOnce(this, Observer { filledFormWithLocationsOfInterestData(it) })
     }
 
     private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
@@ -94,16 +94,48 @@ class UpdateFormActivity: FormBaseActivity() {
             form_rooms_edit_text.setText(rooms)
             form_bathrooms_edit_text.setText(bathrooms)
             form_bedrooms_edit_text.setText(bedrooms)
-            form_full_name_agent.setText(agent, false)
+            form_full_name_agent.setText(fullNameAgent, false)
             form_select_entry_date.text = entryDate
+            this@UpdateFormActivity.entryDate = entryDate
             form_is_available_switch.visibility = View.VISIBLE
-            form_is_available_switch.isChecked = available
+            this@UpdateFormActivity.available = available
+            form_is_available_switch.setOnCheckedChangeListener { _, isChecked ->
+                this@UpdateFormActivity.available = isChecked
+                if (!isChecked) {
+                    form_sale_date_layout.visibility = View.VISIBLE
+                } else {
+                    form_sale_date_layout.visibility = View.GONE
+                }
+            }
             if (!form_is_available_switch.isChecked) {
                 form_sale_date_layout.visibility = View.VISIBLE
                 form_select_sale_date.text = saleDate
+                this@UpdateFormActivity.saleDate = saleDate
+                form_select_sale_date.setOnClickListener { initSaleDatePickerDialog() }
             }
-            getUpdateFormViewModel.getPropertyPhotos(propertyId, path , applicationContext).observe(this@UpdateFormActivity, Observer { filledFormWithPropertyPhotos(it) })
+            setUpdateFormViewModel.getPropertyPhotos(propertyId, path , applicationContext).observe(this@UpdateFormActivity, Observer { filledFormWithPropertyPhotos(it) })
         }
+    }
+
+    private fun initSaleDatePickerDialog() {
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val datePickerDialog = DatePickerDialog(this,
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                saleDateSetListener,
+                year, month, day)
+        Objects.requireNonNull(datePickerDialog.window)
+                .setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        datePickerDialog.show()
+    }
+
+    private var saleDateSetListener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        calendar.set(year, month, dayOfMonth)
+        val visualFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        saleDate = visualFormat.format(calendar.time)
+        form_select_entry_date.text = saleDate
+        saleDateLong = calendar.timeInMillis
     }
 
     private fun filledFormWithPropertyPhotos(listFormPhotoAndWording: List<FormPhotoAndWording>) {
@@ -143,17 +175,36 @@ class UpdateFormActivity: FormBaseActivity() {
         } else {
             Log.e("Share", "Are not equals")
         }*/
+        checkIfAddressHasBeenChanged()
+        checkIfPropertyHasBeenChanged()
+        getUpdateFormViewModel.updateLocationsOfInterest(getNewLocationsOfInterest())
+    }
+    
+    private fun checkIfAddressHasBeenChanged() {
         if (path != entryPropertyModelProcessed.path
                 || complement != entryPropertyModelProcessed.complement
                 || district != entryPropertyModelProcessed.district
                 || city != entryPropertyModelProcessed.city
                 || postalCode != entryPropertyModelProcessed.postalCode
                 || country != entryPropertyModelProcessed.country) {
-            setUpdateFormViewModel.updateAddress(getNewAddress())
+            getUpdateFormViewModel.updateAddress(getNewAddress())
         }
-        //TODO : update agent
-        //TODO : update property
-        setUpdateFormViewModel.updateLocationsOfInterest(getNewLocationsOfInterest())
+    }
+
+    private fun checkIfPropertyHasBeenChanged() {
+        if (type != entryPropertyModelProcessed.type
+                || price != entryPropertyModelProcessed.price
+                || surface != entryPropertyModelProcessed.surface
+                || rooms != entryPropertyModelProcessed.rooms
+                || bedrooms != entryPropertyModelProcessed.bedrooms
+                || bathrooms != entryPropertyModelProcessed.bathrooms
+                || description != entryPropertyModelProcessed.description
+                || available != entryPropertyModelProcessed.available
+                || entryDate != entryPropertyModelProcessed.entryDate
+                || saleDate != entryPropertyModelProcessed.saleDate
+                || fullNameAgent != entryPropertyModelProcessed.fullNameAgent) {
+            getUpdateFormViewModel.updateProperty(getNewProperty())
+        }
     }
 
     private fun getNewAddress() =
@@ -165,6 +216,23 @@ class UpdateFormActivity: FormBaseActivity() {
                     city = city,
                     postalCode = postalCode,
                     country = country
+            )
+
+    private fun getNewProperty() =
+            PropertyModelRaw(
+                    id = propertyId,
+                    type = type,
+                    price = price,
+                    surface = surface,
+                    rooms = rooms,
+                    bedrooms = bedrooms,
+                    bathrooms = bathrooms,
+                    description = description,
+                    available = available,
+                    entryDate = entryDateLong,
+                    saleDate = saleDateLong,
+                    addressId = entryPropertyModelProcessed.addressId,
+                    fullNameAgent = fullNameAgent
             )
 
     private fun getNewLocationsOfInterest() =

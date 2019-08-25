@@ -1,137 +1,82 @@
 package com.openclassrooms.realestatemanager.form.updateForm
 
-import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.Utils
-import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
-import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelProcessed
-import com.openclassrooms.realestatemanager.form.updateForm.models.PropertyModelProcessed
+import com.openclassrooms.realestatemanager.form.updateForm.models.AddressModelRaw
+import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelRaw
+import com.openclassrooms.realestatemanager.form.updateForm.models.PropertyModelRaw
+import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.models.CompositionPropertyAndLocationOfInterest
-import com.openclassrooms.realestatemanager.models.CompositionPropertyAndPropertyPhoto
+import com.openclassrooms.realestatemanager.models.LocationOfInterest
 import com.openclassrooms.realestatemanager.models.Property
-import com.openclassrooms.realestatemanager.models.Wording
 import com.openclassrooms.realestatemanager.repositories.*
-import java.text.SimpleDateFormat
-import java.util.*
 import java.util.concurrent.Executor
 
 class GetUpdateFormViewModel(
         private val propertyDataSource: PropertyDataRepository,
-        agentDataSource: AgentDataRepository,
+        private val addressDataSource: AddressDataRepository,
+        private val agentDataSource: AgentDataRepository,
         private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository,
-        private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository) : ViewModel() {
+        private val propertyPhotoDataSource: PropertyPhotoDataRepository,
+        private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository,
+        private val executor: Executor) : ViewModel() {
 
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    fun updateAddress(addressModelRaw: AddressModelRaw) = executor.execute { addressDataSource.updateAddress(buildAddressForDatabase(addressModelRaw)) }
 
-    private var _fullNameAgents: LiveData<List<String>> = Transformations.map(agentDataSource.getAgents()) { list -> list.map { agent -> agent.firstName + " " + agent.name } }
-    val fullNameAgents: LiveData<List<String>> = _fullNameAgents
+    fun updateProperty(propertyModelRaw: PropertyModelRaw) = executor.execute { propertyDataSource.updateProperty(buildPropertyForDatabase(propertyModelRaw)) }
 
-    fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> {
-        return Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) }
+    fun updateLocationsOfInterest(locationsOfInterestModelRaw: LocationsOfInterestModelRaw) {
+        with(locationsOfInterestModelRaw) {
+            checkBooleanAndInsertOrDeleteIt(school, propertyId, LocationOfInterest.SCHOOL.ordinal)
+            checkBooleanAndInsertOrDeleteIt(commerces, propertyId, LocationOfInterest.COMMERCES.ordinal)
+            checkBooleanAndInsertOrDeleteIt(park, propertyId, LocationOfInterest.PARK.ordinal)
+            checkBooleanAndInsertOrDeleteIt(subways, propertyId, LocationOfInterest.SUBWAYS.ordinal)
+            checkBooleanAndInsertOrDeleteIt(train, propertyId, LocationOfInterest.TRAIN.ordinal)
+        }
     }
 
-    fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> {
-        return Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterest(it) }
-    }
+    private fun checkBooleanAndInsertOrDeleteIt(boolean: Boolean?, propertyId: Int, locationOfInterestId: Int) {
+        if (boolean == true) {
+            val compositionPropertyAndLocationOfInterest = CompositionPropertyAndLocationOfInterest(propertyId, locationOfInterestId)
+            executor.execute { compositionPropertyAndLocationOfInterestDataSource.insertLocationOfInterest(compositionPropertyAndLocationOfInterest) }
 
-    fun getPropertyPhotos(propertyId: Int, path: String?, context: Context): LiveData<List<FormPhotoAndWording>> {
-        return Transformations.map(compositionPropertyAndPropertyPhotoDataSource.getPropertyPhotos(propertyId)) {
-            it.map {
-                composition -> buildFormPhotoAndWording(composition, path, context)
-            }
+        } else if (boolean == false) {
+            executor.execute { compositionPropertyAndLocationOfInterestDataSource.deleteLocationOfInterest(propertyId, locationOfInterestId) }
         }
     }
 
     //---FACTORY---\\
-    private fun buildPropertyModelProcessed(property: Property)
-            = PropertyModelProcessed(
-            type = Utils.getTypeIntoStringForUi(property.type),
-            price = property.price.toString(),
-            rooms = property.rooms.toString(),
-            bedrooms = property.bedrooms.toString(),
-            bathrooms = property.bathrooms.toString(),
-            description = property.description,
-            available = property.available,
-            entryDate = getEntryDateIntoStringForUi(property.entryDate),
-            saleDate = getSaleDateIntoStringForUi(property.saleDate),
-            addressId = property.addressId,
-            path = property.address?.path,
-            complement = if (property.address?.complement != null) { property.address?.complement } else { "" },
-            district = Utils.getDistrictIntoStringForUi(property.address?.district),
-            city = Utils.getCityIntoStringForUi(property.address?.city),
-            postalCode = property.address?.postalCode,
-            country = Utils.getCountryIntoStringForUi(property.address?.country),
-            agent = Utils.getAgentIntoIntForUi(property.agentId)
-    )
 
-    private fun getEntryDateIntoStringForUi(entryDate: Long) = dateFormat.format(Date(entryDate))
-
-    private fun getSaleDateIntoStringForUi(saleDate: Long?) =
-            if (saleDate != null) {
-                dateFormat.format(Date(saleDate))
-            } else {
-                null
+    private fun buildAddressForDatabase(addressModelRaw: AddressModelRaw) =
+            with(addressModelRaw) {
+                Address(
+                        id = id,
+                        path = path,
+                        complement = Utils.returnComplementOrNull(complement),
+                        district = Utils.getDistrictForDatabaseFromString(district),
+                        city = Utils.getCityForDatabaseFromString(city),
+                        postalCode = postalCode,
+                        country = Utils.getCountryForDatabaseFromString(country)
+                )
             }
 
-    private fun buildLocationOfInterest(listComposition: List<CompositionPropertyAndLocationOfInterest>): LocationsOfInterestModelProcessed {
-        var school = false
-        var commerces= false
-        var park = false
-        var subways = false
-        var train = false
-        for(locationOfInterest in listComposition) {
-            when(locationOfInterest.locationOfInterestId) {
-                0 -> school = true
-                1 -> commerces = true
-                2 -> park = true
-                3 -> subways = true
-                4 -> train = true
-            }
-        }
-        return LocationsOfInterestModelProcessed(
-                school = school,
-                commerces = commerces,
-                park = park,
-                subways = subways,
-                train = train
-        )
-    }
-
-    private fun buildFormPhotoAndWording(composition: CompositionPropertyAndPropertyPhoto, path: String?, context: Context) =
-            FormPhotoAndWording(
-                    photo = Utils.getInternalBitmap(path, composition.propertyPhoto?.name, context),
-                    wording = getWordingIntoStringForUi(composition.propertyPhoto?.wording)
-            )
-
-    private fun getWordingIntoStringForUi(wording: Wording?) =
-            when(wording) {
-                Wording.STREET_VIEW -> "Street view"
-                Wording.LIVING_ROOM -> "Living room"
-                Wording.HALL -> "Hall"
-                Wording.KITCHEN -> "Kitchen"
-                Wording.DINING_ROOM -> "Dining room"
-                Wording.BATHROOM -> "Bathroom"
-                Wording.BALCONY -> "Balcony"
-                Wording.BEDROOM -> "Bedroom"
-                Wording.TERRACE -> "Terrace"
-                Wording.WALK_IN_CLOSET -> "Walk in closet"
-                Wording.OFFICE -> "Office"
-                Wording.ROOF_TOP -> "Roof top"
-                Wording.PLAN -> "plan"
-                Wording.HALLWAY -> "Hallway"
-                Wording.VIEW -> "View"
-                Wording.GARAGE -> "Garage"
-                Wording.SWIMMING_POOL -> "Swimming pool"
-                Wording.FITNESS_CENTRE -> "Fitness centre"
-                Wording.SPA -> "Spa"
-                Wording.CINEMA -> "Cinema"
-                Wording.CONFERENCE -> "Conference"
-                Wording.STAIRS -> "Stairs"
-                Wording.GARDEN -> "Garden"
-                Wording.FLOOR -> "Floor"
-                else -> "Unknown wording"
+    private fun buildPropertyForDatabase(propertyModelRaw: PropertyModelRaw) =
+            with(propertyModelRaw) {
+                Property(
+                        id = id,
+                        type = Utils.getTypeForDatabaseFromString(type),
+                        price = price.toLong(),
+                        surface = surface.toInt(),
+                        rooms = rooms.toInt(),
+                        bedrooms = bedrooms.toInt(),
+                        bathrooms = bathrooms.toInt(),
+                        description = description,
+                        addressId = addressId,
+                        available = available,
+                        entryDate = entryDate,
+                        saleDate = if (saleDate > 0) { saleDate } else { null },
+                        agentId = Utils.getAgentIdForDatabaseFromString(fullNameAgent)
+                )
             }
 
 }
