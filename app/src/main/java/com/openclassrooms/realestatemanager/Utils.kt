@@ -71,7 +71,11 @@ object Utils {
     fun getInternalBitmap(path: String?, name: String?, context: Context?): Bitmap {
         val folder = File(context?.filesDir, path)
         val file = File(folder, name)
-        return BitmapFactory.decodeStream(FileInputStream(file))
+        return if (file.exists()) {
+            BitmapFactory.decodeStream(FileInputStream(file))
+        } else {
+            BitmapFactory.decodeResource(context?.resources, R.drawable.baseline_photo_white_48)
+        }
     }
 
     /**
@@ -85,7 +89,7 @@ object Utils {
         file.parentFile.mkdirs()
         val fos = FileOutputStream(file)
         try {
-            photo?.compress(Bitmap.CompressFormat.PNG, 100, fos)
+            photo?.compress(Bitmap.CompressFormat.JPEG, 100, fos)
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -270,5 +274,5 @@ object Utils {
                 else -> Wording.STREET_VIEW
             }
 
-    fun createNamePhoto(index: Int) = "$index.png"
+    fun createNamePhoto(index: Int) = "$index.jpg"
 }

@@ -8,8 +8,8 @@
         android:id="@+id/property_img"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:background="@android:color/darker_gray"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
         android:contentDescription="@string/illustration_property_s" />
 
     <FrameLayout
