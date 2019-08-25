@@ -14,5 +14,5 @@ class PropertyModelProcessed(
         val country: String,
         val agentFullName: String,
         val entryDate: String,
-        val saleDate: String?
+        val saleDate: String
 )

@@ -1,75 +1,58 @@
 package com.openclassrooms.realestatemanager.propertyDetail
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.openclassrooms.realestatemanager.models.City
+import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.models.CompositionPropertyAndLocationOfInterest
-import com.openclassrooms.realestatemanager.models.Country
+import com.openclassrooms.realestatemanager.models.CompositionPropertyAndPropertyPhoto
 import com.openclassrooms.realestatemanager.models.Property
+import com.openclassrooms.realestatemanager.propertyDetail.models.PhotoModelProcessed
 import com.openclassrooms.realestatemanager.propertyDetail.models.LocationsOfInterestModelProcessed
 import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelProcessed
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
+import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndPropertyPhotoDataRepository
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
-import java.text.SimpleDateFormat
-import java.util.*
 
 class PropertyDetailViewModel(
         private val propertyDataSource: PropertyDataRepository,
+        private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository,
         private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository) : ViewModel() {
-
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> =
             Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) }
 
+    fun getPropertyPhotos(propertyId: Int, path: String?, context: Context): LiveData<List<PhotoModelProcessed>> =
+            Transformations.map(compositionPropertyAndPropertyPhotoDataSource.getPropertyPhotos(propertyId)) { it.map { propertyPhoto -> buildPhotoModelProcessed(propertyPhoto, path, context) } }
+
     fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> =
             Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
-
 
     //---FACTORY---\\
     private fun buildPropertyModelProcessed(property: Property) =
             PropertyModelProcessed(
                     description = property.description,
-                    surface = surfaceIntToStringForUi(property.surface),
+                    surface = Utils.fromSurfaceToString(property.surface),
                     rooms = property.rooms.toString(),
                     bathrooms = property.bathrooms.toString(),
                     bedrooms = property.bedrooms.toString(),
                     available = property.available,
                     path = property.address?.path,
                     complement = property.address?.complement,
-                    city = getCityIntoStringForUi(property.address?.city),
+                    city = Utils.fromCityToString(property.address?.city),
                     postalCode = property.address?.postalCode,
-                    country = getCountryIntoStringForUi(property.address?.country),
-                    agentFullName = getAgentFullName(property.agent?.firstName, property.agent?.name),
-                    entryDate = getEntryDateIntoStringForUi(property.entryDate),
-                    saleDate = getSaleDateIntoStringForUi(property.saleDate)
+                    country = Utils.fromCountryToString(property.address?.country),
+                    agentFullName = Utils.fromAgentToString(property.agent?.firstName, property.agent?.name),
+                    entryDate = Utils.fromEntryDateToString(property.entryDate),
+                    saleDate = Utils.fromSaleDateToString(property.saleDate)
             )
 
-    private fun surfaceIntToStringForUi(surface: Int?) = surface.toString() + "sq ft"
-
-    private fun getCityIntoStringForUi(city: City?) =
-            when(city) {
-                City.NEW_YORK -> "New York"
-                else -> "City unknown"
-            }
-
-    private fun getCountryIntoStringForUi(country: Country?) =
-            when(country) {
-                Country.UNITED_STATES -> "United States"
-                else -> "Country unknown"
-            }
-
-    private fun getAgentFullName(firstName: String?, name: String?) = "$firstName $name"
-
-    private fun getEntryDateIntoStringForUi(entryDate: Long) = dateFormat.format(Date(entryDate))
-
-    private fun getSaleDateIntoStringForUi(saleDate: Long?) =
-            if (saleDate != null) {
-                dateFormat.format(Date(saleDate))
-            } else {
-                null
-            }
+    private fun buildPhotoModelProcessed(propertyPhoto: CompositionPropertyAndPropertyPhoto, path: String?, context: Context?) =
+            PhotoModelProcessed(
+                    photo = Utils.getInternalBitmap(path, propertyPhoto.propertyPhoto?.name, context),
+                    wording = Utils.fromWordingToString(propertyPhoto.propertyPhoto?.wording)
+            )
 
     private fun buildLocationOfInterestModelProcessed(composition: List<CompositionPropertyAndLocationOfInterest>): LocationsOfInterestModelProcessed {
         var school = false

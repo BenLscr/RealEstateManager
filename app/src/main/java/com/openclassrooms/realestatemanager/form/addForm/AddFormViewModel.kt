@@ -29,10 +29,10 @@ class AddFormViewModel(
             address = Address(
                     path = path,
                     complement = returnComplementOrNull(complement),
-                    district = getDistrictForDatabase(district),
-                    city = getCityForDatabase(city),
+                    district = Utils.fromStringToDistrict(district),
+                    city = Utils.fromStringToCity(city),
                     postalCode = postalCode,
-                    country = getCountryForDatabase(country)
+                    country = Utils.fromStringToCountry(country)
             )
         }
         insertAddress(addFormModelRaw, address)
@@ -48,7 +48,7 @@ class AddFormViewModel(
         val property: Property
         with(addFormModelRaw) {
             property = Property(
-                    type = getTypeForDatabase(type),
+                    type = Utils.fromStringToType(type),
                     price = price.toLong(),
                     surface = surface.toInt(),
                     rooms = rooms.toInt(),
@@ -59,7 +59,7 @@ class AddFormViewModel(
                     available = available,
                     entryDate = entryDate,
                     saleDate = null,
-                    agentId = getAgentIdForDatabase(fullNameAgent)
+                    agentId = Utils.fromStringToAgent(fullNameAgent)
             )
         }
         insertProperty(addFormModelRaw, property)
@@ -120,11 +120,11 @@ class AddFormViewModel(
     private fun buildPropertyPhotoAndSavePhotosOnInternalStorage(addFormModelRaw: AddFormModelRaw, rowIdProperty: Long) {
         with(addFormModelRaw) {
             listFormPhotoAndWording.forEachIndexed {index, formPhotoAndWording ->
-                val name = getNamePhoto(index)
+                val name = Utils.createNamePhoto(index)
                 Utils.setInternalBitmap(formPhotoAndWording.photo, path, name, context)
                 val propertyPhoto = PropertyPhoto(
                         name = name,
-                        wording = getWordingForDatabase(formPhotoAndWording.wording),
+                        wording = Utils.fromStringToWording(formPhotoAndWording.wording),
                         isThisTheIllustration = index == 0
                 )
                 insertPropertyPhoto(propertyPhoto, rowIdProperty)
@@ -166,84 +166,5 @@ class AddFormViewModel(
 
     //---FACTORY---\\
     private fun returnComplementOrNull(complement: String) = if (complement.isNotEmpty()) { complement } else { null }
-
-    private fun getDistrictForDatabase(district: String) =
-            when(district) {
-                "Bronx" -> District.BRONX
-                "Brooklyn" -> District.BROOKLYN
-                "Manhattan" -> District.MANHATTAN
-                "Queens" -> District.QUEENS
-                "Staten Island" -> District.STATEN_ISLAND
-                else -> District.BRONX
-            }
-
-    private fun getCityForDatabase(city: String) =
-            when(city) {
-                "New York" -> City.NEW_YORK
-                else -> City.NEW_YORK
-            }
-
-    private fun getCountryForDatabase(country: String) =
-            when(country) {
-                "United States" -> Country.UNITED_STATES
-                else -> Country.UNITED_STATES
-            }
-
-    private fun getTypeForDatabase(type: String) =
-            when(type) {
-                "Flat" -> Type.FLAT
-                "Penthouse" -> Type.PENTHOUSE
-                "Mansion" -> Type.MANSION
-                "Duplex" -> Type.DUPLEX
-                "House" -> Type.HOUSE
-                "Loft" -> Type.LOFT
-                "Townhouse" -> Type.TOWNHOUSE
-                "Condo" -> Type.CONDO
-                else -> Type.FLAT
-            }
-
-    private fun getAgentIdForDatabase(fullNameAgent: String) =
-            when(fullNameAgent) {
-                "Tony Stark" -> 1
-                "Peter Parker" -> 2
-                "Steve Rogers" -> 3
-                "Natasha Romanoff" -> 4
-                "Bruce Banner" -> 5
-                "Clinton Barton" -> 6
-                "Carol Denvers" -> 7
-                "Wanda Maximoff" -> 8
-                else -> 1
-        }
-
-    private fun getWordingForDatabase(wording: String?) =
-            when(wording) {
-                "Street View" -> Wording.STREET_VIEW
-                "Living room" -> Wording.LIVING_ROOM
-                "Hall" -> Wording.HALL
-                "Kitchen" -> Wording.KITCHEN
-                "Dining room" -> Wording.DINING_ROOM
-                "Bathroom" -> Wording.BATHROOM
-                "Balcony" -> Wording.BALCONY
-                "Bedroom" -> Wording.BEDROOM
-                "Terrace" -> Wording.TERRACE
-                "Walk in closet" -> Wording.WALK_IN_CLOSET
-                "Office" -> Wording.OFFICE
-                "Roof top" -> Wording.ROOF_TOP
-                "plan" -> Wording.PLAN
-                "Hallway" -> Wording.HALLWAY
-                "View" -> Wording.VIEW
-                "Garage" -> Wording.GARAGE
-                "Swimming pool" -> Wording.SWIMMING_POOL
-                "Fitness centre" -> Wording.FITNESS_CENTRE
-                "Spa" -> Wording.SPA
-                "Cinema" -> Wording.CINEMA
-                "Conference" -> Wording.CONFERENCE
-                "Stairs" -> Wording.STAIRS
-                "Garden" -> Wording.GARDEN
-                "Floor" -> Wording.FLOOR
-                else -> Wording.STREET_VIEW
-            }
-
-    private fun getNamePhoto(index: Int) = "$index.png"
 
 }

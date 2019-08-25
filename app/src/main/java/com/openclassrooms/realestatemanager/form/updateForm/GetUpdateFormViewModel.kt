@@ -53,10 +53,10 @@ class GetUpdateFormViewModel(
                         id = id,
                         path = path,
                         complement = Utils.returnComplementOrNull(complement),
-                        district = Utils.getDistrictForDatabaseFromString(district),
-                        city = Utils.getCityForDatabaseFromString(city),
+                        district = Utils.fromStringToDistrict(district),
+                        city = Utils.fromStringToCity(city),
                         postalCode = postalCode,
-                        country = Utils.getCountryForDatabaseFromString(country)
+                        country = Utils.fromStringToCountry(country)
                 )
             }
 
@@ -64,7 +64,7 @@ class GetUpdateFormViewModel(
             with(propertyModelRaw) {
                 Property(
                         id = id,
-                        type = Utils.getTypeForDatabaseFromString(type),
+                        type = Utils.fromStringToType(type),
                         price = price.toLong(),
                         surface = surface.toInt(),
                         rooms = rooms.toInt(),
@@ -75,7 +75,7 @@ class GetUpdateFormViewModel(
                         available = available,
                         entryDate = entryDate,
                         saleDate = if (saleDate > 0) { saleDate } else { null },
-                        agentId = Utils.getAgentIdForDatabaseFromString(fullNameAgent)
+                        agentId = Utils.fromStringToAgent(fullNameAgent)
                 )
             }
 

@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.propertyDetail.media.models.PhotoModelProcessed
+import com.openclassrooms.realestatemanager.propertyDetail.models.PhotoModelProcessed
 import kotlinx.android.synthetic.main.fragment_media.view.*
 
 class MediaRecyclerViewAdapter : RecyclerView.Adapter<MediaRecyclerViewAdapter.ViewHolder>() {
