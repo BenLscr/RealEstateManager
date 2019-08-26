@@ -24,8 +24,6 @@ class SetUpdateFormViewModel(
         private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository,
         private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository) : ViewModel() {
 
-    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-
     private var _fullNameAgents: LiveData<List<String>> = Transformations.map(agentDataSource.getAgents()) { list -> list.map { agent -> agent.firstName + " " + agent.name } }
     val fullNameAgents: LiveData<List<String>> = _fullNameAgents
 
@@ -37,10 +35,10 @@ class SetUpdateFormViewModel(
         return Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterest(it) }
     }
 
-    fun getPropertyPhotos(propertyId: Int, path: String?, context: Context): LiveData<List<FormPhotoAndWording>> {
+    fun getPropertyPhotos(propertyId: Int, context: Context): LiveData<List<FormPhotoAndWording>> {
         return Transformations.map(compositionPropertyAndPropertyPhotoDataSource.getPropertyPhotos(propertyId)) {
             it.map {
-                composition -> buildFormPhotoAndWording(composition, path, context)
+                composition -> buildFormPhotoAndWording(composition, context)
             }
         }
     }
@@ -92,9 +90,9 @@ class SetUpdateFormViewModel(
         )
     }
 
-    private fun buildFormPhotoAndWording(composition: CompositionPropertyAndPropertyPhoto, path: String?, context: Context) =
+    private fun buildFormPhotoAndWording(composition: CompositionPropertyAndPropertyPhoto, context: Context) =
             FormPhotoAndWording(
-                    photo = Utils.getInternalBitmap(path, composition.propertyPhoto?.name, context),
+                    photo = Utils.getInternalBitmap(composition.propertyId.toString(), composition.propertyPhoto?.name, context),
                     wording = Utils.fromWordingToString(composition.propertyPhoto?.wording)
             )
 

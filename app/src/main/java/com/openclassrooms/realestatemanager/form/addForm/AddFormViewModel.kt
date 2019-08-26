@@ -121,7 +121,7 @@ class AddFormViewModel(
         with(addFormModelRaw) {
             listFormPhotoAndWording.forEachIndexed {index, formPhotoAndWording ->
                 val name = Utils.createNamePhoto(index)
-                Utils.setInternalBitmap(formPhotoAndWording.photo, path, name, context)
+                Utils.setInternalBitmap(formPhotoAndWording.photo, rowIdProperty.toString(), name, context)
                 val propertyPhoto = PropertyPhoto(
                         name = name,
                         wording = Utils.fromStringToWording(formPhotoAndWording.wording),

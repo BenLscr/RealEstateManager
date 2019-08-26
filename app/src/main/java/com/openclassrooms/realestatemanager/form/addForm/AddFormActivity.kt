@@ -3,11 +3,9 @@ package com.openclassrooms.realestatemanager.form.addForm
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import com.basgeekball.awesomevalidation.utility.RegexTemplate
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.FormBaseActivity
 import com.openclassrooms.realestatemanager.form.addForm.injections.Injection
-import com.openclassrooms.realestatemanager.form.media.MediaFormFragment
 import com.openclassrooms.realestatemanager.form.addForm.models.AddFormModelRaw
 import kotlinx.android.synthetic.main.form.*
 

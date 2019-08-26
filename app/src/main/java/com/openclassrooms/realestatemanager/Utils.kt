@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
-import android.util.Log
 import com.openclassrooms.realestatemanager.models.*
 import java.io.File
 import java.io.FileInputStream
@@ -65,11 +64,11 @@ object Utils {
 
     /**
      * Return an image (Bitmap) from /data/user/0/com.openclassrooms.realestatemanager/files
-     * @path is the name of the directory
+     * @propertyId is the name of the directory
      * @name is the name of the file as to be selected
      */
-    fun getInternalBitmap(path: String?, name: String?, context: Context?): Bitmap {
-        val folder = File(context?.filesDir, path)
+    fun getInternalBitmap(propertyId: String?, name: String?, context: Context?): Bitmap {
+        val folder = File(context?.filesDir, propertyId)
         val file = File(folder, name)
         return if (file.exists()) {
             BitmapFactory.decodeStream(FileInputStream(file))
@@ -80,11 +79,11 @@ object Utils {
 
     /**
      * Save an image (Bitmap) in /data/user/0/com.openclassrooms.realestatemanager/files
-     * @path is the name of the directory
+     * @propertyId is the name of the directory
      * @name is the name of the file as to be selected
      */
-    fun setInternalBitmap(photo: Bitmap?, path: String, name: String, context: Context?) {
-        val folder = File(context?.filesDir, path)
+    fun setInternalBitmap(photo: Bitmap?, propertyId: String, name: String, context: Context?) {
+        val folder = File(context?.filesDir, propertyId)
         val file = File(folder, name)
         file.parentFile.mkdirs()
         val fos = FileOutputStream(file)

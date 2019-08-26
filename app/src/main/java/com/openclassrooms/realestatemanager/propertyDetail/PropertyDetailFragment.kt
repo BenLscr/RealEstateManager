@@ -48,7 +48,7 @@ class PropertyDetailFragment : Fragment() {
         addMediaFragment()
         propertyDetailViewModel.getProperty(propertyId).observe(this, Observer {
             updateUiWithPropertyData(it)
-            propertyDetailViewModel.getPropertyPhotos(propertyId, it.path, requireContext()).observe(this, Observer {propertyPhotos -> mediaFragment.receivePropertyPhotos(propertyPhotos) })
+            propertyDetailViewModel.getPropertyPhotos(propertyId, requireContext()).observe(this, Observer {propertyPhotos -> mediaFragment.receivePropertyPhotos(propertyPhotos) })
         })
         propertyDetailViewModel.getLocationsOfInterest(propertyId).observe(this, Observer { updateUiWithLocationsOfInterestData(it) })
     }

@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.propertyList
 
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

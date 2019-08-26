@@ -67,6 +67,7 @@ class UpdateFormActivity: FormBaseActivity() {
     private fun retrievesDataFromDatabase() {
         setUpdateFormViewModel.getProperty(propertyId).observeOnce(this, Observer { filledFormWithPropertyData(it) })
         setUpdateFormViewModel.getLocationsOfInterest(propertyId).observeOnce(this, Observer { filledFormWithLocationsOfInterestData(it) })
+        setUpdateFormViewModel.getPropertyPhotos(propertyId, applicationContext).observe(this, Observer { filledFormWithPropertyPhotos(it) })
     }
 
     private fun <T> LiveData<T>.observeOnce(lifecycleOwner: LifecycleOwner, observer: Observer<T>) {
@@ -113,7 +114,6 @@ class UpdateFormActivity: FormBaseActivity() {
                 this@UpdateFormActivity.saleDate = saleDate
                 form_select_sale_date.setOnClickListener { initSaleDatePickerDialog() }
             }
-            setUpdateFormViewModel.getPropertyPhotos(propertyId, path , applicationContext).observe(this@UpdateFormActivity, Observer { filledFormWithPropertyPhotos(it) })
         }
     }
 

@@ -8,8 +8,8 @@ import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.models.CompositionPropertyAndLocationOfInterest
 import com.openclassrooms.realestatemanager.models.CompositionPropertyAndPropertyPhoto
 import com.openclassrooms.realestatemanager.models.Property
-import com.openclassrooms.realestatemanager.propertyDetail.models.PhotoModelProcessed
 import com.openclassrooms.realestatemanager.propertyDetail.models.LocationsOfInterestModelProcessed
+import com.openclassrooms.realestatemanager.propertyDetail.models.PhotoModelProcessed
 import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelProcessed
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndPropertyPhotoDataRepository
@@ -23,8 +23,8 @@ class PropertyDetailViewModel(
     fun getProperty(propertyId: Int): LiveData<PropertyModelProcessed> =
             Transformations.map(propertyDataSource.getProperty(propertyId)) { buildPropertyModelProcessed(it) }
 
-    fun getPropertyPhotos(propertyId: Int, path: String?, context: Context): LiveData<List<PhotoModelProcessed>> =
-            Transformations.map(compositionPropertyAndPropertyPhotoDataSource.getPropertyPhotos(propertyId)) { it.map { propertyPhoto -> buildPhotoModelProcessed(propertyPhoto, path, context) } }
+    fun getPropertyPhotos(propertyId: Int, context: Context): LiveData<List<PhotoModelProcessed>> =
+            Transformations.map(compositionPropertyAndPropertyPhotoDataSource.getPropertyPhotos(propertyId)) { it.map { propertyPhoto -> buildPhotoModelProcessed(propertyPhoto, context) } }
 
     fun getLocationsOfInterest(propertyId: Int): LiveData<LocationsOfInterestModelProcessed> =
             Transformations.map(compositionPropertyAndLocationOfInterestDataSource.getLocationsOfInterest(propertyId)) { buildLocationOfInterestModelProcessed(it) }
@@ -48,9 +48,9 @@ class PropertyDetailViewModel(
                     saleDate = Utils.fromSaleDateToString(property.saleDate)
             )
 
-    private fun buildPhotoModelProcessed(propertyPhoto: CompositionPropertyAndPropertyPhoto, path: String?, context: Context?) =
+    private fun buildPhotoModelProcessed(propertyPhoto: CompositionPropertyAndPropertyPhoto, context: Context?) =
             PhotoModelProcessed(
-                    photo = Utils.getInternalBitmap(path, propertyPhoto.propertyPhoto?.name, context),
+                    photo = Utils.getInternalBitmap(propertyPhoto.propertyId.toString(), propertyPhoto.propertyPhoto?.name, context),
                     wording = Utils.fromWordingToString(propertyPhoto.propertyPhoto?.wording)
             )
 

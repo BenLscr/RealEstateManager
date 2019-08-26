@@ -44,11 +44,11 @@ class PropertyListFragment : Fragment() {
     private fun getProperties() =
             propertyListViewModel.properties.observe(this, Observer {
                 propertyListAdapter.receivePropertiesDataAndListener(it, listener)
-                it.map { property -> getPropertyIllustration(property.propertyId, property.path) }
+                it.map { property -> getPropertyIllustration(property.propertyId) }
             })
 
-    private fun getPropertyIllustration(propertyId: Int, path: String?) =
-            propertyListViewModel.getPropertyIllustration(propertyId, path, requireContext()).observe(this, Observer {
+    private fun getPropertyIllustration(propertyId: Int) =
+            propertyListViewModel.getPropertyIllustration(propertyId, requireContext()).observe(this, Observer {
                 illustrations.add(it)
                 propertyListAdapter.receiveIllustrations(illustrations)
             })
