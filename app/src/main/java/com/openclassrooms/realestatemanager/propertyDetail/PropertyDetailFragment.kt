@@ -83,6 +83,7 @@ class PropertyDetailFragment : Fragment() {
             property_detail_agent.text = agentFullName
             property_detail_entry_date.text = entryDate
             if (saleDate.isNotEmpty()) {
+                property_detail_sale_date_layout.visibility = View.VISIBLE
                 property_detail_sale_date.text = saleDate
             } else {
                 property_detail_sale_date_layout.visibility = View.GONE

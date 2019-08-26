@@ -100,19 +100,21 @@ class UpdateFormActivity: FormBaseActivity() {
             this@UpdateFormActivity.entryDate = entryDate
             form_is_available_switch.visibility = View.VISIBLE
             this@UpdateFormActivity.available = available
+            form_is_available_switch.isChecked = available
             form_is_available_switch.setOnCheckedChangeListener { _, isChecked ->
                 this@UpdateFormActivity.available = isChecked
                 if (!isChecked) {
                     form_sale_date_layout.visibility = View.VISIBLE
+                    form_select_sale_date.setOnClickListener { initSaleDatePickerDialog() }
                 } else {
                     form_sale_date_layout.visibility = View.GONE
                 }
             }
             if (!form_is_available_switch.isChecked) {
                 form_sale_date_layout.visibility = View.VISIBLE
+                form_select_sale_date.setOnClickListener { initSaleDatePickerDialog() }
                 form_select_sale_date.text = saleDate
                 this@UpdateFormActivity.saleDate = saleDate
-                form_select_sale_date.setOnClickListener { initSaleDatePickerDialog() }
             }
         }
     }
@@ -134,7 +136,7 @@ class UpdateFormActivity: FormBaseActivity() {
         calendar.set(year, month, dayOfMonth)
         val visualFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         saleDate = visualFormat.format(calendar.time)
-        form_select_entry_date.text = saleDate
+        form_select_sale_date.text = saleDate
         saleDateLong = calendar.timeInMillis
     }
 
@@ -201,7 +203,6 @@ class UpdateFormActivity: FormBaseActivity() {
                 || description != entryPropertyModelProcessed.description
                 || available != entryPropertyModelProcessed.available
                 || entryDate != entryPropertyModelProcessed.entryDate
-                || saleDate != entryPropertyModelProcessed.saleDate
                 || fullNameAgent != entryPropertyModelProcessed.fullNameAgent) {
             getUpdateFormViewModel.updateProperty(getNewProperty())
         }

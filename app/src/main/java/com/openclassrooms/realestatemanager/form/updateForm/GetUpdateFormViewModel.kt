@@ -74,7 +74,7 @@ class GetUpdateFormViewModel(
                         addressId = addressId,
                         available = available,
                         entryDate = entryDate,
-                        saleDate = if (saleDate > 0) { saleDate } else { null },
+                        saleDate = if (!available) { saleDate } else { null },
                         agentId = Utils.fromStringToAgent(fullNameAgent)
                 )
             }
