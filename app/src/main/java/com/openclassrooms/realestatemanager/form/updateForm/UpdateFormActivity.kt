@@ -14,8 +14,8 @@ import com.openclassrooms.realestatemanager.INTENT_HOME_TO_UPDATE
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.FormBaseActivity
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
-import com.openclassrooms.realestatemanager.form.updateForm.injections.GetInjection
 import com.openclassrooms.realestatemanager.form.updateForm.injections.SetInjection
+import com.openclassrooms.realestatemanager.form.updateForm.injections.GetInjection
 import com.openclassrooms.realestatemanager.form.updateForm.models.*
 import com.openclassrooms.realestatemanager.propertyDetail.INTENT_DETAIL_TO_UPDATE
 import kotlinx.android.synthetic.main.form.*
@@ -24,8 +24,8 @@ import java.util.*
 
 class UpdateFormActivity: FormBaseActivity() {
 
-    private val setUpdateFormViewModel: SetUpdateFormViewModel by lazy { ViewModelProviders.of(this, GetInjection.provideViewModelFactory(applicationContext)).get(SetUpdateFormViewModel::class.java) }
-    private val getUpdateFormViewModel: GetUpdateFormViewModel by lazy { ViewModelProviders.of(this, SetInjection.provideViewModelFactory(applicationContext)).get(GetUpdateFormViewModel::class.java) }
+    private val setUpdateFormViewModel: SetUpdateFormViewModel by lazy { ViewModelProviders.of(this, SetInjection.provideViewModelFactory(applicationContext)).get(SetUpdateFormViewModel::class.java) }
+    private val getUpdateFormViewModel: GetUpdateFormViewModel by lazy { ViewModelProviders.of(this, GetInjection.provideViewModelFactory(applicationContext)).get(GetUpdateFormViewModel::class.java) }
     private var propertyId: Int = 0
 
     private lateinit var entryListFormPhotoAndWording: List<FormPhotoAndWording>
@@ -171,18 +171,35 @@ class UpdateFormActivity: FormBaseActivity() {
     }
 
     override fun shareModelToTheViewModel() {
-        //TODO : update photos
-        /*if (entryListFormPhotoAndWording == listFormPhotoAndWording) {
-            Log.e("Share", "Are equals")
-        } else {
-            Log.e("Share", "Are not equals")
-        }*/
-        checkIfAddressHasBeenChanged()
-        checkIfPropertyHasBeenChanged()
+        //TODO: Check form
+        checkIfPropertyPhotosWereChanged()
+        checkIfAddressWereChanged()
+        checkIfPropertyWereChanged()
         getUpdateFormViewModel.updateLocationsOfInterest(getNewLocationsOfInterest())
     }
+
+    private fun checkIfPropertyPhotosWereChanged() {
+        val propertyPhotosToDelete = mutableListOf<FormPhotoAndWording>()
+        propertyPhotosToDelete.addAll(entryListFormPhotoAndWording)
+        propertyPhotosToDelete.removeAll(listFormPhotoAndWording)
+        if (propertyPhotosToDelete.size > 0) {
+            getUpdateFormViewModel.deleteCompositionPropertyAndPropertyPhoto(propertyPhotosToDelete, propertyId, applicationContext)
+        }
+
+        val propertyPhotosToInsert = mutableListOf<FormPhotoAndWording>()
+        propertyPhotosToInsert.addAll(listFormPhotoAndWording)
+        propertyPhotosToInsert.removeAll(entryListFormPhotoAndWording)
+        if (propertyPhotosToInsert.size > 0) {
+            entryListFormPhotoAndWording.last().name
+            getUpdateFormViewModel.insertPropertyPhotos(propertyPhotosToInsert, propertyId, entryListFormPhotoAndWording.last().name, applicationContext)
+        }
+
+        if (entryListFormPhotoAndWording[0] != listFormPhotoAndWording[0]) {
+            getUpdateFormViewModel.updateIllustrationPropertyPhoto(listFormPhotoAndWording[0])
+        }
+    }
     
-    private fun checkIfAddressHasBeenChanged() {
+    private fun checkIfAddressWereChanged() {
         if (path != entryPropertyModelProcessed.path
                 || complement != entryPropertyModelProcessed.complement
                 || district != entryPropertyModelProcessed.district
@@ -193,7 +210,7 @@ class UpdateFormActivity: FormBaseActivity() {
         }
     }
 
-    private fun checkIfPropertyHasBeenChanged() {
+    private fun checkIfPropertyWereChanged() {
         if (type != entryPropertyModelProcessed.type
                 || price != entryPropertyModelProcessed.price
                 || surface != entryPropertyModelProcessed.surface

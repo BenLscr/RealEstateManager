@@ -2,10 +2,9 @@ package com.openclassrooms.realestatemanager.form.updateForm.injections
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.database.AppDatabase
-import com.openclassrooms.realestatemanager.repositories.AgentDataRepository
-import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
-import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndPropertyPhotoDataRepository
-import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
+import com.openclassrooms.realestatemanager.repositories.*
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 class GetInjection {
 
@@ -16,9 +15,9 @@ class GetInjection {
             return PropertyDataRepository(database.propertyDao())
         }
 
-        private fun provideAgentDataSource(context: Context): AgentDataRepository {
+        private fun provideAddressDataSource(context: Context): AddressDataRepository {
             val database = AppDatabase.getInstance(context)
-            return AgentDataRepository(database.agentDao())
+            return AddressDataRepository(database.addressDao())
         }
 
         private fun provideCompositionPropertyAndLocationOfInterestDataSource(context: Context): CompositionPropertyAndLocationOfInterestDataRepository {
@@ -26,20 +25,33 @@ class GetInjection {
             return CompositionPropertyAndLocationOfInterestDataRepository(database.compositionPropertyAndLocationOfInterestDao())
         }
 
+        private fun providePropertyPhotoDataSource(context: Context): PropertyPhotoDataRepository {
+            val database = AppDatabase.getInstance(context)
+            return PropertyPhotoDataRepository(database.propertyPhotoDao())
+        }
+
         private fun provideCompositionPropertyAndPropertyPhoto(context: Context): CompositionPropertyAndPropertyPhotoDataRepository {
             val database = AppDatabase.getInstance(context)
             return CompositionPropertyAndPropertyPhotoDataRepository(database.compositionPropertyAndPropertyPhotoDao())
         }
 
+        private fun provideExecutor() : Executor {
+            return Executors.newSingleThreadExecutor()
+        }
+
         fun provideViewModelFactory(context: Context): GetViewModelFactory {
             val dataSourceProperty = providePropertyDataSource(context)
-            val dataSourceAgent = provideAgentDataSource(context)
+            val dataSourceAddress = provideAddressDataSource(context)
             val dataSourceCompositionPropertyAndLocationOfInterest = provideCompositionPropertyAndLocationOfInterestDataSource(context)
+            val dataSourcePropertyPhoto = providePropertyPhotoDataSource(context)
             val dataSourceCompositionPropertyAndPropertyPhoto = provideCompositionPropertyAndPropertyPhoto(context)
+            val executor = provideExecutor()
             return GetViewModelFactory(dataSourceProperty,
-                    dataSourceAgent,
+                    dataSourceAddress,
                     dataSourceCompositionPropertyAndLocationOfInterest,
-                    dataSourceCompositionPropertyAndPropertyPhoto)
+                    dataSourcePropertyPhoto,
+                    dataSourceCompositionPropertyAndPropertyPhoto,
+                    executor)
         }
 
     }

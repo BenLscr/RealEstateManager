@@ -142,8 +142,8 @@ class AddFormViewModel(
 
     private fun buildCompositionPropertyAndPropertyPhoto(rowIdProperty: Long, rowIdPropertyPhoto: Long) {
         val compositionPropertyAndPropertyPhoto = CompositionPropertyAndPropertyPhoto(
-                rowIdProperty.toInt(),
-                rowIdPropertyPhoto.toInt()
+                propertyId = rowIdProperty.toInt(),
+                propertyPhotoId = rowIdPropertyPhoto.toInt()
         )
         insertCompositionPropertyAndPropertyPhoto(compositionPropertyAndPropertyPhoto)
     }

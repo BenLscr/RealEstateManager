@@ -100,6 +100,12 @@ object Utils {
         }
     }
 
+    fun deleteInternalBitmap(propertyId: String, name: String?, context: Context) {
+        val folder = File(context.filesDir, propertyId)
+        val file = File(folder, name)
+        file.delete()
+    }
+
     //---TO-DATABASE---\\
     fun returnComplementOrNull(complement: String) = if (complement.isNotEmpty()) { complement } else { null }
 

@@ -22,7 +22,7 @@ interface CompositionPropertyAndPropertyPhotoDao {
     @Update
     fun updatePropertyPhoto(compositionPropertyAndPropertyPhoto: CompositionPropertyAndPropertyPhoto)
 
-    @Query("DELETE FROM CompositionPropertyAndPropertyPhoto WHERE :propertyId = propertyId")
-    fun deletePropertyPhoto(propertyId: Int)
+    @Query("DELETE FROM CompositionPropertyAndPropertyPhoto WHERE :propertyId = propertyId AND :propertyPhotoId = propertyPhotoId")
+    fun deletePropertyPhoto(propertyId: Int, propertyPhotoId: Int)
 
 }

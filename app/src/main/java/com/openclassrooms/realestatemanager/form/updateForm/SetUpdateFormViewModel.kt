@@ -92,6 +92,8 @@ class SetUpdateFormViewModel(
 
     private fun buildFormPhotoAndWording(composition: CompositionPropertyAndPropertyPhoto, context: Context) =
             FormPhotoAndWording(
+                    id = composition.propertyPhoto?.id,
+                    name = composition.propertyPhoto?.name,
                     photo = Utils.getInternalBitmap(composition.propertyId.toString(), composition.propertyPhoto?.name, context),
                     wording = Utils.fromWordingToString(composition.propertyPhoto?.wording)
             )

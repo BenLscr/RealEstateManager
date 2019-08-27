@@ -153,11 +153,11 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
 
     private fun checkIfFormPhotoAndWordingIsCompleted() {
         if (photo != null && wording.isNotEmpty()) {
-            listFormPhotoAndWording.add(FormPhotoAndWording(photo!!, wording))
+            listFormPhotoAndWording.add(FormPhotoAndWording(null, null, photo!!, wording))
             shareListToMediaFormFragment()
-        } else if (photo == null) {
+        } else if (photo == null && wording.isNotEmpty()) {
             Toast.makeText(applicationContext, R.string.form_error_media_photo, Toast.LENGTH_LONG).show()
-        } else if (wording.isEmpty()) {
+        } else if (photo != null && wording.isEmpty()) {
             Toast.makeText(applicationContext, R.string.form_error_media_wording, Toast.LENGTH_LONG).show()
         } else {
             Toast.makeText(applicationContext, R.string.form_error_media_photo_wording, Toast.LENGTH_LONG).show()
