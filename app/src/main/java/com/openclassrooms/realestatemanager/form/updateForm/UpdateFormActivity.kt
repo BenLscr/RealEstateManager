@@ -14,8 +14,8 @@ import com.openclassrooms.realestatemanager.INTENT_HOME_TO_UPDATE
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.FormBaseActivity
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
-import com.openclassrooms.realestatemanager.form.updateForm.injections.SetInjection
 import com.openclassrooms.realestatemanager.form.updateForm.injections.GetInjection
+import com.openclassrooms.realestatemanager.form.updateForm.injections.SetInjection
 import com.openclassrooms.realestatemanager.form.updateForm.models.*
 import com.openclassrooms.realestatemanager.propertyDetail.INTENT_DETAIL_TO_UPDATE
 import kotlinx.android.synthetic.main.form.*
@@ -98,6 +98,7 @@ class UpdateFormActivity: FormBaseActivity() {
             form_full_name_agent.setText(fullNameAgent, false)
             form_select_entry_date.text = entryDate
             this@UpdateFormActivity.entryDate = entryDate
+            this@UpdateFormActivity.entryDateLong = entryDateLong
             form_is_available_switch.visibility = View.VISIBLE
             this@UpdateFormActivity.available = available
             form_is_available_switch.isChecked = available
@@ -110,6 +111,7 @@ class UpdateFormActivity: FormBaseActivity() {
                     form_sale_date_layout.visibility = View.GONE
                 }
             }
+            this@UpdateFormActivity.saleDateLong = saleDateLong
             if (!form_is_available_switch.isChecked) {
                 form_sale_date_layout.visibility = View.VISIBLE
                 form_select_sale_date.setOnClickListener { initSaleDatePickerDialog() }
@@ -171,57 +173,95 @@ class UpdateFormActivity: FormBaseActivity() {
     }
 
     override fun shareModelToTheViewModel() {
-        //TODO: Check form
+        checkIfFormIsFilled()
         checkIfPropertyPhotosWereChanged()
         checkIfAddressWereChanged()
         checkIfPropertyWereChanged()
         getUpdateFormViewModel.updateLocationsOfInterest(getNewLocationsOfInterest())
+        finish()
+    }
+
+    private fun checkIfFormIsFilled() {
+        mAwesomeValidation.validate()
+        if (listFormPhotoAndWording.isEmpty()) {
+            form_error_photo.visibility = View.VISIBLE
+        } else {
+            form_error_photo.visibility = View.GONE
+        }
+        if (entryDateLong <= 0) {
+            form_error_entry_date.visibility = View.VISIBLE
+        } else {
+            form_error_entry_date.visibility = View.GONE
+        }
+        if (!available && saleDateLong <= 0)  {
+            form_error_sale_date.visibility = View.VISIBLE
+        } else {
+            form_error_sale_date.visibility = View.GONE
+        }
     }
 
     private fun checkIfPropertyPhotosWereChanged() {
-        val propertyPhotosToDelete = mutableListOf<FormPhotoAndWording>()
-        propertyPhotosToDelete.addAll(entryListFormPhotoAndWording)
-        propertyPhotosToDelete.removeAll(listFormPhotoAndWording)
-        if (propertyPhotosToDelete.size > 0) {
-            getUpdateFormViewModel.deleteCompositionPropertyAndPropertyPhoto(propertyPhotosToDelete, propertyId, applicationContext)
-        }
+        if (listFormPhotoAndWording.isNotEmpty()) {
+            val propertyPhotosToDelete = mutableListOf<FormPhotoAndWording>()
+            propertyPhotosToDelete.addAll(entryListFormPhotoAndWording)
+            propertyPhotosToDelete.removeAll(listFormPhotoAndWording)
+            if (propertyPhotosToDelete.size > 0) {
+                getUpdateFormViewModel.deleteCompositionPropertyAndPropertyPhoto(propertyPhotosToDelete, propertyId, applicationContext)
+            }
 
-        val propertyPhotosToInsert = mutableListOf<FormPhotoAndWording>()
-        propertyPhotosToInsert.addAll(listFormPhotoAndWording)
-        propertyPhotosToInsert.removeAll(entryListFormPhotoAndWording)
-        if (propertyPhotosToInsert.size > 0) {
-            entryListFormPhotoAndWording.last().name
-            getUpdateFormViewModel.insertPropertyPhotos(propertyPhotosToInsert, propertyId, entryListFormPhotoAndWording.last().name, applicationContext)
-        }
+            val propertyPhotosToInsert = mutableListOf<FormPhotoAndWording>()
+            propertyPhotosToInsert.addAll(listFormPhotoAndWording)
+            propertyPhotosToInsert.removeAll(entryListFormPhotoAndWording)
+            if (propertyPhotosToInsert.size > 0) {
+                entryListFormPhotoAndWording.last().name
+                getUpdateFormViewModel.insertPropertyPhotos(propertyPhotosToInsert, propertyId, entryListFormPhotoAndWording.last().name, applicationContext)
+            }
 
-        if (entryListFormPhotoAndWording[0] != listFormPhotoAndWording[0]) {
-            getUpdateFormViewModel.updateIllustrationPropertyPhoto(listFormPhotoAndWording[0])
+            if (entryListFormPhotoAndWording[0] != listFormPhotoAndWording[0]) {
+                getUpdateFormViewModel.updateIllustrationPropertyPhoto(listFormPhotoAndWording[0])
+            }
         }
     }
     
     private fun checkIfAddressWereChanged() {
-        if (path != entryPropertyModelProcessed.path
-                || complement != entryPropertyModelProcessed.complement
-                || district != entryPropertyModelProcessed.district
-                || city != entryPropertyModelProcessed.city
-                || postalCode != entryPropertyModelProcessed.postalCode
-                || country != entryPropertyModelProcessed.country) {
-            getUpdateFormViewModel.updateAddress(getNewAddress())
+        if (path.isNotEmpty()
+                && district.isNotEmpty()
+                && city.isNotEmpty()
+                && postalCode.isNotEmpty()
+                && country.isNotEmpty()) {
+            if (path != entryPropertyModelProcessed.path
+                    || complement != entryPropertyModelProcessed.complement
+                    || district != entryPropertyModelProcessed.district
+                    || city != entryPropertyModelProcessed.city
+                    || postalCode != entryPropertyModelProcessed.postalCode
+                    || country != entryPropertyModelProcessed.country) {
+                getUpdateFormViewModel.updateAddress(getNewAddress())
+            }
         }
     }
 
     private fun checkIfPropertyWereChanged() {
-        if (type != entryPropertyModelProcessed.type
-                || price != entryPropertyModelProcessed.price
-                || surface != entryPropertyModelProcessed.surface
-                || rooms != entryPropertyModelProcessed.rooms
-                || bedrooms != entryPropertyModelProcessed.bedrooms
-                || bathrooms != entryPropertyModelProcessed.bathrooms
-                || description != entryPropertyModelProcessed.description
-                || available != entryPropertyModelProcessed.available
-                || entryDate != entryPropertyModelProcessed.entryDate
-                || fullNameAgent != entryPropertyModelProcessed.fullNameAgent) {
-            getUpdateFormViewModel.updateProperty(getNewProperty())
+        if (type.isNotEmpty()
+                && price.isNotEmpty()
+                && surface.isNotEmpty()
+                && rooms.isNotEmpty()
+                && bedrooms.isNotEmpty()
+                && bathrooms.isNotEmpty()
+                && description.isNotEmpty()
+                && entryDate.isNotEmpty()
+                && fullNameAgent.isNotEmpty()) {
+            if (type != entryPropertyModelProcessed.type
+                    || price != entryPropertyModelProcessed.price
+                    || surface != entryPropertyModelProcessed.surface
+                    || rooms != entryPropertyModelProcessed.rooms
+                    || bedrooms != entryPropertyModelProcessed.bedrooms
+                    || bathrooms != entryPropertyModelProcessed.bathrooms
+                    || description != entryPropertyModelProcessed.description
+                    || available != entryPropertyModelProcessed.available
+                    || entryDate != entryPropertyModelProcessed.entryDate
+                    || fullNameAgent != entryPropertyModelProcessed.fullNameAgent) {
+                getUpdateFormViewModel.updateProperty(getNewProperty())
+            }
         }
     }
 

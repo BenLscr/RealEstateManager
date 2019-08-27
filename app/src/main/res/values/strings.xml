@@ -136,4 +136,10 @@
     <string name="wording">Wording</string>
     <string name="many_photos_of_the_property">Many photos of the property</string>
 
+    //NOTIFICATION
+    <string name="notification_property_add">A new property has been had.</string>
+    <string name="notification_property_update">The property has been update.</string>
+    <string name="channel_name">Database</string>
+    <string name="channel_description">Database get changes.</string>
+
 </resources>
