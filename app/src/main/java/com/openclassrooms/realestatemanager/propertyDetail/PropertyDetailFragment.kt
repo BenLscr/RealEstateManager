@@ -1,17 +1,24 @@
 package com.openclassrooms.realestatemanager.propertyDetail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
+import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.googleApi.GoogleStreams
+import com.openclassrooms.realestatemanager.googleApi.models.geocoding.GeocodingResponse
 import com.openclassrooms.realestatemanager.propertyDetail.injections.Injection
 import com.openclassrooms.realestatemanager.propertyDetail.media.MediaFragment
 import com.openclassrooms.realestatemanager.propertyDetail.models.LocationsOfInterestModelProcessed
 import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelProcessed
+import io.reactivex.disposables.Disposable
+import io.reactivex.observers.DisposableObserver
 import kotlinx.android.synthetic.main.property_detail_fragment.*
 
 private const val ARG_PROPERTY_DETAIL_PROPERTY_ID = "ARG_PROPERTY_DETAIL_PROPERTY_ID"
@@ -30,6 +37,7 @@ class PropertyDetailFragment : Fragment() {
     private var propertyId: Int = 0
     private var mediaFragment = MediaFragment.newInstance()
     private val propertyDetailViewModel: PropertyDetailViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(requireContext())).get(PropertyDetailViewModel::class.java) }
+    private val geocodingApiKey = BuildConfig.GEOCODING_API_KEY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +96,7 @@ class PropertyDetailFragment : Fragment() {
             } else {
                 property_detail_sale_date_layout.visibility = View.GONE
             }
+            path?.let { executeHttpRequestWithRetrofit_Geocoding(it) }
         }
     }
 
@@ -122,6 +131,35 @@ class PropertyDetailFragment : Fragment() {
                 property_detail_empty_location_of_interest.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun executeHttpRequestWithRetrofit_Geocoding(path: String) {
+        val disposable: Disposable = GoogleStreams.streamFetchGeocoding(path, geocodingApiKey).subscribeWith(object : DisposableObserver<GeocodingResponse>() {
+            override fun onNext(geocodingResponse: GeocodingResponse) {
+                Log.e("TAG", "On Next")
+                updateUiWithMapsStatic(
+                        geocodingResponse.results[0].geometry.location.lat,
+                        geocodingResponse.results[0].geometry.location.lng
+                )
+            }
+
+            override fun onError(e: Throwable) {
+                Log.e("TAG", "On Error" + Log.getStackTraceString(e))
+            }
+
+            override fun onComplete() {
+                Log.e("TAG", "On Complete !!")
+            }
+        })
+    }
+
+    private fun updateUiWithMapsStatic(lat: Double, lng: Double) {
+        val zoom = "16"
+        val size = "400x400"
+        val color = "red"
+        val mapsStaticApiKey = BuildConfig.MAPS_STATIC_API_KEY
+        val url = "https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=$zoom&size=$size&markers=color:$color%7C$lat,$lng&key=$mapsStaticApiKey"
+        Glide.with(this@PropertyDetailFragment).load(url).into(property_detail_maps_static)
     }
 
 }

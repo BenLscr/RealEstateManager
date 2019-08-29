@@ -447,12 +447,13 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/property_detail_maps_static"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="200dp"
             android:layout_margin="10dp"
-            android:background="@color/colorAccent">
-        </LinearLayout>
+            android:scaleType="centerCrop">
+        </ImageView>
 
     </LinearLayout>
 
