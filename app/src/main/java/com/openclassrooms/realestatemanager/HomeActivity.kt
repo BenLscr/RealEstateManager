@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.openclassrooms.realestatemanager.emptyPropertyDetail.EmptyPropertyDetailFragment
 import com.openclassrooms.realestatemanager.form.addForm.AddFormActivity
 import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormActivity
+import com.openclassrooms.realestatemanager.map.MapActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment
@@ -83,7 +84,11 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
     private fun configureNavigationView() {
         activity_home_nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.activity_home_drawer_temp -> { println("do something"); true }
+                R.id.activity_home_drawer_map -> {
+                    val intent = Intent(this, MapActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 else -> false
             }
             this.activity_home_drawer_layout.closeDrawer(GravityCompat.START)

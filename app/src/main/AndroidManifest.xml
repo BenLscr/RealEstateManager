@@ -39,6 +39,11 @@
             android:name=".form.updateForm.UpdateFormActivity"
             android:label="Update property">
         </activity>
+        <activity
+            android:name=".map.MapActivity"
+            android:label="Map"
+            android:parentActivityName=".HomeActivity">
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -57,7 +62,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="MAPS_API_KEY"/>
+            android:value="@string/MAPS_ANDROID_API_KEY"/>
     </application>
 
 </manifest>

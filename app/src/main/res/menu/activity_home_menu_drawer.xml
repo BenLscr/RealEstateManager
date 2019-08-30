@@ -6,8 +6,8 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/activity_home_drawer_temp"
-            android:title="temp"
+            android:id="@+id/activity_home_drawer_map"
+            android:title="@string/map"
             android:icon="@drawable/baseline_create_white_24"/>
 
     </group>

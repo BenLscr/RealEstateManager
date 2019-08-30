@@ -18,6 +18,7 @@ android {
 
         buildConfigField("String", "GEOCODING_API_KEY", geocoding_api_key)
         buildConfigField("String", "MAPS_STATIC_API_KEY", maps_static_api_key)
+        resValue("string", "MAPS_ANDROID_API_KEY", maps_android_api_key)
     }
     buildTypes {
         release {
