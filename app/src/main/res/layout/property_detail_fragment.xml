@@ -447,13 +447,30 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/property_detail_maps_static"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="10dp"
-            android:scaleType="centerCrop">
-        </ImageView>
+            android:background="@android:color/darker_gray">
+
+            <TextView
+                android:id="@+id/property_detail_maps_static_error"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:text="@string/maps_static_error"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/property_detail_maps_static"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop">
+            </ImageView>
+
+        </FrameLayout>
 
     </LinearLayout>
 

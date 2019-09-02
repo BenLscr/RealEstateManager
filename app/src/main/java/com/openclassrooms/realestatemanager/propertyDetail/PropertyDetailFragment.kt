@@ -136,19 +136,31 @@ class PropertyDetailFragment : Fragment() {
     private fun executeHttpRequestWithRetrofit_Geocoding(path: String) {
         val disposable: Disposable = GoogleStreams.streamFetchGeocoding(path, geocodingApiKey).subscribeWith(object : DisposableObserver<GeocodingResponse>() {
             override fun onNext(geocodingResponse: GeocodingResponse) {
-                Log.e("TAG", "On Next")
-                updateUiWithMapsStatic(
-                        geocodingResponse.results[0].geometry.location.lat,
-                        geocodingResponse.results[0].geometry.location.lng
-                )
+                Log.e("Geocoding", "On Next")
+                when {
+                    geocodingResponse.status == "OK" -> updateUiWithMapsStatic(
+                            geocodingResponse.results[0].geometry.location.lat,
+                            geocodingResponse.results[0].geometry.location.lng
+                    )
+                    geocodingResponse.status == "ZERO_RESULTS" -> {
+                        property_detail_maps_static.visibility = View.GONE
+                        property_detail_maps_static_error.visibility = View.VISIBLE
+                        property_detail_maps_static_error.text = getString(R.string.maps_static_error_zero_results)
+                    }
+                    geocodingResponse.status == "UNKNOWN_ERROR" -> {
+                        property_detail_maps_static.visibility = View.GONE
+                        property_detail_maps_static_error.visibility = View.VISIBLE
+                    }
+                }
             }
 
             override fun onError(e: Throwable) {
-                Log.e("TAG", "On Error" + Log.getStackTraceString(e))
+                Log.e("Geocoding", "On Error" + Log.getStackTraceString(e))
+                property_detail_maps_static_error.visibility = View.VISIBLE
             }
 
             override fun onComplete() {
-                Log.e("TAG", "On Complete !!")
+                Log.e("Geocoding", "On Complete !!")
             }
         })
     }
@@ -159,6 +171,7 @@ class PropertyDetailFragment : Fragment() {
         val color = "red"
         val mapsStaticApiKey = BuildConfig.MAPS_STATIC_API_KEY
         val url = "https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=$zoom&size=$size&markers=color:$color%7C$lat,$lng&key=$mapsStaticApiKey"
+        property_detail_maps_static.visibility = View.VISIBLE
         Glide.with(this@PropertyDetailFragment).load(url).into(property_detail_maps_static)
     }
 

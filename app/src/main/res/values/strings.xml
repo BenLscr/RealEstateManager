@@ -59,6 +59,8 @@
     <string name="sale_date">Sale date</string>
     <string name="empty_location_of_interest">-</string>
     <string name="update_button_property_detail">Something wrong happened !</string>
+    <string name="maps_static_error">An error was encountered.</string>
+    <string name="maps_static_error_zero_results">No property found for this address.</string>
 
     //FORM
     <string-array name="form_wording">
