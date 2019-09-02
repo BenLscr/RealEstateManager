@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import com.openclassrooms.realestatemanager.emptyPropertyDetail.EmptyPropertyDet
 import com.openclassrooms.realestatemanager.form.addForm.AddFormActivity
 import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormActivity
 import com.openclassrooms.realestatemanager.map.MapActivity
+import com.openclassrooms.realestatemanager.map.PICK_PROPERTY_DATA
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.propertyList.PropertyListFragment
@@ -23,6 +25,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 
 const val INTENT_HOME_TO_DETAIL = "INTENT_HOME_TO_DETAIL"
 const val INTENT_HOME_TO_UPDATE = "INTENT_HOME_TO_UPDATE"
+const val PICK_PROPERTY_REQUEST = 1234
 
 class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInteractionListener  {
 
@@ -86,13 +89,26 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
             when (it.itemId) {
                 R.id.activity_home_drawer_map -> {
                     val intent = Intent(this, MapActivity::class.java)
-                    startActivity(intent)
+                    //startActivity(intent)*
+                    startActivityForResult(intent, PICK_PROPERTY_REQUEST)
                     true
                 }
                 else -> false
             }
             this.activity_home_drawer_layout.closeDrawer(GravityCompat.START)
             true
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_PROPERTY_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    val propertyId: Int = data.getIntExtra(PICK_PROPERTY_DATA, 1)
+                    onListFragmentInteraction(propertyId)
+                }
+            }
         }
     }
 

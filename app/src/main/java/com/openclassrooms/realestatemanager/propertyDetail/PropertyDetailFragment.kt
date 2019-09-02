@@ -37,7 +37,6 @@ class PropertyDetailFragment : Fragment() {
     private var propertyId: Int = 0
     private var mediaFragment = MediaFragment.newInstance()
     private val propertyDetailViewModel: PropertyDetailViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(requireContext())).get(PropertyDetailViewModel::class.java) }
-    private val geocodingApiKey = BuildConfig.GEOCODING_API_KEY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +95,7 @@ class PropertyDetailFragment : Fragment() {
             } else {
                 property_detail_sale_date_layout.visibility = View.GONE
             }
-            path?.let { executeHttpRequestWithRetrofit_Geocoding(it) }
+            path?.let { executeHttpRequestWithRetrofit_Geocoding(it, city) }
         }
     }
 
@@ -133,8 +132,11 @@ class PropertyDetailFragment : Fragment() {
         }
     }
 
-    private fun executeHttpRequestWithRetrofit_Geocoding(path: String) {
-        val disposable: Disposable = GoogleStreams.streamFetchGeocoding(path, geocodingApiKey).subscribeWith(object : DisposableObserver<GeocodingResponse>() {
+    private fun executeHttpRequestWithRetrofit_Geocoding(path: String, city: String) {
+        val addressGeocoding = "$path, $city"
+        val disposable: Disposable =
+                GoogleStreams.streamFetchGeocoding(addressGeocoding, BuildConfig.GEOCODING_API_KEY)
+                        .subscribeWith(object : DisposableObserver<GeocodingResponse>() {
             override fun onNext(geocodingResponse: GeocodingResponse) {
                 Log.e("Geocoding", "On Next")
                 when {
