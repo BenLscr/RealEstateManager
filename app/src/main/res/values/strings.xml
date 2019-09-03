@@ -145,4 +145,8 @@
     <string name="channel_name">Database</string>
     <string name="channel_description">Database get changes.</string>
 
+    //MAP
+    <string name="map_need_location_permission">RealEstateManager need permission to get your location.</string>
+    <string name="map_location_permission_retry">Retry</string>
+
 </resources>

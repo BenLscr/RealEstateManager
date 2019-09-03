@@ -1,12 +1,15 @@
 package com.openclassrooms.realestatemanager.map
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -14,14 +17,18 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.googleApi.GoogleStreams
 import com.openclassrooms.realestatemanager.googleApi.models.geocoding.GeocodingResponse
 import com.openclassrooms.realestatemanager.map.injections.Injection
 import com.openclassrooms.realestatemanager.map.models.PropertyModelProcessed
+import com.sembozdemir.permissionskt.askPermissions
+import com.sembozdemir.permissionskt.handlePermissionsResult
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableObserver
+import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 const val PICK_PROPERTY_DATA = "PICK_PROPERTY_DATA"
@@ -46,15 +53,38 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        handlePermissionsResult(requestCode, permissions, grantResults)
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        val newYork = LatLng(40.712775, -74.005973)
-        val zoom = 10.toFloat()
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newYork, zoom))
-        mMap.setOnMarkerClickListener(this)
+        askPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
+            onGranted {
+                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@MapActivity)
+                fusedLocationClient.lastLocation
+                        .addOnSuccessListener { location: Location ->
+                            val latitude =  location.latitude
+                            val longitude = location.longitude
+                            mMap.isMyLocationEnabled = true
+                            mMap.uiSettings.isMyLocationButtonEnabled = true
+                            val newYork = LatLng(latitude, longitude)
+                            val zoom = 15.toFloat()
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newYork, zoom))
+                            mMap.setOnMarkerClickListener(this@MapActivity)
+                        }
 
-        mapViewModel.properties.observe(this, Observer { it.map { propertyModelProcessed ->  setMarkerOnMap(propertyModelProcessed) } })
+                mapViewModel.properties.observe(this@MapActivity, Observer { it.map { propertyModelProcessed ->  setMarkerOnMap(propertyModelProcessed) } })
+            }
+            onShowRationale { request ->
+                Snackbar.make(coordinatorLayout_map_activity, getString(R.string.map_need_location_permission), Snackbar.LENGTH_INDEFINITE)
+                        .setAction(getString(R.string.map_location_permission_retry)) { request.retry() }
+                        .show()
+            }
+        }
+
     }
 
     private fun setMarkerOnMap(propertyModelProcessed: PropertyModelProcessed) {
