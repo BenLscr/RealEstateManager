@@ -61,19 +61,21 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        askPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
+        askPermissions(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION) {
             onGranted {
                 val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@MapActivity)
                 fusedLocationClient.lastLocation
-                        .addOnSuccessListener { location: Location ->
-                            val latitude =  location.latitude
-                            val longitude = location.longitude
+                        .addOnSuccessListener { location: Location? ->
+                            val latitude =  location?.latitude
+                            val longitude = location?.longitude
                             mMap.isMyLocationEnabled = true
                             mMap.uiSettings.isMyLocationButtonEnabled = true
-                            val newYork = LatLng(latitude, longitude)
-                            val zoom = 15.toFloat()
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newYork, zoom))
-                            mMap.setOnMarkerClickListener(this@MapActivity)
+                            if (latitude != null && longitude != null) {
+                                val newYork = LatLng(latitude, longitude)
+                                val zoom = 15.toFloat()
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newYork, zoom))
+                                mMap.setOnMarkerClickListener(this@MapActivity)
+                            }
                         }
 
                 mapViewModel.properties.observe(this@MapActivity, Observer { it.map { propertyModelProcessed ->  setMarkerOnMap(propertyModelProcessed) } })
