@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.openclassrooms.realestatemanager.emptyPropertyDetail.EmptyPropertyDetailFragment
 import com.openclassrooms.realestatemanager.form.addForm.AddFormActivity
+import com.openclassrooms.realestatemanager.form.searchForm.SearchFormActivity
 import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormActivity
 import com.openclassrooms.realestatemanager.map.MapActivity
 import com.openclassrooms.realestatemanager.map.PICK_PROPERTY_DATA
@@ -56,7 +57,11 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId) {
-            R.id.search_button -> { Log.e("Search","do something"); true }
+            R.id.search_button -> {
+                val intent = Intent(this, SearchFormActivity::class.java)
+                startActivity(intent)
+                true
+            }
             R.id.update_button -> {
                 if (fragmentPropertyDetail != null) {
                     val intent = Intent(this, UpdateFormActivity::class.java)

@@ -46,6 +46,11 @@
             android:label="Map"
             android:parentActivityName=".HomeActivity">
         </activity>
+        <activity
+            android:name=".form.searchForm.SearchFormActivity"
+            android:label="Search"
+            android:parentActivityName=".HomeActivity">
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
