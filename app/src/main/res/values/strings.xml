@@ -162,4 +162,35 @@
     <string name="search_since">Since</string>
     <string name="search_indifferent">Indifferent</string>
 
+    <string-array name="search_district">
+        <item></item>
+        <item>Bronx</item>
+        <item>Brooklyn</item>
+        <item>Manhattan</item>
+        <item>Queens</item>
+        <item>Staten Island</item>
+    </string-array>
+
+    <string-array name="search_city">
+        <item></item>
+        <item>New York</item>
+    </string-array>
+
+    <string-array name="search_country">
+        <item></item>
+        <item>United States</item>
+    </string-array>
+
+    <string-array name="search_type">
+        <item></item>
+        <item>Flat</item>
+        <item>Penthouse</item>
+        <item>Mansion</item>
+        <item>Duplex</item>
+        <item>House</item>
+        <item>Loft</item>
+        <item>Townhouse</item>
+        <item>Condo</item>
+    </string-array>
+
 </resources>
