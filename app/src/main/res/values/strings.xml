@@ -44,8 +44,8 @@
     <string name="rooms">rooms</string>
     <string name="bathrooms">bathrooms</string>
     <string name="bedrooms">bedrooms</string>
-    <string name="available">AVAILABLE</string>
-    <string name="sold">SOLD</string>
+    <string name="available">Available</string>
+    <string name="sold">Sold</string>
     <string name="school">school</string>
     <string name="commerces">commerces</string>
     <string name="park">park</string>
@@ -120,8 +120,8 @@
     <string name="pick_a_photo">Pick a photo</string>
     <string name="details">Property details</string>
     <string name="is_available">Is available ?</string>
-    <string name="add_form_button">ADD</string>
-    <string name="cancel_form_button">CANCEL</string>
+    <string name="add_form_button">Add</string>
+    <string name="cancel_form_button">Cancel</string>
     <string name="entry_date_form">Entry date into the market</string>
     <string name="select_a_date">Select a date</string>
 
@@ -157,9 +157,9 @@
     <string name="search_min_rooms">min rooms</string>
     <string name="search_min_bathrooms">min bathrooms</string>
     <string name="search_min_bedrooms">min bedrooms</string>
-    <string name="search_entry_date">On sale since</string>
-    <string name="search_sale_date">Sold since</string>
     <string name="search_button">Search</string>
     <string name="search_availability">Availability</string>
+    <string name="search_since">Since</string>
+    <string name="search_indifferent">Indifferent</string>
 
 </resources>
