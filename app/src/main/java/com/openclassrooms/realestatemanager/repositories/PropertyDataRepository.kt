@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.database.dao.PropertyDao
 import com.openclassrooms.realestatemanager.models.Property
 
@@ -14,6 +15,6 @@ class PropertyDataRepository(private val propertyDao: PropertyDao) {
 
     fun updateProperty(property: Property) = propertyDao.updateProperty(property)
 
-    fun deleteProperty(propertyId: Int) = propertyDao.deleteProperty(propertyId)
+    fun customSearchPropertiesId(query: SimpleSQLiteQuery): LiveData<List<Int>> = propertyDao.customSearchProperties(query)
 
 }

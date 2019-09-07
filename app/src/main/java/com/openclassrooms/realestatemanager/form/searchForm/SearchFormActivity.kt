@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.form.searchForm.injections.Injection
 import com.openclassrooms.realestatemanager.form.searchForm.models.SearchFormModelRaw
 import kotlinx.android.synthetic.main.activity_search_form.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -21,6 +23,7 @@ class SearchFormActivity : AppCompatActivity() {
 
     private val calendar: Calendar = Calendar.getInstance()
     private val searchFormModelRaw = SearchFormModelRaw()
+    private val searchFormViewModel: SearchFormViewModel by lazy { ViewModelProviders.of(this, Injection.provideViewModelFactory(applicationContext)).get(SearchFormViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +133,10 @@ class SearchFormActivity : AppCompatActivity() {
 
     private fun goSearch() {
         with(searchFormModelRaw) {
-            if (minPrice.isNotEmpty()
+            if (district.isNotEmpty()
+                    || city .isNotEmpty()
+                    || postalCode.isNotEmpty()
+                    || country.isNotEmpty() || minPrice.isNotEmpty()
                     || maxPrice.isNotEmpty()
                     || type.isNotEmpty()
                     || minSurface.isNotEmpty()
@@ -138,37 +144,17 @@ class SearchFormActivity : AppCompatActivity() {
                     || rooms.isNotEmpty()
                     || bathrooms.isNotEmpty()
                     || bedrooms.isNotEmpty()
-                    || availability != null
-                    || dateLong > 0) {
-                if (school
-                        || commerces
-                        || park
-                        || subways
-                        || train) {
-                    Log.e("goSearch", "property && locInt")
-                } else {
-                    Log.e("goSearch", "property")
-                }
-            } else if (district.isNotEmpty()
-                    || city .isNotEmpty()
-                    || postalCode.isNotEmpty()
-                    || country.isNotEmpty()) {
-                if (school
-                        || commerces
-                        || park
-                        || subways
-                        || train) {
-                    Log.e("goSearch", "address && locInt")
-                } else {
-                    Log.e("goSearch", "address")
-                }
-            } else if (school
+                    || school
                     || commerces
                     || park
                     || subways
-                    || train) {
-                Log.e("goSearch", "locInt")
-            } else {
+                    || train
+                    || availability != null
+                    || dateLong > 0) {
+                searchFormViewModel.searchPropertiesId(searchFormModelRaw)
+                        .observe(this@SearchFormActivity,
+                                androidx.lifecycle.Observer { it.map { property -> Log.e("observer", property.toString()) }  })
+            }  else {
                 Log.e("goSearch", "nothing filled")
             }
         }

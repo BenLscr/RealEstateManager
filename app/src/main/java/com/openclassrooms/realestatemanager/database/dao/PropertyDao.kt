@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.models.Property
 
 @Dao
@@ -19,7 +20,7 @@ interface PropertyDao {
     @Update
     fun updateProperty(property: Property)
 
-    @Query("DELETE FROM Property WHERE :id == id")
-    fun deleteProperty(id: Int)
+    @RawQuery(observedEntities = [Property::class])
+    fun customSearchPropertiesId(query: SimpleSQLiteQuery): LiveData<List<Int>>
 
 }

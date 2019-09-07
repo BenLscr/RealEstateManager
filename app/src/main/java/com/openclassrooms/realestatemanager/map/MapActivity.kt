@@ -71,9 +71,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                             mMap.isMyLocationEnabled = true
                             mMap.uiSettings.isMyLocationButtonEnabled = true
                             if (latitude != null && longitude != null) {
-                                val newYork = LatLng(latitude, longitude)
+                                val myLocation = LatLng(latitude, longitude)
                                 val zoom = 15.toFloat()
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newYork, zoom))
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, zoom))
                                 mMap.setOnMarkerClickListener(this@MapActivity)
                             }
                         }
