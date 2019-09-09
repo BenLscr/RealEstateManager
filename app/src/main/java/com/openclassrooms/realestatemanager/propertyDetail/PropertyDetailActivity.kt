@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.openclassrooms.realestatemanager.INTENT_HOME_TO_DETAIL
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormActivity
+import com.openclassrooms.realestatemanager.result.INTENT_RESULT_TO_DETAIL
 import kotlinx.android.synthetic.main.toolbar.*
 
 const val INTENT_DETAIL_TO_UPDATE = "INTENT_DETAIL_TO_UPDATE"
@@ -30,6 +31,8 @@ class PropertyDetailActivity : AppCompatActivity() {
     private fun retrievesIntent() {
         if (intent.hasExtra(INTENT_HOME_TO_DETAIL)) {
             propertyId = intent.getIntExtra(INTENT_HOME_TO_DETAIL, 0)
+        } else if (intent.hasExtra(INTENT_RESULT_TO_DETAIL)){
+            propertyId = intent.getIntExtra(INTENT_RESULT_TO_DETAIL, 0)
         }
     }
 
@@ -45,6 +48,7 @@ class PropertyDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when(item?.itemId) {
+            android.R.id.home -> { finish(); true }
             R.id.update_button -> {
                 if (propertyId != 0) {
                     val intent = Intent(this, UpdateFormActivity::class.java)

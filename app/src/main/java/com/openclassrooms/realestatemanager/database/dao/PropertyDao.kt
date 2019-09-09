@@ -9,7 +9,7 @@ import com.openclassrooms.realestatemanager.models.Property
 interface PropertyDao {
 
     @Query("SELECT * FROM Property INNER JOIN Address ON Property.addressId = Address.address_id INNER JOIN Agent ON Property.agentId = Agent.agent_id")
-    fun getProperties(): LiveData<List<Property>>
+    fun getAllProperties(): LiveData<List<Property>>
 
     @Query("SELECT * FROM Property INNER JOIN Address ON Property.addressId = Address.address_id INNER JOIN Agent ON Property.agentId = Agent.agent_id WHERE :id == id")
     fun getProperty(id: Int): LiveData<Property>
@@ -22,5 +22,8 @@ interface PropertyDao {
 
     @RawQuery(observedEntities = [Property::class])
     fun customSearchPropertiesId(query: SimpleSQLiteQuery): LiveData<List<Int>>
+
+    @RawQuery(observedEntities = [Property::class])
+    fun getProperties(query: SimpleSQLiteQuery): LiveData<List<Property>>
 
 }

@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.form.searchForm
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -9,15 +10,19 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.searchForm.injections.Injection
 import com.openclassrooms.realestatemanager.form.searchForm.models.SearchFormModelRaw
+import com.openclassrooms.realestatemanager.result.ResultActivity
 import kotlinx.android.synthetic.main.activity_search_form.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
+
+const val INTENT_SEARCH_TO_RESULT = "INTENT_SEARCH_TO_RESULT"
 
 class SearchFormActivity : AppCompatActivity() {
 
@@ -153,7 +158,11 @@ class SearchFormActivity : AppCompatActivity() {
                     || dateLong > 0) {
                 searchFormViewModel.searchPropertiesId(searchFormModelRaw)
                         .observe(this@SearchFormActivity,
-                                androidx.lifecycle.Observer { it.map { property -> Log.e("observer", property.toString()) }  })
+                                Observer {
+                                    val intent = Intent(this@SearchFormActivity, ResultActivity::class.java)
+                                    intent.putExtra(INTENT_SEARCH_TO_RESULT, it.toIntArray())
+                                    startActivity(intent)
+                                })
             }  else {
                 Log.e("goSearch", "nothing filled")
             }
