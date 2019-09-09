@@ -6,11 +6,11 @@ import com.openclassrooms.realestatemanager.models.Agent
 
 class AgentDataRepository(private val agentDao: AgentDao) {
 
-    fun getAgents(): LiveData<List<Agent>> { return agentDao.getAgents() }
+    fun getAgents(): LiveData<List<Agent>> = agentDao.getAgents()
 
-    fun getAgent(agentId: Int): LiveData<Agent> { return agentDao.getAgent(agentId) }
+    fun getAgent(agentId: Int): LiveData<Agent> = agentDao.getAgent(agentId)
 
-    fun insertAgent(agent: Agent): Long { return agentDao.insertAgent(agent) }
+    fun insertAgent(agent: Agent): Long = agentDao.insertAgent(agent)
 
     fun updatetAgent(agent: Agent) = agentDao.updateAgent(agent)
 

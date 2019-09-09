@@ -40,7 +40,6 @@ class ResultActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentI
     }
 
     private var fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-    private val fragmentPropertyList = PropertyListFragment.newInstance()
     private var fragmentPropertyDetail: PropertyDetailFragment? = null
     private var fragmentEmptyPropertyDetail: EmptyPropertyDetailFragment? = null
     private var containerPropertyDetail: Fragment? = supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)

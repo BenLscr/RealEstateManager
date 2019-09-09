@@ -34,10 +34,8 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         configureToolbar()
-
         configureDrawerLayout()
         configureNavigationView()
-
         initAndAddFragment()
     }
 

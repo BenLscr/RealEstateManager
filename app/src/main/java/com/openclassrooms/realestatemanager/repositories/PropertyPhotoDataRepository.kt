@@ -6,9 +6,9 @@ import com.openclassrooms.realestatemanager.models.PropertyPhoto
 
 class PropertyPhotoDataRepository(private val propertyPhotoDao: PropertyPhotoDao) {
 
-    fun getIllustrationPropertyPhoto(propertyPhotoId: Int, isThisTheIllustration: Boolean): LiveData<PropertyPhoto> { return propertyPhotoDao.getIllustrationPropertyPhoto(propertyPhotoId, isThisTheIllustration) }
+    fun getIllustrationPropertyPhoto(propertyPhotoId: Int, isThisTheIllustration: Boolean): LiveData<PropertyPhoto> = propertyPhotoDao.getIllustrationPropertyPhoto(propertyPhotoId, isThisTheIllustration)
 
-    fun insertPropertyPhoto(propertyPhoto: PropertyPhoto): Long { return propertyPhotoDao.insertPropertyPhoto(propertyPhoto) }
+    fun insertPropertyPhoto(propertyPhoto: PropertyPhoto): Long = propertyPhotoDao.insertPropertyPhoto(propertyPhoto)
 
     fun updatePropertyPhoto(propertyPhoto: PropertyPhoto) = propertyPhotoDao.updatePropertyPhoto(propertyPhoto)
 

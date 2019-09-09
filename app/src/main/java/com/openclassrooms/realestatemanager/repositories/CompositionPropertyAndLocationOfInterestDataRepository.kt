@@ -6,7 +6,7 @@ import com.openclassrooms.realestatemanager.models.CompositionPropertyAndLocatio
 
 class CompositionPropertyAndLocationOfInterestDataRepository(private val compositionPropertyAndLocationOfInterestDao: CompositionPropertyAndLocationOfInterestDao) {
 
-    fun getLocationsOfInterest(propertyId: Int): LiveData<List<CompositionPropertyAndLocationOfInterest>> { return compositionPropertyAndLocationOfInterestDao.getLocationsOfInterest(propertyId) }
+    fun getLocationsOfInterest(propertyId: Int): LiveData<List<CompositionPropertyAndLocationOfInterest>> = compositionPropertyAndLocationOfInterestDao.getLocationsOfInterest(propertyId)
 
     fun insertLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest) = compositionPropertyAndLocationOfInterestDao.insertLocationOfInterest(compositionPropertyAndLocationOfInterest)
 

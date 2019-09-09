@@ -6,11 +6,11 @@ import com.openclassrooms.realestatemanager.models.Address
 
 class AddressDataRepository(private val addressDao: AddressDao) {
 
-    fun getAddresses(): LiveData<List<Address>> { return addressDao.getAddresses() }
+    fun getAddresses(): LiveData<List<Address>> = addressDao.getAddresses()
 
-    fun getAddress(addressId: Int): LiveData<Address> { return this.addressDao.getAddress(addressId) }
+    fun getAddress(addressId: Int): LiveData<Address> = addressDao.getAddress(addressId)
 
-    fun insertAddress(address: Address): Long { return addressDao.insertAddress(address) }
+    fun insertAddress(address: Address): Long = addressDao.insertAddress(address)
 
     fun updateAddress(address: Address) = addressDao.updateAddress(address)
 
