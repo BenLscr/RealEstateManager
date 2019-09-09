@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -16,6 +15,7 @@ import com.openclassrooms.realestatemanager.emptyPropertyDetail.EmptyPropertyDet
 import com.openclassrooms.realestatemanager.form.addForm.AddFormActivity
 import com.openclassrooms.realestatemanager.form.searchForm.SearchFormActivity
 import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormActivity
+import com.openclassrooms.realestatemanager.loanSimulator.LoanSimulatorActivity
 import com.openclassrooms.realestatemanager.map.MapActivity
 import com.openclassrooms.realestatemanager.map.PICK_PROPERTY_DATA
 import com.openclassrooms.realestatemanager.propertyDetail.PropertyDetailActivity
@@ -92,11 +92,12 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
             when (it.itemId) {
                 R.id.activity_home_drawer_map -> {
                     val intent = Intent(this, MapActivity::class.java)
-                    //startActivity(intent)*
                     startActivityForResult(intent, PICK_PROPERTY_REQUEST)
-                    true
                 }
-                else -> false
+                R.id.activity_home_drawer_loan_simulator -> {
+                    val intent = Intent(this, LoanSimulatorActivity::class.java)
+                    startActivity(intent)
+                }
             }
             this.activity_home_drawer_layout.closeDrawer(GravityCompat.START)
             true

@@ -55,6 +55,11 @@
             android:label="Result"
             android:parentActivityName=".form.searchForm.SearchFormActivity">
         </activity>
+        <activity
+            android:name=".loanSimulator.LoanSimulatorActivity"
+            android:label="Loan simulator"
+            android:parentActivityName=".HomeActivity">
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -11,6 +11,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="map">Map</string>
+    <string name="loan_simulator">Loan simulator</string>
 
     //PROPERTY LIST
     <string name="illustration_property_s">Illustration property\'s</string>
@@ -192,5 +193,15 @@
         <item>Townhouse</item>
         <item>Condo</item>
     </string-array>
+
+    //LOAN SIMULATOR
+    <string name="loan_simulator_price">Price of the property you wish to acquire</string>
+    <string name="loan_simulator_period">Desired repayment period</string>
+    <string name="loan_simulator_contribution">Your contribution</string>
+    <string name="loan_simulator_amount">Loan amount :</string>
+    <string name="loan_simulator_rate">Loan rate assessed at :</string>
+    <string name="loan_simulator_monthly_payment">Monthly payment to be repaid assessed at :</string>
+    <string name="estimate">Estimate</string>
+    <string name="estimating">Estimating</string>
 
 </resources>
