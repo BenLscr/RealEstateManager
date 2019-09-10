@@ -74,7 +74,7 @@
                         android:id="@+id/loan_simulator_contribution"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="12"
+                        android:maxLength="2"
                         android:inputType="number"/>
 
                 </com.google.android.material.textfield.TextInputLayout>

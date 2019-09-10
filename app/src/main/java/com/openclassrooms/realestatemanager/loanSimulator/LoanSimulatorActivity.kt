@@ -17,6 +17,8 @@ class LoanSimulatorActivity : AppCompatActivity() {
     private var period: String = ""
     private var contribution: String = ""
     private val mAwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
+    private var amountResult: Int = 0
+    private var rateResult: Double = 0.toDouble()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +49,6 @@ class LoanSimulatorActivity : AppCompatActivity() {
     private fun checkContribution(): Boolean =
             if (price.isNotEmpty()) {
                 val minContribution: Double = price.toInt() * 0.1
-                //if contribution is not empty
                 if (contribution.isNotEmpty()) {
                     if (minContribution <= contribution.toDouble()) {
                         loan_simulator_error_contribution.visibility = View.GONE
@@ -77,7 +78,40 @@ class LoanSimulatorActivity : AppCompatActivity() {
     }
 
     private fun estimating() {
-        //TODO : show result
+        loan_simulator_amount.text = calculatesAmount()
+        loan_simulator_rate.text = calculatesRate()
+        loan_simulator_monthly_payment.text = calculatesMonthlyPayment()
+    }
+
+    private fun calculatesAmount(): String {
+        return if (price > contribution) {
+            amountResult = price.toInt() - contribution.toInt()
+            "${getString(R.string.loan_simulator_amount)} $amountResult$"
+        } else {
+            amountResult = 0
+            "${getString(R.string.loan_simulator_amount)} $amountResult$"
+        }
+    }
+
+    private fun calculatesRate(): String {
+        rateResult = when (contribution.toDouble()/price.toDouble()) {
+            in 0.1..0.2 -> 1.95
+            in 0.2..0.3 -> 1.85
+            in 0.3..0.4 -> 1.75
+            in 0.4..0.5 -> 1.65
+            in 0.5..0.6 -> 1.55
+            in 0.6..0.7 -> 1.45
+            in 0.7..0.8 -> 1.35
+            in 0.8..0.9 -> 1.25
+            in 0.9..0.99 -> 1.15
+            else -> 0.0
+        }
+        return "${getString(R.string.loan_simulator_rate)} $rateResult%"
+    }
+
+    private fun calculatesMonthlyPayment(): String {
+        val monthlyPaymentResult: Double? = amountResult * (1 + (rateResult/100)) / (period.toInt() * 12)
+        return "${getString(R.string.loan_simulator_monthly_payment)} $monthlyPaymentResult$"
     }
 
     private fun setEveryAwesomeValidation() {
