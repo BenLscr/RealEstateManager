@@ -174,7 +174,7 @@ object Utils {
                 else -> Type.FLAT
             }
 
-    fun fromStringToAgent(fullNameAgent: String) =
+    fun fromStringToAgentId(fullNameAgent: String) =
             when(fullNameAgent) {
                 "Tony Stark" -> 1
                 "Peter Parker" -> 2
@@ -187,33 +187,33 @@ object Utils {
                 else -> 1
             }
 
-    fun fromWordingToString(wording: Wording?) =
+    fun fromStringToWording(wording: String?) =
             when(wording) {
-                Wording.STREET_VIEW -> "Street view"
-                Wording.LIVING_ROOM -> "Living room"
-                Wording.HALL -> "Hall"
-                Wording.KITCHEN -> "Kitchen"
-                Wording.DINING_ROOM -> "Dining room"
-                Wording.BATHROOM -> "Bathroom"
-                Wording.BALCONY -> "Balcony"
-                Wording.BEDROOM -> "Bedroom"
-                Wording.TERRACE -> "Terrace"
-                Wording.WALK_IN_CLOSET -> "Walk in closet"
-                Wording.OFFICE -> "Office"
-                Wording.ROOF_TOP -> "Roof top"
-                Wording.PLAN -> "plan"
-                Wording.HALLWAY -> "Hallway"
-                Wording.VIEW -> "View"
-                Wording.GARAGE -> "Garage"
-                Wording.SWIMMING_POOL -> "Swimming pool"
-                Wording.FITNESS_CENTRE -> "Fitness centre"
-                Wording.SPA -> "Spa"
-                Wording.CINEMA -> "Cinema"
-                Wording.CONFERENCE -> "Conference"
-                Wording.STAIRS -> "Stairs"
-                Wording.GARDEN -> "Garden"
-                Wording.FLOOR -> "Floor"
-                else -> "Unknown wording"
+                "Street View" -> Wording.STREET_VIEW
+                "Living room" -> Wording.LIVING_ROOM
+                "Hall" -> Wording.HALL
+                "Kitchen" -> Wording.KITCHEN
+                "Dining room" -> Wording.DINING_ROOM
+                "Bathroom" -> Wording.BATHROOM
+                "Balcony" -> Wording.BALCONY
+                "Bedroom" -> Wording.BEDROOM
+                "Terrace" -> Wording.TERRACE
+                "Walk in closet" -> Wording.WALK_IN_CLOSET
+                "Office" -> Wording.OFFICE
+                "Roof top" -> Wording.ROOF_TOP
+                "plan" -> Wording.PLAN
+                "Hallway" -> Wording.HALLWAY
+                "View" -> Wording.VIEW
+                "Garage" -> Wording.GARAGE
+                "Swimming pool" -> Wording.SWIMMING_POOL
+                "Fitness centre" -> Wording.FITNESS_CENTRE
+                "Spa" -> Wording.SPA
+                "Cinema" -> Wording.CINEMA
+                "Conference" -> Wording.CONFERENCE
+                "Stairs" -> Wording.STAIRS
+                "Garden" -> Wording.GARDEN
+                "Floor" -> Wording.FLOOR
+                else -> Wording.STREET_VIEW
             }
 
     //---TO-UI---\\
@@ -280,33 +280,33 @@ object Utils {
                 ""
             }
 
-    fun fromStringToWording(wording: String?) =
+    fun fromWordingToString(wording: Wording?) =
             when(wording) {
-                "Street View" -> Wording.STREET_VIEW
-                "Living room" -> Wording.LIVING_ROOM
-                "Hall" -> Wording.HALL
-                "Kitchen" -> Wording.KITCHEN
-                "Dining room" -> Wording.DINING_ROOM
-                "Bathroom" -> Wording.BATHROOM
-                "Balcony" -> Wording.BALCONY
-                "Bedroom" -> Wording.BEDROOM
-                "Terrace" -> Wording.TERRACE
-                "Walk in closet" -> Wording.WALK_IN_CLOSET
-                "Office" -> Wording.OFFICE
-                "Roof top" -> Wording.ROOF_TOP
-                "plan" -> Wording.PLAN
-                "Hallway" -> Wording.HALLWAY
-                "View" -> Wording.VIEW
-                "Garage" -> Wording.GARAGE
-                "Swimming pool" -> Wording.SWIMMING_POOL
-                "Fitness centre" -> Wording.FITNESS_CENTRE
-                "Spa" -> Wording.SPA
-                "Cinema" -> Wording.CINEMA
-                "Conference" -> Wording.CONFERENCE
-                "Stairs" -> Wording.STAIRS
-                "Garden" -> Wording.GARDEN
-                "Floor" -> Wording.FLOOR
-                else -> Wording.STREET_VIEW
+                Wording.STREET_VIEW -> "Street view"
+                Wording.LIVING_ROOM -> "Living room"
+                Wording.HALL -> "Hall"
+                Wording.KITCHEN -> "Kitchen"
+                Wording.DINING_ROOM -> "Dining room"
+                Wording.BATHROOM -> "Bathroom"
+                Wording.BALCONY -> "Balcony"
+                Wording.BEDROOM -> "Bedroom"
+                Wording.TERRACE -> "Terrace"
+                Wording.WALK_IN_CLOSET -> "Walk in closet"
+                Wording.OFFICE -> "Office"
+                Wording.ROOF_TOP -> "Roof top"
+                Wording.PLAN -> "plan"
+                Wording.HALLWAY -> "Hallway"
+                Wording.VIEW -> "View"
+                Wording.GARAGE -> "Garage"
+                Wording.SWIMMING_POOL -> "Swimming pool"
+                Wording.FITNESS_CENTRE -> "Fitness centre"
+                Wording.SPA -> "Spa"
+                Wording.CINEMA -> "Cinema"
+                Wording.CONFERENCE -> "Conference"
+                Wording.STAIRS -> "Stairs"
+                Wording.GARDEN -> "Garden"
+                Wording.FLOOR -> "Floor"
+                else -> "Unknown wording"
             }
 
     fun createNamePhoto(index: Int) = "$index.jpg"

@@ -39,7 +39,7 @@ class AddressDaoTest {
         db.close()
     }
 
-    @Test
+    /*@Test
     @Throws(Exception::class)
     fun insertAndGetAddress() {
         db.addressDao().insertAddress(Address(
@@ -54,5 +54,5 @@ class AddressDaoTest {
 
         assert(address!!.path == "451, rue Robert Lefranc" && address.id == 3)
         //assertThat(address, equalTo(UneAddress))
-    }
+    }*/
 }

@@ -60,7 +60,7 @@ class AddFormViewModel(
                     available = available,
                     entryDate = entryDate,
                     saleDate = null,
-                    agentId = Utils.fromStringToAgent(fullNameAgent)
+                    agentId = Utils.fromStringToAgentId(fullNameAgent)
             )
         }
         insertProperty(addFormModelRaw, property)
