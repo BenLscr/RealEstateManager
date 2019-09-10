@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -27,21 +28,25 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/loan_simulator_price_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    app:startIconDrawable="@drawable/baseline_attach_money_black_24"
                     android:hint="@string/loan_simulator_price">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/loan_simulator_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="30"/>
+                        android:maxLength="12"
+                        android:inputType="number"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/loan_simulator_period_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -51,24 +56,40 @@
                         android:id="@+id/loan_simulator_period"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="30"/>
+                        android:maxLength="12"
+                        android:inputType="number"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/loan_simulator_contribution_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    app:startIconDrawable="@drawable/baseline_attach_money_black_24"
                     android:hint="@string/loan_simulator_contribution">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/loan_simulator_contribution"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="30"/>
+                        android:maxLength="12"
+                        android:inputType="number"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/loan_simulator_error_contribution"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/loan_simulator_error_contribution"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

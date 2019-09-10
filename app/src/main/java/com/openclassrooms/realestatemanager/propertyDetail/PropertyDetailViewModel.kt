@@ -14,6 +14,7 @@ import com.openclassrooms.realestatemanager.propertyDetail.models.PropertyModelP
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndLocationOfInterestDataRepository
 import com.openclassrooms.realestatemanager.repositories.CompositionPropertyAndPropertyPhotoDataRepository
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
+import kotlinx.coroutines.withContext
 
 class PropertyDetailViewModel(
         private val propertyDataSource: PropertyDataRepository,
