@@ -45,9 +45,22 @@ class CompositionPropertyAndLocationOfInterestDaoTest {
         val locationOfInterestId = LocationOfInterest.PARK.ordinal
         val composition = CompositionPropertyAndLocationOfInterest(propertyId, locationOfInterestId)
         db.compositionPropertyAndLocationOfInterestDao().insertLocationOfInterest(composition)
-        val getComposition = LiveDataTestUtil.getValue(db.compositionPropertyAndLocationOfInterestDao().getLocationsOfInterest(propertyId))
+        val compositions = LiveDataTestUtil.getValue(db.compositionPropertyAndLocationOfInterestDao().getLocationsOfInterest(propertyId))
 
-        assertTrue(getComposition?.get(0)?.propertyId == composition.propertyId && getComposition[0].locationOfInterestId == composition.locationOfInterestId )
+        assertTrue(compositions?.get(0)?.propertyId == composition.propertyId && compositions[0].locationOfInterestId == composition.locationOfInterestId )
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun insertAndDeleteCompositionFromDatabase() {
+        val propertyId = 65
+        val locationOfInterestId = LocationOfInterest.PARK.ordinal
+        val composition = CompositionPropertyAndLocationOfInterest(propertyId, locationOfInterestId)
+        db.compositionPropertyAndLocationOfInterestDao().insertLocationOfInterest(composition)
+        db.compositionPropertyAndLocationOfInterestDao().deleteLocationOfInterest(propertyId, locationOfInterestId)
+        val compositions = LiveDataTestUtil.getValue(db.compositionPropertyAndLocationOfInterestDao().getLocationsOfInterest(propertyId))
+
+        assertTrue(compositions.isNullOrEmpty())
     }
 
 }
