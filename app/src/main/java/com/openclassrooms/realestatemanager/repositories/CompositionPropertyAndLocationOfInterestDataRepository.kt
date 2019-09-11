@@ -10,8 +10,6 @@ class CompositionPropertyAndLocationOfInterestDataRepository(private val composi
 
     fun insertLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest) = compositionPropertyAndLocationOfInterestDao.insertLocationOfInterest(compositionPropertyAndLocationOfInterest)
 
-    fun updateLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest) = compositionPropertyAndLocationOfInterestDao.updateLocationOfInterest(compositionPropertyAndLocationOfInterest)
-
     fun deleteLocationOfInterest(propertyId: Int, locationOfInterestId: Int) = compositionPropertyAndLocationOfInterestDao.deleteLocationOfInterest(propertyId, locationOfInterestId)
 
 }

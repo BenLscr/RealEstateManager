@@ -109,7 +109,6 @@ class GetUpdateFormViewModel(
     }
 
     //---FACTORY---\\
-
     private fun buildAddressForDatabase(addressModelRaw: AddressModelRaw) =
             with(addressModelRaw) {
                 Address(

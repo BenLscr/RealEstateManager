@@ -42,7 +42,7 @@ class AddressDaoTest {
         db.close()
     }
 
-    @Test
+    /*@Test
     @Throws(Exception::class)
     fun insertAndGetAddress() {
         val USER_ID = 3
@@ -60,5 +60,6 @@ class AddressDaoTest {
 
         assertTrue(getAddress?.path == "451, rue Robert Lefranc" && getAddress.id == USER_ID)
         //assertThat(getAddress?.path, equalTo(address.path))
-    }
+    }*/
+
 }

@@ -12,8 +12,6 @@ class CompositionPropertyAndPropertyPhotoDataRepository(private val compositionP
 
     fun insertPropertyPhoto(compositionPropertyAndPropertyPhoto: CompositionPropertyAndPropertyPhoto) = compositionPropertyAndPropertyPhotoDao.insertPropertyPhoto(compositionPropertyAndPropertyPhoto)
 
-    fun updatePropertyPhoto(compositionPropertyAndPropertyPhoto: CompositionPropertyAndPropertyPhoto) = compositionPropertyAndPropertyPhotoDao.updatePropertyPhoto(compositionPropertyAndPropertyPhoto)
-
     fun deletePropertyPhoto(propertyId: Int, propertyPhotoId: Int) = compositionPropertyAndPropertyPhotoDao.deletePropertyPhoto(propertyId, propertyPhotoId)
 
 }
