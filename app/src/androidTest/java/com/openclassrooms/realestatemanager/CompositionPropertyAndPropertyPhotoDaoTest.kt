@@ -81,4 +81,23 @@ class CompositionPropertyAndPropertyPhotoDaoTest {
                 && compositions[0].propertyPhoto?.wording == Wording.BALCONY)
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun insertAndGetIllustrationFromDatabase() {
+        val propertyId = 65
+
+        val composition1 = CompositionPropertyAndPropertyPhoto(propertyId, propertyPhotoId)
+        db.compositionPropertyAndPropertyPhotoDao().insertPropertyPhoto(composition1)
+
+        val composition2 = CompositionPropertyAndPropertyPhoto(propertyId, 90)
+        db.compositionPropertyAndPropertyPhotoDao().insertPropertyPhoto(composition2)
+
+        val composition3 = CompositionPropertyAndPropertyPhoto(propertyId, 91)
+        db.compositionPropertyAndPropertyPhotoDao().insertPropertyPhoto(composition3)
+
+        val composition = LiveDataTestUtil.getValue(db.compositionPropertyAndPropertyPhotoDao().getPropertyIllustration(propertyId, true))
+
+        assertTrue(composition!!.propertyPhoto!!.isThisTheIllustration)
+    }
+
 }
