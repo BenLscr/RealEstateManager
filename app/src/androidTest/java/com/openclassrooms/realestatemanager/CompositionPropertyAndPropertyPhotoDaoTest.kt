@@ -66,7 +66,6 @@ class CompositionPropertyAndPropertyPhotoDaoTest {
         )
         db.propertyPhotoDao().insertPropertyPhoto(propertyPhoto3)
 
-
         db.compositionPropertyAndPropertyPhotoDao().insertPropertyPhoto(composition1)
         db.compositionPropertyAndPropertyPhotoDao().insertPropertyPhoto(composition2)
         db.compositionPropertyAndPropertyPhotoDao().insertPropertyPhoto(composition3)
@@ -81,7 +80,6 @@ class CompositionPropertyAndPropertyPhotoDaoTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetCompositionFromDatabase() {
-
         val compositions = LiveDataTestUtil.getValue(db.compositionPropertyAndPropertyPhotoDao().getPropertyPhotos(propertyId))
 
         assertTrue(compositions?.size == 3
