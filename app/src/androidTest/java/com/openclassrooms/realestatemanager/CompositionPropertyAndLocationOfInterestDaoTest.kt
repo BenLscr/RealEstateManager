@@ -19,6 +19,9 @@ import java.io.IOException
 class CompositionPropertyAndLocationOfInterestDaoTest {
 
     private lateinit var db: AppDatabase
+    private val propertyId = 65
+    private val locationOfInterestId = LocationOfInterest.PARK.ordinal
+    private val composition = CompositionPropertyAndLocationOfInterest(propertyId, locationOfInterestId)
 
     @get:Rule
     var rule = InstantTaskExecutorRule()
@@ -30,6 +33,7 @@ class CompositionPropertyAndLocationOfInterestDaoTest {
                 context, AppDatabase::class.java)
                 .allowMainThreadQueries()
                 .build()
+        db.compositionPropertyAndLocationOfInterestDao().insertLocationOfInterest(composition)
     }
 
     @After
@@ -41,10 +45,6 @@ class CompositionPropertyAndLocationOfInterestDaoTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetCompositionFromDatabase() {
-        val propertyId = 65
-        val locationOfInterestId = LocationOfInterest.PARK.ordinal
-        val composition = CompositionPropertyAndLocationOfInterest(propertyId, locationOfInterestId)
-        db.compositionPropertyAndLocationOfInterestDao().insertLocationOfInterest(composition)
         val compositions = LiveDataTestUtil.getValue(db.compositionPropertyAndLocationOfInterestDao().getLocationsOfInterest(propertyId))
 
         assertTrue(compositions?.get(0)?.propertyId == composition.propertyId && compositions[0].locationOfInterestId == composition.locationOfInterestId )
@@ -53,10 +53,6 @@ class CompositionPropertyAndLocationOfInterestDaoTest {
     @Test
     @Throws(Exception::class)
     fun insertAndDeleteCompositionFromDatabase() {
-        val propertyId = 65
-        val locationOfInterestId = LocationOfInterest.PARK.ordinal
-        val composition = CompositionPropertyAndLocationOfInterest(propertyId, locationOfInterestId)
-        db.compositionPropertyAndLocationOfInterestDao().insertLocationOfInterest(composition)
         db.compositionPropertyAndLocationOfInterestDao().deleteLocationOfInterest(propertyId, locationOfInterestId)
         val compositions = LiveDataTestUtil.getValue(db.compositionPropertyAndLocationOfInterestDao().getLocationsOfInterest(propertyId))
 
