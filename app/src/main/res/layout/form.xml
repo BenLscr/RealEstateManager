@@ -34,64 +34,67 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="140dp"
+                    android:layout_height="160dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/colorPrimary">
+
+                    <ImageView
+                        android:id="@+id/form_photo_plus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="center"
+                        android:src="@drawable/baseline_add_black_48"
+                        android:tint="@android:color/white"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:contentDescription="@string/pick_a_photo" />
+
+                    <ImageView
+                        android:id="@+id/form_photo_filled"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:contentDescription="@string/pick_a_photo" />
+
+                    <ImageView
+                        android:id="@+id/form_photo_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:contentDescription="@string/pick_a_photo" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:background="@drawable/trans_black_rectangle">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/form_wording"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/wording"
+                            android:textColorHint="@android:color/white"
+                            android:editable="false"
+                            android:gravity="center"
+                            android:textColor="@android:color/white"/>
+
+                    </LinearLayout>
+
+                </FrameLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="140dp"
-                        android:layout_height="160dp"
-                        android:layout_marginTop="4dp"
-                        android:background="@color/colorPrimary">
-
-                        <ImageView
-                            android:id="@+id/form_photo_plus"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="center"
-                            android:src="@drawable/baseline_add_black_48"
-                            android:tint="@android:color/white"
-                            android:textAppearance="?attr/textAppearanceListItem"
-                            android:contentDescription="@string/pick_a_photo" />
-
-                        <ImageView
-                            android:id="@+id/form_photo_filled"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:textAppearance="?attr/textAppearanceListItem"
-                            android:contentDescription="@string/pick_a_photo" />
-
-                        <ImageView
-                            android:id="@+id/form_photo_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textAppearance="?attr/textAppearanceListItem"
-                            android:contentDescription="@string/pick_a_photo" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_gravity="bottom"
-                            android:gravity="center"
-                            android:background="@drawable/trans_black_rectangle">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/form_wording"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/wording"
-                                android:textColorHint="@android:color/white"
-                                android:editable="false"
-                                android:gravity="center"
-                                android:textColor="@android:color/white"/>
-
-                        </LinearLayout>
-
-                    </FrameLayout>
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_margin="20dp">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/form_add_button_photo"
@@ -111,29 +114,28 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="6dp">
+
+                <FrameLayout
+                    android:id="@+id/form_property_photo_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/form_error_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="8dp">
-
-                    <FrameLayout
-                        android:id="@+id/form_property_photo_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/form_error_photo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:text="@string/form_error_photo"
-                        android:textSize="16sp"
-                        android:layout_marginStart="4dp"
-                        android:visibility="gone"/>
-
-                </LinearLayout>
+                    android:textColor="@android:color/holo_red_dark"
+                    android:text="@string/form_error_photo"
+                    android:textSize="16sp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
