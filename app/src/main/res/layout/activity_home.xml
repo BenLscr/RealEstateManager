@@ -39,6 +39,7 @@
         app:menu="@menu/activity_home_menu_drawer"
         app:itemTextColor="@android:color/white"
         app:itemIconTint="@android:color/white"
+        android:theme="@style/NavigationDrawerStyle"
         android:background="@color/colorPrimary">
     </com.google.android.material.navigation.NavigationView>
 
