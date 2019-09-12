@@ -20,14 +20,14 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class UpdateEspressoTest {
+class UpdateFormFilledEspressoTest {
 
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(HomeActivity::class.java)
 
     @Test
-    fun updateEspressoTest() {
+    fun formUpdate_isCorrectlyFilled_EspressoTest() {
         val linearLayout = onView(
                 allOf(childAtPosition(
                         childAtPosition(
