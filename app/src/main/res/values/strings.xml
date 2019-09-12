@@ -162,6 +162,8 @@
     <string name="search_availability">Availability</string>
     <string name="search_since">Since</string>
     <string name="search_indifferent">Indifferent</string>
+    <string name="search_no_property_found">No property found.</string>
+    <string name="search_no_criteria">Please select a criteria at least.</string>
 
     <string-array name="search_district">
         <item></item>

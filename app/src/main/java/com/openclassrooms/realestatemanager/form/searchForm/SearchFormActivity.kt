@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.searchForm.injections.Injection
 import com.openclassrooms.realestatemanager.form.searchForm.models.SearchFormModelRaw
@@ -159,12 +160,22 @@ class SearchFormActivity : AppCompatActivity() {
                 searchFormViewModel.searchPropertiesId(searchFormModelRaw)
                         .observe(this@SearchFormActivity,
                                 Observer {
-                                    val intent = Intent(this@SearchFormActivity, ResultActivity::class.java)
-                                    intent.putExtra(INTENT_SEARCH_TO_RESULT, it.toIntArray())
-                                    startActivity(intent)
+                                    if (it.isNotEmpty()) {
+                                        val intent = Intent(this@SearchFormActivity, ResultActivity::class.java)
+                                        intent.putExtra(INTENT_SEARCH_TO_RESULT, it.toIntArray())
+                                        startActivity(intent)
+                                    } else {
+                                        Snackbar.make(coordinatorLayout_search_activity,
+                                                getString(R.string.search_no_property_found),
+                                                Snackbar.LENGTH_LONG)
+                                                .show()
+                                    }
                                 })
             }  else {
-                Log.e("goSearch", "nothing filled")
+                Snackbar.make(coordinatorLayout_search_activity,
+                        getString(R.string.search_no_criteria),
+                        Snackbar.LENGTH_LONG)
+                        .show()
             }
         }
     }

@@ -7,6 +7,7 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.location.LocationServices
@@ -83,7 +84,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             onShowRationale { request ->
                 Snackbar.make(coordinatorLayout_map_activity, getString(R.string.map_need_location_permission), Snackbar.LENGTH_INDEFINITE)
                         .setAction(getString(R.string.map_location_permission_retry)) { request.retry() }
+                        .setActionTextColor(ContextCompat.getColor(applicationContext, R.color.colorAccent))
                         .show()
+
             }
         }
 

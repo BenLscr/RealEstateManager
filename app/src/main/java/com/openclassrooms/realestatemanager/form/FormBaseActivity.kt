@@ -15,6 +15,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.basgeekball.awesomevalidation.AwesomeValidation
 import com.basgeekball.awesomevalidation.ValidationStyle
 import com.basgeekball.awesomevalidation.utility.RegexTemplate
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.media.MediaFormFragment
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
@@ -156,11 +157,20 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
             listFormPhotoAndWording.add(FormPhotoAndWording(null, null, photo!!, wording))
             shareListToMediaFormFragment()
         } else if (photo == null && wording.isNotEmpty()) {
-            Toast.makeText(applicationContext, R.string.form_error_media_photo, Toast.LENGTH_LONG).show()
+            Snackbar.make(coordinatorLayout_form_activity,
+                    getString(R.string.form_error_media_photo),
+                    Snackbar.LENGTH_LONG)
+                    .show()
         } else if (photo != null && wording.isEmpty()) {
-            Toast.makeText(applicationContext, R.string.form_error_media_wording, Toast.LENGTH_LONG).show()
+            Snackbar.make(coordinatorLayout_form_activity,
+                    getString(R.string.form_error_media_wording),
+                    Snackbar.LENGTH_LONG)
+                    .show()
         } else {
-            Toast.makeText(applicationContext, R.string.form_error_media_photo_wording, Toast.LENGTH_LONG).show()
+            Snackbar.make(coordinatorLayout_form_activity,
+                    getString(R.string.form_error_media_photo_wording),
+                    Snackbar.LENGTH_LONG)
+                    .show()
         }
     }
 

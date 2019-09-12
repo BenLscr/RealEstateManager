@@ -8,9 +8,11 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.emptyPropertyDetail.EmptyPropertyDetailFragment
 import com.openclassrooms.realestatemanager.form.addForm.AddFormActivity
 import com.openclassrooms.realestatemanager.form.searchForm.SearchFormActivity
@@ -66,7 +68,10 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
                     intent.putExtra(INTENT_HOME_TO_UPDATE, propertyId)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this, R.string.update_button_select_property_first, Toast.LENGTH_LONG).show()
+                    Snackbar.make(coordinatorLayout_home_activity,
+                            getString(R.string.update_button_select_property_first),
+                            Snackbar.LENGTH_LONG)
+                            .show()
                 }
                 true
             }
