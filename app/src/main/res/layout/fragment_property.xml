@@ -8,7 +8,7 @@
         android:id="@+id/property_img"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@android:color/darker_gray"
+        android:background="@color/colorPrimaryLight"
         android:scaleType="centerCrop"
         android:contentDescription="@string/illustration_property_s" />
 
@@ -19,7 +19,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:orientation="vertical">
 
             <TextView
@@ -39,6 +42,7 @@
                 android:layout_weight="1"
                 android:text="@string/district"
                 android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"
                 android:textAppearance="?attr/textAppearanceListItem"/>
 
             <TextView
@@ -48,7 +52,7 @@
                 android:layout_weight="1"
                 android:text="@string/price"
                 android:textSize="20sp"
-                android:textColor="@color/colorAccentPink"
+                android:textColor="@color/colorAccent"
                 android:textAppearance="?attr/textAppearanceListItem"/>
 
         </LinearLayout>

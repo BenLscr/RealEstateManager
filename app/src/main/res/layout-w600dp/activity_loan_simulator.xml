@@ -155,6 +155,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                app:strokeColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimary"
                 android:text="@string/cancel_form_button"/>
 
             <com.google.android.material.button.MaterialButton
@@ -163,6 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                app:backgroundTint="@color/colorAccent"
                 android:text="@string/estimating"/>
 
         </LinearLayout>
