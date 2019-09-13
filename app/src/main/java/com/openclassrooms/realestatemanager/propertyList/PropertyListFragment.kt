@@ -14,6 +14,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.propertyList.injections.Injection
 import com.openclassrooms.realestatemanager.propertyList.models.IllustrationModelProcessed
 
+
 const val ARG_PROPERTY_LIST_PROPERTIES_ID = "ARG_PROPERTY_LIST_PROPERTIES_ID"
 
 class PropertyListFragment : Fragment() {

@@ -7,7 +7,6 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.form.searchForm.models.SearchFormModelRaw
 import com.openclassrooms.realestatemanager.models.LocationOfInterest
-import com.openclassrooms.realestatemanager.models.Property
 import com.openclassrooms.realestatemanager.repositories.PropertyDataRepository
 
 class SearchFormViewModel(private val propertyDataSource: PropertyDataRepository): ViewModel() {
@@ -17,8 +16,8 @@ class SearchFormViewModel(private val propertyDataSource: PropertyDataRepository
 
     private fun buildPropertyRequest(searchFormModelRaw: SearchFormModelRaw): SimpleSQLiteQuery {
         val queryList = mutableListOf<String>()
-        val valueList = ArrayList<String>()
-        val locationOfInterestList = ArrayList<String>()
+        val valueList = ArrayList<Any>()
+        val questionMarkList = ArrayList<String>()
         with(searchFormModelRaw) {
             if (minPrice.isNotEmpty() && maxPrice.isEmpty()) {
                 queryList.add("price >= ?")
@@ -98,23 +97,28 @@ class SearchFormViewModel(private val propertyDataSource: PropertyDataRepository
                 valueList.add(Utils.fromStringToCountry(country).ordinal.toString())
             }
             if (school || commerces || park || subways || train) {
-                queryList.add("Property.id IN ( SELECT CompositionPropertyAndLocationOfInterest.propertyId FROM CompositionPropertyAndLocationOfInterest WHERE locationOfInterestId IN (?) )")
                 if (school) {
-                    locationOfInterestList.add(LocationOfInterest.SCHOOL.ordinal.toString())
+                    questionMarkList.add("?")
+                    valueList.add(LocationOfInterest.SCHOOL.ordinal.toString())
                 }
                 if (commerces) {
-                    locationOfInterestList.add(LocationOfInterest.COMMERCES.ordinal.toString())
+                    questionMarkList.add("?")
+                    valueList.add(LocationOfInterest.COMMERCES.ordinal.toString())
                 }
                 if (park) {
-                    locationOfInterestList.add(LocationOfInterest.PARK.ordinal.toString())
+                    questionMarkList.add("?")
+                    valueList.add(LocationOfInterest.PARK.ordinal.toString())
                 }
                 if (subways) {
-                    locationOfInterestList.add(LocationOfInterest.SUBWAYS.ordinal.toString())
+                    questionMarkList.add("?")
+                    valueList.add(LocationOfInterest.SUBWAYS.ordinal.toString())
                 }
                 if (train) {
-                    locationOfInterestList.add(LocationOfInterest.TRAIN.ordinal.toString())
+                    questionMarkList.add("?")
+                    valueList.add(LocationOfInterest.TRAIN.ordinal.toString())
                 }
-                valueList.add(locationOfInterestList.toString().replace("[", "").replace("]", ""))
+                val questionMarkJoin: String = TextUtils.join(", ", questionMarkList)
+                queryList.add("Property.id IN ( SELECT CompositionPropertyAndLocationOfInterest.propertyId FROM CompositionPropertyAndLocationOfInterest WHERE locationOfInterestId IN ($questionMarkJoin) )")
             }
         }
         val queryJoin: String = TextUtils.join(" AND ", queryList)

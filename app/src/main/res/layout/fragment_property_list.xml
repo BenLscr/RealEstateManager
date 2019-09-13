@@ -7,4 +7,5 @@
     android:layout_height="match_parent"
     app:layoutManager="LinearLayoutManager"
     tools:context=".propertyList.PropertyListFragment"
-    tools:listitem="@layout/fragment_property" />
+    tools:listitem="@layout/fragment_property"
+    android:id="@+id/recycler_view_property_list"/>

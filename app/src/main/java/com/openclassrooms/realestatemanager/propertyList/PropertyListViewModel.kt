@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.propertyList
 
 import android.content.Context
+import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -26,7 +27,6 @@ class PropertyListViewModel (
     fun getPropertyIllustration(propertyId: Int, context: Context): LiveData<IllustrationModelProcessed> =
             Transformations.map(compositionPropertyAndPropertyPhotoDataRepository.getPropertyIllustration(propertyId, true)) { getIllustrationModelProcessed(it, context) }
 
-
     //---FACTORY---\\
     private fun buildPropertyModelProcessed(property: Property) =
             PropertyModelProcessed(
@@ -38,13 +38,14 @@ class PropertyListViewModel (
             )
 
     private fun buildRequest(propertiesId: List<Int>): SimpleSQLiteQuery {
-        val propertiesIdArray = ArrayList<Int>()
+        val valueList = ArrayList<Any>()
+        val questionMarkList = ArrayList<String>()
         for (propertyId in propertiesId) {
-            propertiesIdArray.add(propertyId)
+            valueList.add(propertyId)
+            questionMarkList.add("?")
         }
-        val valueList =  ArrayList<String>()
-        valueList.add(propertiesIdArray.toString().replace("[", "").replace("]", ""))
-        return SimpleSQLiteQuery("SELECT * FROM Property INNER JOIN Address ON Property.addressId = Address.address_id INNER JOIN Agent ON Property.agentId = Agent.agent_id WHERE Property.id IN (?)", valueList.toArray())
+        val questionMarkJoin = TextUtils.join(", ", questionMarkList)
+        return SimpleSQLiteQuery("SELECT * FROM Property INNER JOIN Address ON Property.addressId = Address.address_id INNER JOIN Agent ON Property.agentId = Agent.agent_id WHERE Property.id IN ($questionMarkJoin)", valueList.toArray())
     }
 
     private fun getIllustrationModelProcessed(composition: CompositionPropertyAndPropertyPhoto, context: Context) =
