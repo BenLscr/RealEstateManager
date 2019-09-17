@@ -12,6 +12,6 @@ interface AddressDao {
     fun insertAddress(address: Address): Long
 
     @Update
-    fun updateAddress(address: Address)
+    fun updateAddress(address: Address): Int
 
 }

@@ -29,12 +29,12 @@ class UtilsInstrumentedTest {
         telephonyManager = ApplicationProvider.getApplicationContext<Context>().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
     }
 
-    /*@Test
+    @Test
     fun checkIf_InternetIsAvailable() {
         assertEquals(true, Utils.isInternetAvailable(getApplicationContext<HomeActivity>()))
     }
 
-    @Test
+    /*@Test
     fun checkIf_InternetIsAvailable_WifiDisableDataEnable() {
         if (wifiManager!!.isWifiEnabled) {
             wifiManager?.isWifiEnabled = false
@@ -52,6 +52,17 @@ class UtilsInstrumentedTest {
         }
         if (!telephonyManager!!.isDataEnabled) {
             telephonyManager?.isDataEnabled = true
+        }
+        assertEquals(true, Utils.isInternetAvailable(getApplicationContext<HomeActivity>()))
+    }
+
+    @Test
+    fun checkIf_InternetIsAvailable_WifiEnableDataDisable() {
+        if (!wifiManager!!.isWifiEnabled) {
+            wifiManager?.isWifiEnabled = true
+        }
+        if (telephonyManager!!.isDataEnabled) {
+            telephonyManager?.isDataEnabled = false
         }
         assertEquals(true, Utils.isInternetAvailable(getApplicationContext<HomeActivity>()))
     }

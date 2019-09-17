@@ -7,6 +7,6 @@ class AddressDataRepository(private val addressDao: AddressDao) {
 
     fun insertAddress(address: Address): Long = addressDao.insertAddress(address)
 
-    fun updateAddress(address: Address) = addressDao.updateAddress(address)
+    fun updateAddress(address: Address): Int = addressDao.updateAddress(address)
 
 }

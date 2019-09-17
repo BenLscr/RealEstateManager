@@ -8,7 +8,9 @@ class CompositionPropertyAndLocationOfInterestDataRepository(private val composi
 
     fun getLocationsOfInterest(propertyId: Int): LiveData<List<CompositionPropertyAndLocationOfInterest>> = compositionPropertyAndLocationOfInterestDao.getLocationsOfInterest(propertyId)
 
-    fun insertLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest) = compositionPropertyAndLocationOfInterestDao.insertLocationOfInterest(compositionPropertyAndLocationOfInterest)
+    fun insertLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest): Long = compositionPropertyAndLocationOfInterestDao.insertLocationOfInterest(compositionPropertyAndLocationOfInterest)
+
+    fun updateCompositionPropertyAndLocationOfInterest(compositionPropertyAndLocationOfInterest: CompositionPropertyAndLocationOfInterest): Int = compositionPropertyAndLocationOfInterestDao.updateCompositionPropertyAndLocationOfInterest(compositionPropertyAndLocationOfInterest)
 
     fun deleteLocationOfInterest(propertyId: Int, locationOfInterestId: Int) = compositionPropertyAndLocationOfInterestDao.deleteLocationOfInterest(propertyId, locationOfInterestId)
 

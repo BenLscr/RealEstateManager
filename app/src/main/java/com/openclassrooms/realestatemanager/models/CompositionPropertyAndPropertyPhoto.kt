@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.models
 
+import android.content.ContentValues
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -11,4 +12,12 @@ class CompositionPropertyAndPropertyPhoto(
         val propertyPhotoId: Int
 ) {
     @Embedded var propertyPhoto: PropertyPhoto? = null
+
+    companion object {
+        fun fromContentValues(values: ContentValues): CompositionPropertyAndPropertyPhoto =
+                CompositionPropertyAndPropertyPhoto(
+                        propertyId = values.getAsInteger("propertyId"),
+                        propertyPhotoId = values.getAsInteger("propertyPhotoId")
+                )
+    }
 }

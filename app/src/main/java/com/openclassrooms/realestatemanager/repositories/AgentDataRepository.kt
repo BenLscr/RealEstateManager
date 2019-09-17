@@ -8,4 +8,8 @@ class AgentDataRepository(private val agentDao: AgentDao) {
 
     fun getAgents(): LiveData<List<Agent>> = agentDao.getAgents()
 
+    fun insertAgent(agent: Agent): Long = agentDao.insertAgent(agent)
+
+    fun updateAgent(agent: Agent): Int = agentDao.updateAgent(agent)
+
 }
