@@ -7,13 +7,12 @@ import androidx.room.PrimaryKey
 
 @Entity
 class Agent(
+        @PrimaryKey(autoGenerate = true)
+        @ColumnInfo(name = "agent_id")
+        var id: Int = 0,
         val name: String,
         val firstName: String
 ) {
-        @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "agent_id")
-        var id: Int = 0
-
         companion object {
                 fun fromContentValues(values: ContentValues): Agent =
                         Agent(
