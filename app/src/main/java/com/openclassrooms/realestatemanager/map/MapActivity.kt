@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.googleApi.GoogleStreams
 import com.openclassrooms.realestatemanager.googleApi.models.geocoding.GeocodingResponse
 import com.openclassrooms.realestatemanager.map.injections.Injection
@@ -67,29 +68,33 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                 val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@MapActivity)
                 fusedLocationClient.lastLocation
                         .addOnSuccessListener { location: Location? ->
-                            val latitude =  location?.latitude
-                            val longitude = location?.longitude
-                            mMap.isMyLocationEnabled = true
-                            mMap.uiSettings.isMyLocationButtonEnabled = true
-                            if (latitude != null && longitude != null) {
+                            if (location != null) {
+                                val latitude =  location.latitude
+                                val longitude = location.longitude
+                                mMap.isMyLocationEnabled = true
+                                mMap.uiSettings.isMyLocationButtonEnabled = true
                                 val myLocation = LatLng(latitude, longitude)
                                 val zoom = 15.toFloat()
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, zoom))
-                                mMap.setOnMarkerClickListener(this@MapActivity)
+                            } else {
+                                Snackbar.make(coordinatorLayout_map_activity, getString(R.string.map_need_location), Snackbar.LENGTH_LONG).show()
                             }
+                            mMap.setOnMarkerClickListener(this@MapActivity)
                         }
 
-                mapViewModel.allProperties.observe(this@MapActivity, Observer { it.map { propertyModelProcessed ->  setMarkerOnMap(propertyModelProcessed) } })
+                if (Utils.isInternetAvailable(applicationContext)) {
+                    mapViewModel.allProperties.observe(this@MapActivity, Observer { it.map { propertyModelProcessed ->  setMarkerOnMap(propertyModelProcessed) } })
+                } else {
+                    Snackbar.make(coordinatorLayout_map_activity, getString(R.string.map_need_internet), Snackbar.LENGTH_INDEFINITE).show()
+                }
             }
             onShowRationale { request ->
                 Snackbar.make(coordinatorLayout_map_activity, getString(R.string.map_need_location_permission), Snackbar.LENGTH_INDEFINITE)
                         .setAction(getString(R.string.map_location_permission_retry)) { request.retry() }
                         .setActionTextColor(ContextCompat.getColor(applicationContext, R.color.colorAccent))
                         .show()
-
             }
         }
-
     }
 
     private fun setMarkerOnMap(propertyModelProcessed: PropertyModelProcessed) {

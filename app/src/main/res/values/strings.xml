@@ -149,6 +149,8 @@
     //MAP
     <string name="map_need_location_permission">RealEstateManager need permission to get your location.</string>
     <string name="map_location_permission_retry">Retry</string>
+    <string name="map_need_internet">No internet connexion found. Check your mobile data or your wifi.</string>
+    <string name="map_need_location">No location found. Make sure your GPS is activated.</string>
 
     //SEARCH
     <string name="search_min_price">min price</string>
