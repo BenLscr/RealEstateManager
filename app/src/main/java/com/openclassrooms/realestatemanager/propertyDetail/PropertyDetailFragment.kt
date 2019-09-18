@@ -95,7 +95,7 @@ class PropertyDetailFragment : Fragment() {
             } else {
                 property_detail_sale_date_layout.visibility = View.GONE
             }
-            path?.let { executeHttpRequestWithRetrofit_Geocoding(it, city) }
+            path?.let { executeHttpRequestWithRetrofitGeocoding(it, city) }
         }
     }
 
@@ -132,7 +132,7 @@ class PropertyDetailFragment : Fragment() {
         }
     }
 
-    private fun executeHttpRequestWithRetrofit_Geocoding(path: String, city: String) {
+    private fun executeHttpRequestWithRetrofitGeocoding(path: String, city: String) {
         val addressGeocoding = "$path, $city"
         val disposable: Disposable =
                 GoogleStreams.streamFetchGeocoding(addressGeocoding, BuildConfig.GEOCODING_API_KEY)

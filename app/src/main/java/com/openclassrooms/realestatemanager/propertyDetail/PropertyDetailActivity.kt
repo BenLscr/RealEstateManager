@@ -11,6 +11,7 @@ import com.openclassrooms.realestatemanager.INTENT_HOME_TO_DETAIL
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.updateForm.UpdateFormActivity
 import com.openclassrooms.realestatemanager.result.INTENT_RESULT_TO_DETAIL
+import kotlinx.android.synthetic.main.activity_property_detail.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 const val INTENT_DETAIL_TO_UPDATE = "INTENT_DETAIL_TO_UPDATE"
@@ -24,7 +25,11 @@ class PropertyDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_property_detail)
         retrievesIntent()
         configureToolbar()
-        initAndAddFragment()
+        if (savedInstanceState == null) {
+            initAndAddFragment()
+        } else {
+            supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
+        }
     }
 
     private fun retrievesIntent() {

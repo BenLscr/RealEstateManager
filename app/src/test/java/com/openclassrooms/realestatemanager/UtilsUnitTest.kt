@@ -21,8 +21,8 @@ class UtilsUnitTest {
     @Test
     fun todayDate_isInACorrectFormat() {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val todayDate = dateFormat.format(Date()) // MOCK -> DATE
-        assertEquals(todayDate, Utils.todayDate)
+        val todayDate = dateFormat.format(Date())
+        assertEquals(todayDate, Utils.todayDate())
     }
 
     @Test
