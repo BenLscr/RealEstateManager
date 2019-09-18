@@ -27,8 +27,6 @@ class PropertyDetailActivity : AppCompatActivity() {
         configureToolbar()
         if (savedInstanceState == null) {
             initAndAddFragment()
-        } else {
-            supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
         }
     }
 
