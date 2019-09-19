@@ -24,6 +24,9 @@ class SetUpdateFormViewModel(
         private val compositionPropertyAndLocationOfInterestDataSource: CompositionPropertyAndLocationOfInterestDataRepository,
         private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository) : ViewModel() {
 
+    var entryPropertyModelProcessed: PropertyModelProcessed? = null
+    var entryListFormPhotoAndWording: List<FormPhotoAndWording>? = null
+
     private var _fullNameAgents: LiveData<List<String>> = Transformations.map(agentDataSource.getAgents()) { list -> list.map { agent -> agent.firstName + " " + agent.name } }
     val fullNameAgents: LiveData<List<String>> = _fullNameAgents
 

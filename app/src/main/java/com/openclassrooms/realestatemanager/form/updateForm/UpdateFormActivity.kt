@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.CheckBox
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -28,20 +29,20 @@ class UpdateFormActivity: FormBaseActivity() {
     private val getUpdateFormViewModel: GetUpdateFormViewModel by lazy { ViewModelProviders.of(this, GetInjection.provideViewModelFactory(applicationContext)).get(GetUpdateFormViewModel::class.java) }
     private var propertyId: Int = 0
 
-    private lateinit var entryListFormPhotoAndWording: List<FormPhotoAndWording>
-    private lateinit var entryPropertyModelProcessed: PropertyModelProcessed
-    private lateinit var entryLocationsOfInterestModelProcessed: LocationsOfInterestModelProcessed
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.form)
 
         retrievesIntent()
         configureToolbar()
-        fillEveryDropDownMenu()
         addEveryListener()
-        addMediaFormFragment()
-        retrievesDataFromDatabase()
+        fillEveryDropDownMenu()
+        if (savedInstanceState == null) {
+            addMediaFormFragment()
+            retrievesDataFromDatabase()
+        } else {
+            shareListToMediaFormFragment()
+        }
         setEveryAwesomeValidation()
     }
 
@@ -81,7 +82,7 @@ class UpdateFormActivity: FormBaseActivity() {
 
     private fun filledFormWithPropertyData(propertyModelProcessed: PropertyModelProcessed) {
         with(propertyModelProcessed) {
-            entryPropertyModelProcessed = this
+            setUpdateFormViewModel.entryPropertyModelProcessed = this
             form_path_edit_text.setText(path)
             form_complement_edit_text.setText(complement)
             form_district.setText(district, false)
@@ -143,32 +144,42 @@ class UpdateFormActivity: FormBaseActivity() {
     }
 
     private fun filledFormWithPropertyPhotos(listFormPhotoAndWording: List<FormPhotoAndWording>) {
-        entryListFormPhotoAndWording = listFormPhotoAndWording
+        setUpdateFormViewModel.entryListFormPhotoAndWording = listFormPhotoAndWording
         this.listFormPhotoAndWording.addAll(listFormPhotoAndWording)
         shareListToMediaFormFragment()
     }
 
     private fun filledFormWithLocationsOfInterestData(locationsOfInterestModelProcessed: LocationsOfInterestModelProcessed) {
-        entryLocationsOfInterestModelProcessed = locationsOfInterestModelProcessed
+        getUpdateFormViewModel.entryLocationsOfInterestModelProcessed = locationsOfInterestModelProcessed
         if (locationsOfInterestModelProcessed.school) {
             form_school_checkbox.isChecked = true
-            school = locationsOfInterestModelProcessed.school
+            getUpdateFormViewModel.school = locationsOfInterestModelProcessed.school
         }
         if (locationsOfInterestModelProcessed.commerces) {
             form_commerces_checkbox.isChecked = true
-            commerces = locationsOfInterestModelProcessed.commerces
+            getUpdateFormViewModel.commerces = locationsOfInterestModelProcessed.commerces
         }
         if (locationsOfInterestModelProcessed.park) {
             form_park_checkbox.isChecked = true
-            park = locationsOfInterestModelProcessed.park
+            getUpdateFormViewModel.park = locationsOfInterestModelProcessed.park
         }
         if (locationsOfInterestModelProcessed.subways) {
             form_subways_checkbox.isChecked = true
-            subways = locationsOfInterestModelProcessed.subways
+            getUpdateFormViewModel.subways = locationsOfInterestModelProcessed.subways
         }
         if (locationsOfInterestModelProcessed.train) {
             form_train_checkbox.isChecked = true
-            train = locationsOfInterestModelProcessed.train
+            getUpdateFormViewModel.train = locationsOfInterestModelProcessed.train
+        }
+    }
+
+    fun onCheckboxClicked(view: View) {
+        when(view as CheckBox) {
+            form_school_checkbox -> getUpdateFormViewModel.school = form_school_checkbox.isChecked
+            form_commerces_checkbox -> getUpdateFormViewModel.commerces = form_commerces_checkbox.isChecked
+            form_park_checkbox -> getUpdateFormViewModel.park = form_park_checkbox.isChecked
+            form_subways_checkbox -> getUpdateFormViewModel.subways = form_subways_checkbox.isChecked
+            form_train_checkbox -> getUpdateFormViewModel.train = form_train_checkbox.isChecked
         }
     }
 
@@ -177,7 +188,7 @@ class UpdateFormActivity: FormBaseActivity() {
         checkIfPropertyPhotosWereChanged()
         checkIfAddressWereChanged()
         checkIfPropertyWereChanged()
-        getUpdateFormViewModel.updateLocationsOfInterest(getNewLocationsOfInterest())
+        getUpdateFormViewModel.updateLocationsOfInterest(propertyId)
         finish()
     }
 
@@ -203,7 +214,7 @@ class UpdateFormActivity: FormBaseActivity() {
     private fun checkIfPropertyPhotosWereChanged() {
         if (listFormPhotoAndWording.isNotEmpty()) {
             val propertyPhotosToDelete = mutableListOf<FormPhotoAndWording>()
-            propertyPhotosToDelete.addAll(entryListFormPhotoAndWording)
+            propertyPhotosToDelete.addAll(setUpdateFormViewModel.entryListFormPhotoAndWording!!.asIterable())
             propertyPhotosToDelete.removeAll(listFormPhotoAndWording)
             if (propertyPhotosToDelete.size > 0) {
                 getUpdateFormViewModel.deleteCompositionPropertyAndPropertyPhoto(propertyPhotosToDelete, propertyId, applicationContext)
@@ -211,13 +222,12 @@ class UpdateFormActivity: FormBaseActivity() {
 
             val propertyPhotosToInsert = mutableListOf<FormPhotoAndWording>()
             propertyPhotosToInsert.addAll(listFormPhotoAndWording)
-            propertyPhotosToInsert.removeAll(entryListFormPhotoAndWording)
+            propertyPhotosToInsert.removeAll(setUpdateFormViewModel.entryListFormPhotoAndWording!!.asIterable())
             if (propertyPhotosToInsert.size > 0) {
-                entryListFormPhotoAndWording.last().name
-                getUpdateFormViewModel.insertPropertyPhotos(propertyPhotosToInsert, propertyId, entryListFormPhotoAndWording.last().name, applicationContext)
+                getUpdateFormViewModel.insertPropertyPhotos(propertyPhotosToInsert, propertyId, setUpdateFormViewModel.entryListFormPhotoAndWording?.last()?.name, applicationContext)
             }
 
-            if (entryListFormPhotoAndWording[0] != listFormPhotoAndWording[0]) {
+            if (setUpdateFormViewModel.entryListFormPhotoAndWording?.get(0) != listFormPhotoAndWording[0]) {
                 getUpdateFormViewModel.updateIllustrationPropertyPhoto(listFormPhotoAndWording[0])
             }
         }
@@ -229,12 +239,12 @@ class UpdateFormActivity: FormBaseActivity() {
                 && city.isNotEmpty()
                 && postalCode.isNotEmpty()
                 && country.isNotEmpty()) {
-            if (path != entryPropertyModelProcessed.path
-                    || complement != entryPropertyModelProcessed.complement
-                    || district != entryPropertyModelProcessed.district
-                    || city != entryPropertyModelProcessed.city
-                    || postalCode != entryPropertyModelProcessed.postalCode
-                    || country != entryPropertyModelProcessed.country) {
+            if (path != setUpdateFormViewModel.entryPropertyModelProcessed?.path
+                    || complement != setUpdateFormViewModel.entryPropertyModelProcessed?.complement
+                    || district != setUpdateFormViewModel.entryPropertyModelProcessed?.district
+                    || city != setUpdateFormViewModel.entryPropertyModelProcessed?.city
+                    || postalCode != setUpdateFormViewModel.entryPropertyModelProcessed?.postalCode
+                    || country != setUpdateFormViewModel.entryPropertyModelProcessed?.country) {
                 getUpdateFormViewModel.updateAddress(getNewAddress())
             }
         }
@@ -250,16 +260,16 @@ class UpdateFormActivity: FormBaseActivity() {
                 && description.isNotEmpty()
                 && entryDate.isNotEmpty()
                 && fullNameAgent.isNotEmpty()) {
-            if (type != entryPropertyModelProcessed.type
-                    || price != entryPropertyModelProcessed.price
-                    || surface != entryPropertyModelProcessed.surface
-                    || rooms != entryPropertyModelProcessed.rooms
-                    || bedrooms != entryPropertyModelProcessed.bedrooms
-                    || bathrooms != entryPropertyModelProcessed.bathrooms
-                    || description != entryPropertyModelProcessed.description
-                    || available != entryPropertyModelProcessed.available
-                    || entryDate != entryPropertyModelProcessed.entryDate
-                    || fullNameAgent != entryPropertyModelProcessed.fullNameAgent) {
+            if (type != setUpdateFormViewModel.entryPropertyModelProcessed?.type
+                    || price != setUpdateFormViewModel.entryPropertyModelProcessed?.price
+                    || surface != setUpdateFormViewModel.entryPropertyModelProcessed?.surface
+                    || rooms != setUpdateFormViewModel.entryPropertyModelProcessed?.rooms
+                    || bedrooms != setUpdateFormViewModel.entryPropertyModelProcessed?.bedrooms
+                    || bathrooms != setUpdateFormViewModel.entryPropertyModelProcessed?.bathrooms
+                    || description != setUpdateFormViewModel.entryPropertyModelProcessed?.description
+                    || available != setUpdateFormViewModel.entryPropertyModelProcessed?.available
+                    || entryDate != setUpdateFormViewModel.entryPropertyModelProcessed?.entryDate
+                    || fullNameAgent != setUpdateFormViewModel.entryPropertyModelProcessed?.fullNameAgent) {
                 getUpdateFormViewModel.updateProperty(getNewProperty())
             }
         }
@@ -267,7 +277,7 @@ class UpdateFormActivity: FormBaseActivity() {
 
     private fun getNewAddress() =
             AddressModelRaw(
-                    id = entryPropertyModelProcessed.addressId,
+                    id = setUpdateFormViewModel.entryPropertyModelProcessed!!.addressId,
                     path = path,
                     complement = complement,
                     district = district,
@@ -289,18 +299,8 @@ class UpdateFormActivity: FormBaseActivity() {
                     available = available,
                     entryDate = entryDateLong,
                     saleDate = saleDateLong,
-                    addressId = entryPropertyModelProcessed.addressId,
+                    addressId = setUpdateFormViewModel.entryPropertyModelProcessed!!.addressId,
                     fullNameAgent = fullNameAgent
-            )
-
-    private fun getNewLocationsOfInterest() =
-            LocationsOfInterestModelRaw(
-                    propertyId = propertyId,
-                    school = if (entryLocationsOfInterestModelProcessed.school != school) { school } else { null },
-                    commerces = if (entryLocationsOfInterestModelProcessed.commerces != commerces) { commerces } else { null },
-                    park = if (entryLocationsOfInterestModelProcessed.park != park) { park } else { null },
-                    subways = if (entryLocationsOfInterestModelProcessed.subways != subways) { subways } else { null },
-                    train = if (entryLocationsOfInterestModelProcessed.train != train) { train } else { null }
             )
 
 }

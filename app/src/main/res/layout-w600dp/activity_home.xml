@@ -33,9 +33,10 @@
                 android:baselineAligned="false">
 
                 <FrameLayout
-                    android:layout_width="0dp"
+                    android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:minWidth="80dp"
                     android:id="@+id/activity_property_list_container">
                 </FrameLayout>
 

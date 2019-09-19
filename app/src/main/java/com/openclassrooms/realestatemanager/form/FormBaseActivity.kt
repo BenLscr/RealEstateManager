@@ -6,8 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -115,7 +113,7 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
     }
 
     protected fun addEveryListener() {
-        form_photo_button.setOnClickListener { PickImageDialog.build(PickSetup()).show(this) } /*Possibility to take a video*/
+        form_photo_button.setOnClickListener { PickImageDialog.build(PickSetup()).show(this) }
         form_wording.doAfterTextChanged { wording = it.toString() }
         form_add_button_photo.setOnClickListener { checkIfFormPhotoAndWordingIsCompleted() }
         form_cancel_button_photo.setOnClickListener { resetPhotoButton() }
@@ -208,16 +206,6 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
         entryDate = visualFormat.format(calendar.time)
         form_select_entry_date.text = entryDate
         entryDateLong = calendar.timeInMillis
-    }
-
-    fun onCheckboxClicked(view: View) {
-        when(view as CheckBox) {
-            form_school_checkbox -> school = form_school_checkbox.isChecked
-            form_commerces_checkbox -> commerces = form_commerces_checkbox.isChecked
-            form_park_checkbox -> park = form_park_checkbox.isChecked
-            form_subways_checkbox -> subways = form_subways_checkbox.isChecked
-            form_train_checkbox -> train = form_train_checkbox.isChecked
-        }
     }
 
     protected fun addMediaFormFragment() {

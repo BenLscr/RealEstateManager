@@ -105,12 +105,20 @@ class Utils {
             }
         }
 
+        /**
+         * Delete an image (Bitmap) in /data/user/0/com.openclassrooms.realestatemanager/files
+         * @propertyId is the name of the directory
+         * @name is the name of the file as to be deleted
+         */
         fun deleteInternalBitmap(propertyId: String, name: String?, context: Context) {
             val folder = File(context.filesDir, propertyId)
             val file = File(folder, name)
             file.delete()
         }
 
+        /**
+         * Send a notification. Depends of the SKD a channel can be required.
+         */
         fun sendNotification(context: Context, somethingHappened: String?) {
             val CHANNEL_ID = "CHANNEL_ID"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -136,8 +144,14 @@ class Utils {
         }
 
         //---TO-DATABASE---\\
+        /**
+         * Return a string or null depends of the string in parameter.
+         */
         fun returnComplementOrNull(complement: String) = if (complement.isNotEmpty()) { complement } else { null }
 
+        /**
+         * With the name of a district, a value of District type is return.
+         */
         fun fromStringToDistrict(district: String) =
                 when(district) {
                     "Bronx" -> District.BRONX
@@ -148,18 +162,27 @@ class Utils {
                     else -> District.BRONX
                 }
 
+        /**
+         * With the name of a city, a value of City type is return.
+         */
         fun fromStringToCity(city: String) =
                 when(city) {
                     "New York" -> City.NEW_YORK
                     else -> City.NEW_YORK
                 }
 
+        /**
+         * With the name of a country, a value of Country type is return.
+         */
         fun fromStringToCountry(country: String) =
                 when(country) {
                     "United States" -> Country.UNITED_STATES
                     else -> Country.UNITED_STATES
                 }
 
+        /**
+         * With the name of a type, a value of Type type is return.
+         */
         fun fromStringToType(type: String) =
                 when(type) {
                     "Flat" -> Type.FLAT
@@ -173,6 +196,9 @@ class Utils {
                     else -> Type.FLAT
                 }
 
+        /**
+         * With the full name of an Agent, an integer return. This integer is the id of the Agent table.
+         */
         fun fromStringToAgentId(fullNameAgent: String) =
                 when(fullNameAgent) {
                     "Tony Stark" -> 1
@@ -186,6 +212,9 @@ class Utils {
                     else -> 1
                 }
 
+        /**
+         * With the name of a wording, a value of Wording type is return.
+         */
         fun fromStringToWording(wording: String?) =
                 when(wording) {
                     "Street View" -> Wording.STREET_VIEW
@@ -217,6 +246,9 @@ class Utils {
 
         //---TO-UI---\\
 
+        /**
+         * With a value of Type type, his string value is return.
+         */
         fun fromTypeToString(type: Type) =
                 when(type) {
                     Type.PENTHOUSE -> "Penthouse"
@@ -229,6 +261,9 @@ class Utils {
                     Type.CONDO -> "Condo"
                 }
 
+        /**
+         * With a value of District type, his string value is return.
+         */
         fun fromDistrictToString(district: District?) =
                 when(district) {
                     District.MANHATTAN -> "Manhattan"
@@ -239,18 +274,27 @@ class Utils {
                     else -> "District unknown"
                 }
 
+        /**
+         * With a value of City type, his string value is return.
+         */
         fun fromCityToString(city: City?) =
                 when(city) {
                     City.NEW_YORK -> "New York"
                     else -> "City unknown"
                 }
 
+        /**
+         * With a value of Country type, his string value is return.
+         */
         fun fromCountryToString(country: Country?) =
                 when(country) {
                     Country.UNITED_STATES -> "United States"
                     else -> "Country unknown"
                 }
 
+        /**
+         * With an id corresponding of a Agent table, a full name is return.
+         */
         fun fromAgentIdToString(agentId: Int) =
                 when(agentId) {
                     1 -> "Tony Stark"
@@ -264,14 +308,29 @@ class Utils {
                     else -> "Agent unknown"
                 }
 
+        /**
+         * With a price in Long type, a string is return.
+         */
         fun fromPriceToString(price: Long) = "$" + NumberFormat.getIntegerInstance().format(price)
 
+        /**
+         * With a surface in Int type, a string is return.
+         */
         fun fromSurfaceToString(surface: Int?) = surface.toString() + "sq ft"
 
+        /**
+         * With a firstName and a name, a full name is return.
+         */
         fun fromAgentToString(firstName: String?, name: String?) = "$firstName $name"
 
+        /**
+         * With a value of Long type, a date in string type is return.
+         */
         fun fromEntryDateToString(entryDate: Long) = dateFormat.format(Date(entryDate))
 
+        /**
+         * If saleDate is null return empty string else return a date in string format.
+         */
         fun fromSaleDateToString(saleDate: Long?) =
                 if (saleDate != null) {
                     dateFormat.format(Date(saleDate))
@@ -279,6 +338,9 @@ class Utils {
                     ""
                 }
 
+        /**
+         * With a value of Wording type, his string value is return.
+         */
         fun fromWordingToString(wording: Wording?) =
                 when(wording) {
                     Wording.STREET_VIEW -> "Street view"
@@ -308,6 +370,9 @@ class Utils {
                     else -> "Unknown wording"
                 }
 
+        /**
+         * Build a name for photo.
+         */
         fun createNamePhoto(index: Int) = "$index.jpg"
 
     }

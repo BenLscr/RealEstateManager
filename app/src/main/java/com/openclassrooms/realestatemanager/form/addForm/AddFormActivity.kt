@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.form.addForm
 
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.FormBaseActivity
@@ -26,6 +27,16 @@ class AddFormActivity : FormBaseActivity() {
 
     override fun getAgentsNameForDropDownMenu() {
         addFormViewModel.fullNameAgents.observe(this, androidx.lifecycle.Observer { setDropDownMenuForAgentField(it) })
+    }
+
+    fun onCheckboxClicked(view: View) {
+        when(view as CheckBox) {
+            form_school_checkbox -> school = form_school_checkbox.isChecked
+            form_commerces_checkbox -> commerces = form_commerces_checkbox.isChecked
+            form_park_checkbox -> park = form_park_checkbox.isChecked
+            form_subways_checkbox -> subways = form_subways_checkbox.isChecked
+            form_train_checkbox -> train = form_train_checkbox.isChecked
+        }
     }
 
     override fun shareModelToTheViewModel() {

@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.result
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -25,7 +26,11 @@ class ResultActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentI
         setContentView(R.layout.activity_home)
         configureToolbar()
         retrievesIntent()
-        initAndAddFragment()
+        if (savedInstanceState == null) {
+            initAndAddFragment()
+        } else {
+            findsFragment()
+        }
     }
 
     private fun configureToolbar() {
@@ -40,7 +45,7 @@ class ResultActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentI
     }
 
     private var fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-    private var fragmentPropertyDetail: PropertyDetailFragment? = null
+    private var fragmentPropertyDetail: Fragment? = null
     private var fragmentEmptyPropertyDetail: EmptyPropertyDetailFragment? = null
     private var containerPropertyDetail: Fragment? = supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
     private var propertyId: Int = 0
@@ -73,6 +78,16 @@ class ResultActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentI
         fragmentPropertyDetail = PropertyDetailFragment.newInstance(propertyId)
         fragmentTransaction.add(R.id.activity_property_detail_container, fragmentPropertyDetail!!)
         fragmentTransaction.commit()
+    }
+
+    private fun findsFragment() {
+        supportFragmentManager.findFragmentById(R.id.activity_property_list_container)
+        if (containerPropertyDetail == null && activity_property_detail_container != null) {
+            fragmentPropertyDetail = supportFragmentManager.findFragmentById(R.id.activity_property_detail_container)
+            if (fragmentPropertyDetail == null) {
+                activity_property_list_container.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            }
+        }
     }
 
 }

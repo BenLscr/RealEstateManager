@@ -47,7 +47,6 @@ class PropertyDaoTest {
             saleDate = null,
             agentId = 99
     )
-
     private val updatedProperty = Property(
             id = propertyId,
             type = Type.FLAT,

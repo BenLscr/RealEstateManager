@@ -139,7 +139,7 @@
                             android:id="@+id/search_price_min_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLength="12"
+                            android:maxLength="10"
                             android:inputType="number" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -158,7 +158,7 @@
                             android:id="@+id/search_price_max_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLength="12"
+                            android:maxLength="10"
                             android:inputType="number" />
 
                     </com.google.android.material.textfield.TextInputLayout>

@@ -39,21 +39,6 @@ class AppContentProviderTest {
         mContentResolver = InstrumentationRegistry.getInstrumentation().context.contentResolver
     }
 
-    /*@After
-    fun cleanDatabase() {
-        db?.query(SimpleSQLiteQuery("DELETE FROM Property WHERE description = ?", arrayOf("Fake description of a property.")))
-        db?.query(SimpleSQLiteQuery("DELETE FROM Address WHERE path = ?", arrayOf("fake path")))
-        db?.query(SimpleSQLiteQuery("DELETE FROM Agent WHERE name = ?", arrayOf("fake name")))
-    }
-
-    @Test
-    fun getItemsWhenNoItemInserted() {
-        val cursor = mContentResolver?.query(ContentUris.withAppendedId(AppContentProvider.URI_PROPERTY, PROPERTY_ID), null, null, null, null)
-        assertThat(cursor, notNullValue())
-        assertThat(cursor!!.count, `is`(0))
-        cursor.close()
-    }*/
-
     @Test
     fun insertAndGetProperty() {
         // BEFORE

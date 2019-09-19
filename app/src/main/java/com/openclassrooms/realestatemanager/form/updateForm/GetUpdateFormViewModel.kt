@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.Utils
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
 import com.openclassrooms.realestatemanager.form.updateForm.models.AddressModelRaw
+import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelProcessed
 import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelRaw
 import com.openclassrooms.realestatemanager.form.updateForm.models.PropertyModelRaw
 import com.openclassrooms.realestatemanager.models.*
@@ -18,6 +19,13 @@ class GetUpdateFormViewModel(
         private val propertyPhotoDataSource: PropertyPhotoDataRepository,
         private val compositionPropertyAndPropertyPhotoDataSource: CompositionPropertyAndPropertyPhotoDataRepository,
         private val executor: Executor) : ViewModel() {
+
+    var entryLocationsOfInterestModelProcessed: LocationsOfInterestModelProcessed? = null
+    var school: Boolean = false
+    var commerces: Boolean = false
+    var park: Boolean = false
+    var subways: Boolean = false
+    var train: Boolean = false
 
     fun deleteCompositionPropertyAndPropertyPhoto(propertyPhotos: List<FormPhotoAndWording>, propertyId: Int, context: Context) =
             executor.execute {
@@ -88,12 +96,20 @@ class GetUpdateFormViewModel(
 
     fun updateProperty(propertyModelRaw: PropertyModelRaw) = executor.execute { propertyDataSource.updateProperty(buildPropertyForDatabase(propertyModelRaw)) }
 
-    fun updateLocationsOfInterest(locationsOfInterestModelRaw: LocationsOfInterestModelRaw) {
-        with(locationsOfInterestModelRaw) {
+    fun updateLocationsOfInterest(propertyId: Int) {
+        if (entryLocationsOfInterestModelProcessed?.school != school) {
             checkBooleanAndInsertOrDeleteIt(school, propertyId, LocationOfInterest.SCHOOL.ordinal)
+        }
+        if (entryLocationsOfInterestModelProcessed?.commerces != commerces) {
             checkBooleanAndInsertOrDeleteIt(commerces, propertyId, LocationOfInterest.COMMERCES.ordinal)
+        }
+        if (entryLocationsOfInterestModelProcessed?.park != park) {
             checkBooleanAndInsertOrDeleteIt(park, propertyId, LocationOfInterest.PARK.ordinal)
+        }
+        if (entryLocationsOfInterestModelProcessed?.subways != subways) {
             checkBooleanAndInsertOrDeleteIt(subways, propertyId, LocationOfInterest.SUBWAYS.ordinal)
+        }
+        if (entryLocationsOfInterestModelProcessed?.train != train) {
             checkBooleanAndInsertOrDeleteIt(train, propertyId, LocationOfInterest.TRAIN.ordinal)
         }
     }

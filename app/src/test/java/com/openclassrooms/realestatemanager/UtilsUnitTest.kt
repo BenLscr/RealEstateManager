@@ -85,11 +85,6 @@ class UtilsUnitTest {
         assertEquals("Natasha Romanoff", Utils.fromAgentIdToString(4))
     }
 
-    /*@Test
-    fun convert_priceToString_isCorrect() {
-        assertEquals("$6 500 000", Utils.fromPriceToString(6500000))
-    }*/
-
     @Test
     fun convert_surfaceToString_isCorrect() {
         assertEquals("4500sq ft", Utils.fromSurfaceToString(4500))
