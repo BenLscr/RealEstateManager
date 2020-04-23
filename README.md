@@ -21,3 +21,13 @@ This project use :
   - Glide
   - PermissionKt
   
+## Screenshot
+![screenshot_home_tablet](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_home_tablet.png?raw_true) 
+![screenshot_home_phone](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_home_phone.png?raw_true) 
+![screenshot_property_detail_phone_start](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_property_detail_phone_start.png?raw_true)
+![screenshot_property_detail_phone_end](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_property_detail_phone_end.png?raw_true) 
+![screenshot_add_property](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_add_property.png?raw_true) 
+![screenshot_update_property](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_update_property.png?raw_true) 
+![screenshot_search](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_search.png?raw_true) 
+![screenshot_map](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_map.png?raw_true) 
+![screenshot_loan_simulator](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_loan_simulator.png?raw_true) 
