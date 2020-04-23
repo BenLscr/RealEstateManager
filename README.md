@@ -13,13 +13,13 @@ This project use :
   - Map
   - Geocoding
   - Maps Static
-  - PickImage
-  - AwesomeValidation
+  - [PickImage](https://github.com/jrvansuita/PickImage)
+  - [AwesomeValidation](https://github.com/thyrlian/AwesomeValidation)
   - Retrofit
   - RxJava
   - Material Design
-  - Glide
-  - PermissionKt
+  - [Glide](https://github.com/bumptech/glide)
+  - [PermissionKt](https://github.com/sembozdemir/PermissionsKt)
   
 ## Screenshot
 ![screenshot_home_tablet](https://github.com/BenLscr/RealEstateManager/blob/master/images/screenshot_home_tablet.png?raw_true) 
