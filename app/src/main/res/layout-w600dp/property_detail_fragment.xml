@@ -61,7 +61,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_settings_overscan_black_24"
+                        android:src="@drawable/baseline_settings_overscan_24"
                         android:tint="@color/colorPrimaryDark"
                         android:contentDescription="@string/surface"/>
 
@@ -96,7 +96,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_home_black_24"
+                        android:src="@drawable/baseline_home_24"
                         android:tint="@color/colorPrimaryDark"
                         android:contentDescription="@string/number_of_rooms"/>
 
@@ -131,7 +131,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_hot_tub_black_24"
+                        android:src="@drawable/baseline_bathtub_24"
                         android:tint="@color/colorPrimaryDark"
                         android:contentDescription="@string/number_of_bathrooms"/>
 
@@ -166,7 +166,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_hotel_black_24"
+                        android:src="@drawable/baseline_hotel_24"
                         android:tint="@color/colorPrimaryDark"
                         android:contentDescription="@string/number_of_bedrooms"/>
 
@@ -201,7 +201,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_beenhere_black_24"
+                        android:src="@drawable/baseline_beenhere_24"
                         android:tint="@color/colorPrimaryDark"
                         android:contentDescription="@string/location_of_interest"/>
 
@@ -294,7 +294,7 @@
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/location"
                             android:tint="@color/colorPrimaryDark"
-                            android:src="@drawable/baseline_place_black_24"/>
+                            android:src="@drawable/baseline_place_24"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -354,7 +354,7 @@
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/agent_in_charge"
                             android:tint="@color/colorPrimaryDark"
-                            android:src="@drawable/baseline_person_black_24"/>
+                            android:src="@drawable/baseline_person_24"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -389,7 +389,7 @@
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/agent_in_charge"
                             android:tint="@color/colorPrimaryDark"
-                            android:src="@drawable/baseline_today_black_24"/>
+                            android:src="@drawable/baseline_today_24"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -425,7 +425,7 @@
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/agent_in_charge"
                             android:tint="@color/colorPrimaryDark"
-                            android:src="@drawable/baseline_today_black_24"/>
+                            android:src="@drawable/baseline_today_24"/>
 
                         <LinearLayout
                             android:layout_width="wrap_content"

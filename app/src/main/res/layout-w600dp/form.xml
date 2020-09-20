@@ -55,7 +55,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="center"
-                            android:src="@drawable/baseline_add_black_48"
+                            android:src="@drawable/baseline_add_24"
                             android:tint="@android:color/white"
                             android:textAppearance="?attr/textAppearanceListItem"
                             android:contentDescription="@string/pick_a_photo" />
@@ -299,7 +299,7 @@
                             android:layout_height="wrap_content"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_margin="10dp"
-                            app:startIconDrawable="@drawable/baseline_attach_money_black_24"
+                            app:startIconDrawable="@drawable/baseline_attach_money_24"
                             android:hint="@string/price">
 
                             <com.google.android.material.textfield.TextInputEditText

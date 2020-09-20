@@ -5,12 +5,12 @@ import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.res.TypedArrayUtils.getString
 import com.openclassrooms.realestatemanager.models.*
 import java.io.File
 import java.io.FileInputStream
@@ -20,6 +20,7 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToLong
+
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -78,8 +79,18 @@ class Utils {
             return if (file.exists()) {
                 BitmapFactory.decodeStream(FileInputStream(file))
             } else {
-                BitmapFactory.decodeResource(context?.resources, R.drawable.baseline_photo_white_48)
+                getBitmap(R.drawable.baseline_photo_24, context)
             }
+        }
+
+        private fun getBitmap(drawableRes: Int, context: Context?): Bitmap {
+            val drawable: Drawable = context?.resources!!.getDrawable(drawableRes)
+            val canvas = Canvas()
+            val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+            canvas.setBitmap(bitmap)
+            drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+            drawable.draw(canvas)
+            return bitmap
         }
 
         /**

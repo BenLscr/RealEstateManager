@@ -60,7 +60,7 @@
                                 android:layout_weight="1"
                                 android:layout_margin="10dp"
                                 android:hint="@string/search_min_price"
-                                app:startIconDrawable="@drawable/baseline_attach_money_black_24">
+                                app:startIconDrawable="@drawable/baseline_attach_money_24">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/search_price_min_edit_text"
@@ -79,7 +79,7 @@
                                 android:layout_weight="1"
                                 android:layout_margin="10dp"
                                 android:hint="@string/search_max_price"
-                                app:startIconDrawable="@drawable/baseline_attach_money_black_24">
+                                app:startIconDrawable="@drawable/baseline_attach_money_24">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/search_price_max_edit_text"
@@ -510,7 +510,7 @@
                                         android:background="@android:color/transparent"
                                         android:tint="@android:color/darker_gray"
                                         android:id="@+id/search_clear_date"
-                                        android:src="@drawable/baseline_clear_black_24"/>
+                                        android:src="@drawable/baseline_clear_24"/>
 
                                 </LinearLayout>
 

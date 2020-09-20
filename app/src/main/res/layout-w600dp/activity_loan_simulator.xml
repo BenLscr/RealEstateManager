@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    app:startIconDrawable="@drawable/baseline_attach_money_black_24"
+                    app:startIconDrawable="@drawable/baseline_attach_money_24"
                     android:hint="@string/loan_simulator_price">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    app:startIconDrawable="@drawable/baseline_attach_money_black_24"
+                    app:startIconDrawable="@drawable/baseline_attach_money_24"
                     android:hint="@string/loan_simulator_contribution">
 
                     <com.google.android.material.textfield.TextInputEditText
