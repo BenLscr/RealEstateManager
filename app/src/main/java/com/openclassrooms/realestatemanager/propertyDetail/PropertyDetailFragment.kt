@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.propertyDetail
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -139,17 +140,17 @@ class PropertyDetailFragment : Fragment() {
                         .subscribeWith(object : DisposableObserver<GeocodingResponse>() {
             override fun onNext(geocodingResponse: GeocodingResponse) {
                 Log.e("Geocoding", "On Next")
-                when {
-                    geocodingResponse.status == "OK" -> updateUiWithMapsStatic(
+                when (geocodingResponse.status) {
+                    "OK" -> determineDensityOfThePhone(
                             geocodingResponse.results[0].geometry.location.lat,
                             geocodingResponse.results[0].geometry.location.lng
                     )
-                    geocodingResponse.status == "ZERO_RESULTS" -> {
+                    "ZERO_RESULTS" -> {
                         property_detail_maps_static.visibility = View.GONE
                         property_detail_maps_static_error.visibility = View.VISIBLE
                         property_detail_maps_static_error.text = getString(R.string.maps_static_error_zero_results)
                     }
-                    geocodingResponse.status == "UNKNOWN_ERROR" -> {
+                    "UNKNOWN_ERROR" -> {
                         property_detail_maps_static.visibility = View.GONE
                         property_detail_maps_static_error.visibility = View.VISIBLE
                     }
@@ -167,10 +168,22 @@ class PropertyDetailFragment : Fragment() {
         })
     }
 
-    private fun updateUiWithMapsStatic(lat: Double, lng: Double) {
-        val zoom = "16"
-        val size = "400x400"
+    private fun determineDensityOfThePhone(lat: Double, lng: Double) {
+        when (context?.resources?.displayMetrics?.densityDpi) {
+            DisplayMetrics.DENSITY_MEDIUM -> updateUiWithMapsStatic(lat, lng, "320x320")
+            DisplayMetrics.DENSITY_HIGH -> updateUiWithMapsStatic(lat, lng, "480x480")
+            DisplayMetrics.DENSITY_XHIGH -> updateUiWithMapsStatic(lat, lng, "720x720")
+            DisplayMetrics.DENSITY_XXHIGH -> updateUiWithMapsStatic(lat, lng, "1080x1080")
+            DisplayMetrics.DENSITY_560 -> updateUiWithMapsStatic(lat, lng, "1440x1440")
+            DisplayMetrics.DENSITY_XXXHIGH -> updateUiWithMapsStatic(lat, lng, "1440x1440")
+            else -> updateUiWithMapsStatic(lat, lng, "720x720")
+        }
+
+    }
+
+    private fun updateUiWithMapsStatic(lat: Double, lng: Double, size: String) {
         val color = "red"
+        val zoom = "16"
         val mapsStaticApiKey = BuildConfig.MAPS_STATIC_API_KEY
         val url = "https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=$zoom&size=$size&markers=color:$color%7C$lat,$lng&key=$mapsStaticApiKey"
         property_detail_maps_static.visibility = View.VISIBLE
