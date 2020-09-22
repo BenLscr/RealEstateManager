@@ -40,21 +40,7 @@ class AddFormActivity : FormBaseActivity() {
     }
 
     override fun shareModelToTheViewModel() {
-        checkIfFormIsFilled()
-        if (listFormPhotoAndWording.isNotEmpty()
-                && path.isNotEmpty()
-                && district.isNotEmpty()
-                && city.isNotEmpty()
-                && postalCode.isNotEmpty()
-                && country.isNotEmpty()
-                && price.isNotEmpty()
-                && type.isNotEmpty()
-                && surface.isNotEmpty()
-                && rooms.isNotEmpty()
-                && bathrooms.isNotEmpty()
-                && bedrooms.isNotEmpty()
-                && fullNameAgent.isNotEmpty()
-                && entryDateLong > 0) {
+        if (checkIfFormIsFilled()) {
             val formModelRaw = AddFormModelRaw(
                     listFormPhotoAndWording = listFormPhotoAndWording,
                     path = path,
@@ -85,18 +71,23 @@ class AddFormActivity : FormBaseActivity() {
         }
     }
 
-    private fun checkIfFormIsFilled() {
-        mAwesomeValidation.validate()
-        if (listFormPhotoAndWording.isEmpty()) {
+    private fun checkIfFormIsFilled(): Boolean {
+        val bAwesomeValidation = mAwesomeValidation.validate()
+        val bFormPhotoAndWording: Boolean = if (listFormPhotoAndWording.isEmpty()) {
             form_error_photo.visibility = View.VISIBLE
+            false
         } else {
             form_error_photo.visibility = View.GONE
+            true
         }
-        if (entryDateLong <= 0) {
+        val bEntryDateLong: Boolean = if (entryDateLong <= 0) {
             form_error_entry_date.visibility = View.VISIBLE
+            false
         } else {
             form_error_entry_date.visibility = View.GONE
+            true
         }
+        return bAwesomeValidation && bFormPhotoAndWording && bEntryDateLong
     }
 
 }
