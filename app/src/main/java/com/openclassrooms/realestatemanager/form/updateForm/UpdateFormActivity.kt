@@ -220,28 +220,18 @@ class UpdateFormActivity: FormBaseActivity() {
     }
 
     private fun checkIfPropertyPhotosWereChanged() {
-        if (listFormPhotoAndWording.isNotEmpty()) {
-            val propertyPhotosToDelete = mutableListOf<FormPhotoAndWording>()
-            propertyPhotosToDelete.addAll(setUpdateFormViewModel.entryListFormPhotoAndWording!!.asIterable())
-            propertyPhotosToDelete.removeAll(listFormPhotoAndWording)
-            //TODO : à tester
-            //val propertyPhotosToDelete: List<FormPhotoAndWording> = setUpdateFormViewModel.entryListFormPhotoAndWording!!.minus(listFormPhotoAndWording.toHashSet())
-            if (propertyPhotosToDelete.size > 0) {
-                getUpdateFormViewModel.deleteCompositionPropertyAndPropertyPhoto(propertyPhotosToDelete, propertyId, applicationContext)
-            }
+        val propertyPhotosToDelete: List<FormPhotoAndWording> = setUpdateFormViewModel.entryListFormPhotoAndWording!!.minus(listFormPhotoAndWording.toHashSet())
+        if (propertyPhotosToDelete.isNotEmpty()) {
+            getUpdateFormViewModel.deleteCompositionPropertyAndPropertyPhoto(propertyPhotosToDelete, propertyId, applicationContext)
+        }
 
-            val propertyPhotosToInsert = mutableListOf<FormPhotoAndWording>()
-            propertyPhotosToInsert.addAll(listFormPhotoAndWording)
-            propertyPhotosToInsert.removeAll(setUpdateFormViewModel.entryListFormPhotoAndWording!!.asIterable())
-            //TODO : à tester
-            //val propertyPhotosToInsert: List<FormPhotoAndWording> = listFormPhotoAndWording.minus(setUpdateFormViewModel.entryListFormPhotoAndWording!!.toHashSet())
-            if (propertyPhotosToInsert.size > 0) {
-                getUpdateFormViewModel.insertPropertyPhotos(propertyPhotosToInsert, propertyId, setUpdateFormViewModel.entryListFormPhotoAndWording?.last()?.name, applicationContext)
-            }
+        val propertyPhotosToInsert: List<FormPhotoAndWording> = listFormPhotoAndWording.minus(setUpdateFormViewModel.entryListFormPhotoAndWording!!.toHashSet())
+        if (propertyPhotosToInsert.isNotEmpty()) {
+            getUpdateFormViewModel.insertPropertyPhotos(propertyPhotosToInsert, propertyId, setUpdateFormViewModel.entryListFormPhotoAndWording?.last()?.name, applicationContext)
+        }
 
-            if (setUpdateFormViewModel.entryListFormPhotoAndWording?.get(0) != listFormPhotoAndWording[0]) {
-                getUpdateFormViewModel.updateIllustrationPropertyPhoto(listFormPhotoAndWording[0])
-            }
+        if (setUpdateFormViewModel.entryListFormPhotoAndWording?.get(0) != listFormPhotoAndWording[0]) {
+            getUpdateFormViewModel.updateIllustrationPropertyPhoto(listFormPhotoAndWording[0])
         }
     }
     
