@@ -193,22 +193,7 @@ class UpdateFormActivity: FormBaseActivity() {
         }
     }
 
-    private fun checkIfFormIsFilled(): Boolean {
-        val bAwesomeValidation = mAwesomeValidation.validate()
-        val bFormPhotoAndWording: Boolean = if (listFormPhotoAndWording.isEmpty()) {
-            form_error_photo.visibility = View.VISIBLE
-            false
-        } else {
-            form_error_photo.visibility = View.GONE
-            true
-        }
-        val bEntryDateLong: Boolean = if (entryDateLong <= 0) {
-            form_error_entry_date.visibility = View.VISIBLE
-            false
-        } else {
-            form_error_entry_date.visibility = View.GONE
-            true
-        }
+    override fun checkIfFormIsFilled(): Boolean {
         val bAvailableAndSaleDateLong: Boolean = if (!available && saleDateLong <= 0)  {
             form_error_sale_date.visibility = View.VISIBLE
             false
@@ -216,7 +201,7 @@ class UpdateFormActivity: FormBaseActivity() {
             form_error_sale_date.visibility = View.GONE
             true
         }
-        return bAwesomeValidation && bFormPhotoAndWording && bEntryDateLong && bAvailableAndSaleDateLong
+        return super.checkIfFormIsFilled() && bAvailableAndSaleDateLong
     }
 
     private fun checkIfPropertyPhotosWereChanged() {

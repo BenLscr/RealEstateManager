@@ -33,7 +33,7 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
     private var photo: Bitmap? = null
     private var wording: String = ""
     protected val listFormPhotoAndWording = mutableListOf<FormPhotoAndWording>()
-    protected val mAwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
+    private val mAwesomeValidation = AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT)
 
     protected var path: String = ""
     protected var complement: String = ""
@@ -241,6 +241,25 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
         mAwesomeValidation.addValidation(this, R.id.form_bathrooms_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
         mAwesomeValidation.addValidation(this, R.id.form_bedrooms_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
         mAwesomeValidation.addValidation(this, R.id.form_agent_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
+    }
+
+    protected open fun checkIfFormIsFilled(): Boolean {
+        val bAwesomeValidation = mAwesomeValidation.validate()
+        val bFormPhotoAndWording: Boolean = if (listFormPhotoAndWording.isEmpty()) {
+            form_error_photo.visibility = View.VISIBLE
+            false
+        } else {
+            form_error_photo.visibility = View.GONE
+            true
+        }
+        val bEntryDateLong: Boolean = if (entryDateLong <= 0) {
+            form_error_entry_date.visibility = View.VISIBLE
+            false
+        } else {
+            form_error_entry_date.visibility = View.GONE
+            true
+        }
+        return bAwesomeValidation && bFormPhotoAndWording && bEntryDateLong
     }
 
 }

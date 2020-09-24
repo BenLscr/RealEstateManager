@@ -71,23 +71,4 @@ class AddFormActivity : FormBaseActivity() {
         }
     }
 
-    private fun checkIfFormIsFilled(): Boolean {
-        val bAwesomeValidation = mAwesomeValidation.validate()
-        val bFormPhotoAndWording: Boolean = if (listFormPhotoAndWording.isEmpty()) {
-            form_error_photo.visibility = View.VISIBLE
-            false
-        } else {
-            form_error_photo.visibility = View.GONE
-            true
-        }
-        val bEntryDateLong: Boolean = if (entryDateLong <= 0) {
-            form_error_entry_date.visibility = View.VISIBLE
-            false
-        } else {
-            form_error_entry_date.visibility = View.GONE
-            true
-        }
-        return bAwesomeValidation && bFormPhotoAndWording && bEntryDateLong
-    }
-
 }
