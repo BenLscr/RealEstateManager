@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
@@ -60,15 +61,33 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
     protected var saleDate: String = ""
     protected var saleDateLong: Long = 0
 
+    protected abstract fun textOfTheValidateButton()
     protected abstract fun getAgentsNameForDropDownMenu()
     protected abstract fun shareModelToTheViewModel()
 
-    protected fun configureToolbar() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.form)
+
+        configureToolbar()
+        textOfTheValidateButton()
+        fillEveryDropDownMenu()
+        addEveryListener()
+        setEveryAwesomeValidation()
+        addMediaFormFragment()
+    }
+
+    private fun configureToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    protected fun fillEveryDropDownMenu() {
+
+    protected fun configureTheValidateButton(text: String) {
+        form_validate_button.text = text
+    }
+
+    private fun fillEveryDropDownMenu() {
         //Wording
         form_wording.setOnTouchListener { _, _ ->
             form_wording.showDropDown()
@@ -112,7 +131,7 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
         form_full_name_agent.setAdapter(adapter)
     }
 
-    protected fun addEveryListener() {
+    private fun addEveryListener() {
         form_photo_button.setOnClickListener { PickImageDialog.build(PickSetup()).show(this) }
         form_wording.doAfterTextChanged { wording = it.toString() }
         form_add_button_photo.setOnClickListener { checkIfFormPhotoAndWordingIsCompleted() }
@@ -133,7 +152,7 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
         form_full_name_agent.doAfterTextChanged { fullNameAgent = it.toString() }
         form_select_entry_date.setOnClickListener { initEntryDatePickerDialog() }
         form_cancel_button.setOnClickListener { finish() }
-        form_add_button.setOnClickListener {
+        form_validate_button.setOnClickListener {
             shareModelToTheViewModel()
         }
     }
@@ -208,7 +227,7 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
         entryDateLong = calendar.timeInMillis
     }
 
-    protected fun addMediaFormFragment() {
+    private fun addMediaFormFragment() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.form_property_photo_container, mediaFormFragment).commit()
     }
@@ -227,7 +246,7 @@ abstract class FormBaseActivity: AppCompatActivity(), IPickResult, MediaFormFrag
                 .show()
     }
 
-    protected fun setEveryAwesomeValidation() {
+    private fun setEveryAwesomeValidation() {
         mAwesomeValidation.addValidation(this, R.id.form_path_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
         mAwesomeValidation.addValidation(this, R.id.form_district_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)
         mAwesomeValidation.addValidation(this, R.id.form_city_layout, RegexTemplate.NOT_EMPTY, R.string.form_error_field_empty)

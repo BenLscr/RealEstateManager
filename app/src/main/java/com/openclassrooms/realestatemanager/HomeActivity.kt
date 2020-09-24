@@ -81,7 +81,6 @@ class HomeActivity : AppCompatActivity(), PropertyListFragment.OnListFragmentInt
             }
             R.id.add_button -> {
                 val intent = Intent(this, AddFormActivity::class.java)
-                intent.putExtra(INTENT_HOME_TO_UPDATE, propertyId)
                 startActivity(intent)
                 true
             }

@@ -12,12 +12,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.openclassrooms.realestatemanager.INTENT_HOME_TO_UPDATE
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.form.FormBaseActivity
 import com.openclassrooms.realestatemanager.form.media.models.FormPhotoAndWording
 import com.openclassrooms.realestatemanager.form.updateForm.injections.GetInjection
 import com.openclassrooms.realestatemanager.form.updateForm.injections.SetInjection
-import com.openclassrooms.realestatemanager.form.updateForm.models.*
+import com.openclassrooms.realestatemanager.form.updateForm.models.AddressModelRaw
+import com.openclassrooms.realestatemanager.form.updateForm.models.LocationsOfInterestModelProcessed
+import com.openclassrooms.realestatemanager.form.updateForm.models.PropertyModelProcessed
+import com.openclassrooms.realestatemanager.form.updateForm.models.PropertyModelRaw
 import com.openclassrooms.realestatemanager.propertyDetail.INTENT_DETAIL_TO_UPDATE
 import kotlinx.android.synthetic.main.form.*
 import java.text.SimpleDateFormat
@@ -31,26 +33,14 @@ class UpdateFormActivity: FormBaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.form)
-
         retrievesIntent()
-        configureToolbar()
-        addEveryListener()
-        fillEveryDropDownMenu()
-        if (savedInstanceState == null) {
-            addMediaFormFragment()
-            retrievesDataFromDatabase()
-        } else {
-            shareListToMediaFormFragment()
-        }
-        setEveryAwesomeValidation()
+        retrievesDataFromDatabase()
     }
 
     private fun retrievesIntent() {
-        if (intent.hasExtra(INTENT_DETAIL_TO_UPDATE)) {
-            propertyId = intent.getIntExtra(INTENT_DETAIL_TO_UPDATE, 0)
-        } else if (intent.hasExtra(INTENT_HOME_TO_UPDATE)) {
-            propertyId = intent.getIntExtra(INTENT_HOME_TO_UPDATE, 0)
+        when {
+            intent.hasExtra(INTENT_DETAIL_TO_UPDATE) -> propertyId = intent.getIntExtra(INTENT_DETAIL_TO_UPDATE, 0)
+            intent.hasExtra(INTENT_HOME_TO_UPDATE) -> propertyId = intent.getIntExtra(INTENT_HOME_TO_UPDATE, 0)
         }
     }
 
@@ -59,6 +49,10 @@ class UpdateFormActivity: FormBaseActivity() {
             android.R.id.home -> { finish() ; true }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun textOfTheValidateButton() {
+        configureTheValidateButton("update")
     }
 
     override fun getAgentsNameForDropDownMenu() {

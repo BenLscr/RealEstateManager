@@ -121,7 +121,7 @@
     <string name="pick_a_photo">Pick a photo</string>
     <string name="details">Property details</string>
     <string name="is_available">Is available ?</string>
-    <string name="add_form_button">Add</string>
+    <string name="validate_form_button">Validate</string>
     <string name="cancel_form_button">Cancel</string>
     <string name="entry_date_form">Entry date into the market</string>
     <string name="select_a_date">Select a date</string>
